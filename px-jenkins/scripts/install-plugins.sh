@@ -2,8 +2,7 @@
 
 declare -a PluginList=(
     "blueocean"
-    "gitea" 
-    "kubernetes" 
+    "gitea"
     "git"
     "github" 
     "docker-workflow"
@@ -16,7 +15,6 @@ declare -a PluginList=(
     "openshift-k8s-credentials"
     "openshift-client"
     "vsphere-cloud"
-    "kubernetes-cli"
 )
 
 curl -LO http://localhost:8080/jnlpJars/jenkins-cli.jar
