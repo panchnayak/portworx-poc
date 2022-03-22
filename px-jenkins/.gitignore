@@ -1,6 +1,7 @@
 terraform.tfstate
+terraform.*
 .terraform/*
-.terraform.*
+.terraform.tfstate.*
+.terraform.lock.hcl
 terraform.tfstate.*
-aws/terraform.tfstate
-gke/terraform.tfstate
+.DS_Store
