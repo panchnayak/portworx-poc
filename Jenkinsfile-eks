@@ -12,7 +12,7 @@ pipeline {
                   trim: true
                 ),
                 choice(
-                  choices: ['nothing', 'create', 'destroy'],
+                  choices: ['Default: Do Nothing', 'Deploy EKS Cluster', 'Destroy EKS Cluster'],
                   name: 'REQUESTED_ACTION'
                 ),
                 string(
@@ -33,7 +33,7 @@ pipeline {
       stage('EKS Cluster') {
         parallel {
           stage('Create EKS Clusters ') {
-            when { expression { params.REQUESTED_ACTION == 'create'  }  }
+            when { expression { params.REQUESTED_ACTION == 'Deploy EKS Cluster'  }  }
             steps {
               withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
                 echo "Creating EKS Cluster "+params.CLUSTER_NAME+"1 in the region:"+ params.FIRST_REGION_NAME
@@ -42,7 +42,7 @@ pipeline {
             }
           }
           stage('Delete ArgoCD Server') {
-            when { expression { params.REQUESTED_ACTION == 'destroy'  }  }
+            when { expression { params.REQUESTED_ACTION == 'Destroy EKS Cluster'  }  }
             steps {
               withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
                 echo "Deleting ArgoCD Server on EKS Cluster"
@@ -56,7 +56,7 @@ pipeline {
       stage('ArgoCD Cluster') {
         parallel {
           stage('Create ArgoCD Server') {
-            when { expression { params.REQUESTED_ACTION == 'create'  }  }
+            when { expression { params.REQUESTED_ACTION == 'Deploy EKS Cluster'  }  }
             steps {
               withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
                 echo "Installing ArgoCD Server on EKS Cluster"
@@ -67,7 +67,7 @@ pipeline {
             }
           }
           stage('Destroy EKS Clusters ') {
-            when { expression { params.REQUESTED_ACTION == 'destroy'  }  }
+            when { expression { params.REQUESTED_ACTION == 'Destroy EKS Cluster'  }  }
             steps {
               withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
                 echo "Creating EKS Cluster "+params.CLUSTER_NAME+"1 in the region:"+ params.FIRST_REGION_NAME
