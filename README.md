@@ -26,6 +26,13 @@ Wait for the Instance to be completley running and then find the IP of the Insta
 
 ## Accessing and using Jenkins Server Instance
 
+Get the IP address of Jenkins Server
+
+```
+tf output public_ip
+
+```
+
 You can acces the Jenkins login page by accesing the http://$JENKINS_IP_ADDRESS:8080/
 
 After acessing the login page login with the default username and password as "admin:password"
