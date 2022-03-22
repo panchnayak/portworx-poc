@@ -1,0 +1,90 @@
+
+pipeline {
+    agent  any
+    stages {
+      stage('Setup parameters') {
+        steps {
+          script {
+            properties([
+              parameters([
+                string(
+                  defaultValue: 'gcp-pnayak',
+                  name: 'GCP_CREDS',
+                  trim: true
+                ),
+                choice(
+                  choices: ['nothing', 'create', 'destroy'],
+                  name: 'REQUESTED_ACTION'
+                ),
+                string(
+                  defaultValue: 'px-gke-pnayak',
+                  name: 'CLUSTER_NAME',
+                  trim: true
+                ),
+                string(
+                  defaultValue: 'us-east1',
+                  name: 'FIRST_ZONE_NAME',
+                  trim: true
+                )
+              ])
+            ])
+          }
+        }
+      }
+
+      stage('Create GKE Cluster') {
+        parallel {
+          stage('Create GKE Clusters ') {
+            when { expression { params.REQUESTED_ACTION == 'create'  }  }
+            steps {
+                echo "Creating GKE Cluster "+params.CLUSTER_NAME+"1 in the Zone:"+params.FIRST_ZONE_NAME
+                sh "./gcp/create-gke-cluster.sh "+ params.CLUSTER_NAME+"  "+params.FIRST_ZONE_NAME+" 3 px-keyring-pnayak px-key-pnayak"
+            }
+          }
+          
+          stage('Destroy GKE Clusters ') {
+            when { expression { params.REQUESTED_ACTION == 'destroy'  }  }
+            steps {
+                echo "Destroying GKE Cluster "+params.CLUSTER_NAME+"1 in the Zone:"+ params.FIRST_ZONE_NAME
+                sh "./gcp/destroy-gke-cluster.sh "+ params.CLUSTER_NAME+"  "+params.FIRST_ZONE_NAME
+            }
+          }  
+       }
+      }
+
+      stage('Deploy ArgoCD Server on EKS Cluster ') {
+            steps {
+                echo "Installing ArgoCD Server on EKS Cluster"
+                sh "kubectl create namespace argocd"
+                sh "kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml"
+            }
+        }
+
+    stage('Install PX Software') {
+      steps {
+        withAWS(credentials: "${params.GCP_CREDS}", region: "${params.FIRST_ZONE_NAME}") {
+          sh "echo testing"
+        }
+
+      }
+    }
+    
+    stage('Create Secret') {
+      steps {
+        withAWS(credentials: "${params.GCP_CREDS}", region: "${params.FIRST_ZONE_NAME}") {
+          sh "echo testing"
+        }
+
+      }
+    }
+    
+    stage('Create a Secured PVC using GCP KMS') {
+      steps {
+        withAWS(credentials: "${params.GCP_CREDS}", region: "${params.FIRST_ZONE_NAME}") {
+          sh "echo testing"
+        }
+
+      }
+    }
+  }
+}

@@ -1,0 +1,34 @@
+# SOURCE: https://install.portworx.com/?operator=true&mc=false&kbver=&b=true&kd=type%3Dgp2%2Csize%3D150&s=%22type%3Dgp2%2Csize%3D150%22&j=auto&c=px-cluster-7b821966-6a2e-4cbc-94ac-a6219e18a5dc&eks=true&stork=true&csi=true&mon=true&tel=false&st=k8s&promop=true
+kind: StorageCluster
+apiVersion: core.libopenstorage.org/v1
+metadata:
+  name: px-cluster-7b821966-6a2e-4cbc-94ac-a6219e18a5dc
+  namespace: kube-system
+  annotations:
+    portworx.io/install-source: "https://install.portworx.com/?operator=true&mc=false&kbver=&b=true&kd=type%3Dgp2%2Csize%3D150&s=%22type%3Dgp2%2Csize%3D150%22&j=auto&c=px-cluster-7b821966-6a2e-4cbc-94ac-a6219e18a5dc&eks=true&stork=true&csi=true&mon=true&tel=false&st=k8s&promop=true"
+    portworx.io/is-eks: "true"
+spec:
+  deleteStrategy:
+    type: UninstallAndWipe
+  image: portworx/oci-monitor:2.9.1.3
+  imagePullPolicy: Always
+  kvdb:
+    internal: true
+  cloudStorage:
+    deviceSpecs:
+    - type=gp2,size=150
+    journalDeviceSpec: auto
+    kvdbDeviceSpec: type=gp2,size=150
+  secretsProvider: k8s
+  stork:
+    enabled: true
+    args:
+      webhook-controller: "false"
+  autopilot:
+    enabled: true
+  monitoring:
+    prometheus:
+      enabled: true
+      exportMetrics: true
+  featureGates:
+    CSI: "true"

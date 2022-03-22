@@ -1,0 +1,91 @@
+
+
+pipeline {
+    agent {
+      docker {
+        image 'panchaleswar/pxctl-poc'
+      }
+    }
+    stages {
+      stage('Setup parameters') {
+        steps {
+          script {
+            properties([
+              parameters([
+                string(
+                  defaultValue: 'gcp-pnayak',
+                  name: 'GCP_CREDS',
+                  trim: true
+                ),
+                choice(
+                  choices: ['nothing', 'create', 'destroy'],
+                  name: 'REQUESTED_ACTION'
+                ),
+                string(
+                  defaultValue: 'pnayak-eks',
+                  name: 'CLUSTER_NAME',
+                  trim: true
+                ),
+                string(
+                  defaultValue: 'us-east-1',
+                  name: 'FIRST_REGION_NAME',
+                  trim: true
+                )
+              ])
+            ])
+          }
+        }
+      }
+
+      stage('Create GKE Cluster') {
+        parallel {
+          stage('Create GKE Clusters ') {
+            when { expression { params.REQUESTED_ACTION == 'create'  }  }
+            steps {
+              withAWS(credentials: params.GCP_CREDS, region: params.FIRST_REGION_NAME) {
+                echo "Creating EKS Cluster "+params.CLUSTER_NAME+"1 in the region:"+ params.FIRST_REGION_NAME
+                sh "./gcp/create-eks-cluster.sh "+ params.CLUSTER_NAME+"1  "+params.FIRST_REGION_NAME
+              }
+            }
+          }
+          
+          stage('Destroy GKE Clusters ') {
+            when { expression { params.REQUESTED_ACTION == 'destroy'  }  }
+            steps {
+              withAWS(credentials: params.GCP_CREDS, region: params.FIRST_REGION_NAME) {
+                echo "Destroying GKE Cluster "+params.CLUSTER_NAME+"1 in the region:"+ params.FIRST_REGION_NAME
+                sh "./gcp/destroy-eks-cluster.sh "+ params.CLUSTER_NAME+"1  "+params.FIRST_REGION_NAME
+              }
+            }
+          }  
+       }
+      }
+
+    stage('Install PX Software') {
+      steps {
+        withAWS(credentials: "${params.GCP_CREDS}", region: "${params.FIRST_REGION_NAME}") {
+          sh "echo testing"
+        }
+
+      }
+    }
+    
+    stage('Create Secret') {
+      steps {
+        withAWS(credentials: "${params.GCP_CREDS}", region: "${params.FIRST_REGION_NAME}") {
+          sh "echo testing"
+        }
+
+      }
+    }
+    
+    stage('Create a Secured PVC using GCP KMS') {
+      steps {
+        withAWS(credentials: "${params.GCP_CREDS}", region: "${params.FIRST_REGION_NAME}") {
+          sh "echo testing"
+        }
+
+      }
+    }
+  }
+}

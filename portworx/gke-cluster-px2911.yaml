@@ -1,0 +1,53 @@
+# SOURCE: https://install.portworx.com/?operator=true&mc=false&kbver=1.20.8&b=true&kd=type%3Dpd-standard%2Csize%3D150&csicd=true&mz=5&s=%22type%3Dpd-ssd%2Csize%3D150%22&j=auto&c=px-cluster-cb94f533-5006-4299-b6b4-ad8e09690b74&gke=true&stork=true&csi=true&mon=true&st=k8s&promop=true
+kind: StorageCluster
+apiVersion: core.libopenstorage.org/v1
+metadata:
+  name: px-cluster-cb94f533-5006-4299-b6b4-ad8e09690b74
+  namespace: kube-system
+  annotations:
+    portworx.io/install-source: "https://install.portworx.com/?operator=true&mc=false&kbver=1.20.8&b=true&kd=type%3Dpd-standard%2Csize%3D150&csicd=true&mz=5&s=%22type%3Dpd-ssd%2Csize%3D150%22&j=auto&c=px-cluster-cb94f533-5006-4299-b6b4-ad8e09690b74&gke=true&stork=true&csi=true&mon=true&st=k8s&promop=true"
+    portworx.io/is-gke: "true"
+spec:
+  image: portworx/oci-monitor:2.9.1.1
+  imagePullPolicy: Always
+  env:
+  - name: GOOGLE_KMS_RESOURCE_ID
+    valueFrom:
+      secretKeyRef:
+        name: px-gcloud
+        key: gcloud-kms-resource-id
+  - name: GOOGLE_APPLICATION_CREDENTIALS
+    value: /etc/pwx/gce/gcloud.json
+  volumes:
+  - name: px-gcloud-vol
+    mountPath: /etc/pwx/gce
+    secret:
+      secretName: px-gcloud
+  kvdb:
+    internal: true
+  cloudStorage:
+    deviceSpecs:
+    - type=pd-ssd,size=200
+    journalDeviceSpec: auto
+    kvdbDeviceSpec: type=pd-standard,size=50
+    maxStorageNodesPerZone: 5
+  secretsProvider: gcloud-kms
+  stork:
+    enabled: true
+    args:
+      webhook-controller: "false"
+  autopilot:
+    enabled: true
+    providers:
+    - name: default
+      type: prometheus
+      params:
+        url: http://prometheus:9090
+  monitoring:
+    telemetry:
+      enabled: true
+    prometheus:
+      enabled: true
+      exportMetrics: true
+  featureGates:
+    CSI: "true"

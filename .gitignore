@@ -1,0 +1,13 @@
+./aws/terraform.tfstate
+./aws/terraform.*
+./aws/terraform.tfstate.*
+
+terraform.tfstate
+terraform/*
+terraform.tfstate.*
+
+./gke/terraform.tfstate
+./gke/terraform.*
+./gke/terraform.tfstate.*
+
+.DS_Store
