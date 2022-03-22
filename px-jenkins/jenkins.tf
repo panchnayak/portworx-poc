@@ -72,22 +72,22 @@ resource "null_resource" "px_jenkins_deployment" {
       "sudo yum update -y",
       "sudo yum install epel-release -y",
       "sudo yum install git -y",
-      "git clone https://github.com/panchnayak/portworx-poc.git",
-      "cp -r ./portworx-poc/px-jenkins/scripts .",
+      "cd /tmp && git clone https://github.com/panchnayak/portworx-poc.git",
+      "cp -r /tmp/portworx-poc/px-jenkins/scripts .",
       "sudo mkdir -p /var/lib/jenkins/init.groovy.d",
-      "sudo cp ./scripts/jenkins-create-admin.groovy /var/lib/jenkins/init.groovy.d",
-      "cd scripts",
+      "sudo cp /tmp/scripts/jenkins-create-admin.groovy /var/lib/jenkins/init.groovy.d",
+      "cd /tmp/scripts",
       "chmod +x install-jenkins.sh init-jenkins.sh install-tools.sh install-plugins.sh create-pipeline.sh",
-      "./install-jenkins.sh",
+      "/tmp/install-jenkins.sh",
       #setting up JAVA_HOME path for all users
       "export JAVA_HOME=/usr/lib/jvm/openjdk11",
       "export CLASSPATH=$JAVA_HOME/lib/tools.jar:$JAVA_HOME/lib/dt.jar:.",
       "export PATH=$PATH:$JAVA_HOME/bin:.",
-      "./init-jenkins.sh",
-      "./install-tools.sh",
-      "./install-plugins.sh ${var.jenkins_username} ${var.jenkins_password}",
+      "/tmp/init-jenkins.sh",
+      "/tmp/install-tools.sh",
+      "/tmp/install-plugins.sh ${var.jenkins_username} ${var.jenkins_password}",
       "sudo systemctl restart jenkins",
-      "./create-pipeline.sh ${var.jenkins_username} ${var.jenkins_password}"
+      "/tmp/create-pipeline.sh ${var.jenkins_username} ${var.jenkins_password}"
     ]
 
     connection {
