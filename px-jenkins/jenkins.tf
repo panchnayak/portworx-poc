@@ -78,16 +78,16 @@ resource "null_resource" "px_jenkins_deployment" {
       "sudo cp ./scripts/jenkins-create-admin.groovy /var/lib/jenkins/init.groovy.d",
       "cd scripts",
       "chmod +x install-jenkins.sh init-jenkins.sh install-tools.sh install-plugins.sh create-pipeline.sh",
-      "/tmp/scripts/install-jenkins.sh",
+      "./install-jenkins.sh",
       #setting up JAVA_HOME path for all users
       "export JAVA_HOME=/usr/lib/jvm/openjdk11",
       "export CLASSPATH=$JAVA_HOME/lib/tools.jar:$JAVA_HOME/lib/dt.jar:.",
       "export PATH=$PATH:$JAVA_HOME/bin:.",
-      ".scripts/init-jenkins.sh",
-      "./scripts/install-tools.sh",
-      "./scripts/install-plugins.sh ${var.jenkins_username} ${var.jenkins_password}",
+      "./init-jenkins.sh",
+      "./install-tools.sh",
+      "./install-plugins.sh ${var.jenkins_username} ${var.jenkins_password}",
       "sudo systemctl restart jenkins",
-      "./scripts/create-pipeline.sh ${var.jenkins_username} ${var.jenkins_password}"
+      "./create-pipeline.sh ${var.jenkins_username} ${var.jenkins_password}"
     ]
 
     connection {
