@@ -84,36 +84,9 @@ resource "null_resource" "px_jenkins_deployment" {
       "export JAVA_HOME=/usr/lib/jvm/openjdk11",
       "export CLASSPATH=$JAVA_HOME/lib/tools.jar:$JAVA_HOME/lib/dt.jar:.",
       "export PATH=$PATH:$JAVA_HOME/bin:.",
-      "/tmp/scripts/init-jenkins.sh"
-      
-    ]
-
-    connection {
-      user        = "${var.user_name}"
-      host        = "${aws_instance.px_jenkins_instance.public_ip}"
-      agent       = false
-      private_key = "${file("${var.key_path}/${var.key_private}")}"
-    }
-  }
-}
-resource "null_resource" "update_and_install_tool" {
-  provisioner "remote-exec" {
-    inline = [
-      "/tmp/scripts/install-tools.sh"
-    ]
-
-    connection {
-      user        = "${var.user_name}"
-      host        = "${aws_instance.px_jenkins_instance.public_ip}"
-      agent       = false
-      private_key = "${file("${var.key_path}/${var.key_private}")}"
-    }
-  }
-}
-resource "null_resource" "px_jenkins_admin" {
-  provisioner "remote-exec" {
-    inline = [
-      "/tmp/scripts/install-plugins.sh ${var.jenkins_username} ${var.jenkins_password}",
+      "/tmp/scripts/init-jenkins.sh",
+       "/tmp/scripts/install-tools.sh",
+       "/tmp/scripts/install-plugins.sh ${var.jenkins_username} ${var.jenkins_password}",
       "sudo systemctl restart jenkins",
       "/tmp/scripts/create-pipeline.sh ${var.jenkins_username} ${var.jenkins_password}",
       "sudo rm -rf /tmp/portworx-poc"
