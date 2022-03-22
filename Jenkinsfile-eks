@@ -36,8 +36,8 @@ pipeline {
             when { expression { params.REQUESTED_ACTION == 'Deploy EKS Cluster'  }  }
             steps {
               withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
-                echo "Creating EKS Cluster "+params.CLUSTER_NAME+"1 in the region:"+ params.FIRST_REGION_NAME
-                sh "./aws/create-eks-cluster.sh "+ params.CLUSTER_NAME+"1  "+params.FIRST_REGION_NAME
+                echo "Deploying EKS Cluster "+params.CLUSTER_NAME+"1 in the region:"+ params.FIRST_REGION_NAME
+                sh "./aws/scripts/create-eks-cluster.sh "+ params.CLUSTER_NAME+"1  "+params.FIRST_REGION_NAME
               }
             }
           }
@@ -70,8 +70,8 @@ pipeline {
             when { expression { params.REQUESTED_ACTION == 'Destroy EKS Cluster'  }  }
             steps {
               withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
-                echo "Creating EKS Cluster "+params.CLUSTER_NAME+"1 in the region:"+ params.FIRST_REGION_NAME
-                sh "./aws/destroy-eks-cluster.sh "+ params.CLUSTER_NAME+"1  "+params.FIRST_REGION_NAME
+                echo "Destroying EKS Cluster "+params.CLUSTER_NAME+"1 in the region:"+ params.FIRST_REGION_NAME
+                sh "./aws/scripts/destroy-eks-cluster.sh "+ params.CLUSTER_NAME+"1  "+params.FIRST_REGION_NAME
               }
             }
           }
