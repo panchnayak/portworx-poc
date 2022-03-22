@@ -68,22 +68,6 @@ variable "px_jenkins_instance_profile" {
   default = "px-jenkins-instance-profile"
 }
 
-variable "admin_user" {
-  default = "pnayak"
-}
-
-variable "admin_password" {
-  default = "adminPassword"
-}
-
-variable "admin_full_name" {
-  default = "Panchaleswar Nayak"
-}
-
-variable "admin_email" {
-  default = "nayak.p@gmail.com"
-}
-
 variable "curlimage" {
   default = "appropriate/curl"
 }
