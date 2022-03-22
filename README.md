@@ -9,7 +9,7 @@ Install terraform on your laptop or desktop
 clone this repository
 ```
 git clone https://github.com/panchnayak/portworx-poc.git
-cd portworx-poc/aws
+cd portworx-poc/px-jenkins
 ```
 Edit the variable.tf file to change the names of your environmnt and names.
 
