@@ -37,7 +37,7 @@ You can acces the Jenkins login page by accesing the http://$JENKINS_IP_ADDRESS:
 
 After acessing the login page login with the default username and password as "admin:password"
 
-They it will ask you to install some recommended plugins, you can click to install the recomended plugins.
+They it will ask you to install Suggested plugins, you can click to install the Suggested plugins.
 
 Then set the Jenkins URL and start using Jenkins
 
