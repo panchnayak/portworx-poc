@@ -29,8 +29,8 @@ resource "aws_instance" "px_jenkins_instance" {
   # we specified
   availability_zone      = "us-east-1a"
   instance_type          = "${var.instance_type}"
-  #ami                    = "${data.aws_ami.centos.id}"
-  ami                    = "${var.jenkins_ami_id}"
+  ami                    = "${data.aws_ami.centos.id}"
+  #ami                    = "${var.jenkins_ami_id}"
   key_name               = "${var.key_name}"
   vpc_security_group_ids = ["${module.px_jenkins_sg.security_group_id}"]
   subnet_id              = "${module.px_poc_vpc.public_subnets[0]}"
@@ -70,8 +70,8 @@ resource "null_resource" "px_jenkins_deployment" {
       "curl --silent --location http://pkg.jenkins.io/redhat-stable/jenkins.repo | sudo tee /etc/yum.repos.d/jenkins.repo",
       "sudo rpm --import http://pkg.jenkins.io/redhat-stable/jenkins.io.key",
       "sudo yum update -y",
-      #"sudo yum install epel-release -y",
-      #"sudo yum install git -y",
+      "sudo yum install epel-release -y",
+      "sudo yum install git -y",
       "cd /tmp && git clone https://github.com/panchnayak/portworx-poc.git",
       "cp -r /tmp/portworx-poc/px-jenkins/scripts .",
       "sudo mkdir -p /var/lib/jenkins/init.groovy.d",
