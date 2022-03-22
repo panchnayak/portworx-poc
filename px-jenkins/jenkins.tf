@@ -74,6 +74,7 @@ resource "null_resource" "px_jenkins_deployment" {
       "sudo yum install git -y",
       "cd /tmp && git clone https://github.com/panchnayak/portworx-poc.git",
       "cp -r /tmp/portworx-poc/px-jenkins/scripts .",
+      "cp -r /tmp/portworx-poc/px-jenkins/pipelines .",
       "sudo mkdir -p /var/lib/jenkins/init.groovy.d",
       "sudo cp /tmp/scripts/jenkins-create-admin.groovy /var/lib/jenkins/init.groovy.d",
       "cd /tmp/scripts",

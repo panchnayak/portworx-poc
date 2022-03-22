@@ -1,22 +1,24 @@
 #!/bin/bash -x
 
-declare -a PipelineList =(
-    "create-job eks-px-pipeline"
-    "create-job gke-px-pipeline"
-    "create-job argocd-server-tasks"
+declare -a PipelineList=(
+    "eks-px-pipeline"
+    "gke-px-pipeline"
+    "argocd-server-tasks"
     "deploy-cassandra-db"
+    "update-argocd-password"
 )
 
-declare -a PathList =(
-    "pipelines/eks-px-pipeline.xml"
-    "pipelines/gke-px-pipeline.xml"
-    "pipelines/argocd-pipeline.xml"
-    "pipelines/cassandra-db-pipeline.xml"
+declare -a PathList=(
+    "eks-px-pipeline.xml"
+    "gke-px-pipeline.xml"
+    "argocd-pipeline.xml"
+    "cassandra-db-pipeline.xml"
+    "update-argocd-pass.xml"
 
 )
 
 for ((i=0;i<=${#PipelineList[@]};i++)); do
-   java -jar jenkins-cli.jar -auth $1:$2 -s http://localhost:8080  ${PipelineList[i]} < /tmp/portworx-poc/px-jenkins/${PathList[i]}
+   java -jar jenkins-cli.jar -auth $1:$2 -s http://localhost:8080  create-job ${PipelineList[i]} < /tmp/pipelines/${PathList[i]}
 done
 
 #java -jar jenkins-cli.jar -auth $1:$2 -s http://localhost:8080  create-job eks-px-pipeline < /tmp/portworx-poc/px-jenkins/pipelines/eks-px-pipeline.xml
