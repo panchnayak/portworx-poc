@@ -21,7 +21,7 @@ pipeline {
                   trim: true
                 ),
                 string(
-                  defaultValue: 'pnayak-eks',
+                  defaultValue: 'pnayak-eks-ng',
                   name: 'NODEGROUP_NAME',
                   trim: true
                 ),
