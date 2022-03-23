@@ -13,11 +13,16 @@ pipeline {
                 ),
                 choice(
                   choices: ['Default: Do Nothing', 'Deploy EKS Cluster', 'Destroy EKS Cluster'],
-                  name: 'REQUESTED_ACTION'
+                  name: 'ACTION_REQUESTING'
                 ),
                 string(
                   defaultValue: 'pnayak-eks',
                   name: 'CLUSTER_NAME',
+                  trim: true
+                ),
+                string(
+                  defaultValue: 'pnayak-eks',
+                  name: 'NODEGROUP_NAME',
                   trim: true
                 ),
                 string(
@@ -33,16 +38,16 @@ pipeline {
       stage('EKS Cluster') {
         parallel {
           stage('Create EKS Clusters ') {
-            when { expression { params.REQUESTED_ACTION == 'Deploy EKS Cluster'  }  }
+            when { expression { params.ACTION_REQUESTING == 'Deploy EKS Cluster'  }  }
             steps {
               withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
                 echo "Deploying EKS Cluster "+params.CLUSTER_NAME+"1 in the region:"+ params.FIRST_REGION_NAME
-                sh "./aws/scripts/create-eks-cluster.sh "+ params.CLUSTER_NAME+"1  "+params.FIRST_REGION_NAME
+                sh "./aws/scripts/create-eks-cluster.sh "+ params.CLUSTER_NAME+"  "+params.NODEGROUP_NAME+"  "+params.FIRST_REGION_NAME
               }
             }
           }
           stage('Delete ArgoCD Server') {
-            when { expression { params.REQUESTED_ACTION == 'Destroy EKS Cluster'  }  }
+            when { expression { params.ACTION_REQUESTING == 'Destroy EKS Cluster'  }  }
             steps {
               withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
                 echo "Deleting ArgoCD Server on EKS Cluster"
@@ -56,22 +61,24 @@ pipeline {
       stage('ArgoCD Cluster') {
         parallel {
           stage('Create ArgoCD Server') {
-            when { expression { params.REQUESTED_ACTION == 'Deploy EKS Cluster'  }  }
+            when { expression { params.ACTION_REQUESTING == 'Deploy EKS Cluster'  }  }
             steps {
               withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
                 echo "Installing ArgoCD Server on EKS Cluster"
                 sh "kubectl create namespace argocd"
                 sh "kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml"
                 sh "kubectl patch svc argocd-server -n argocd -p '{\"spec\": {\"type\": \"LoadBalancer\"}}'"
+                sh "kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath=\"{.data.password}\" | base64 -d"
+                sh "kubectl -n argocd  get svc argocd-server  -o json | jq -r '.status.loadBalancer.ingress[0].hostname'"
               }
             }
           }
           stage('Destroy EKS Clusters ') {
-            when { expression { params.REQUESTED_ACTION == 'Destroy EKS Cluster'  }  }
+            when { expression { params.ACTION_REQUESTING == 'Destroy EKS Cluster'  }  }
             steps {
               withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
                 echo "Destroying EKS Cluster "+params.CLUSTER_NAME+"1 in the region:"+ params.FIRST_REGION_NAME
-                sh "./aws/scripts/destroy-eks-cluster.sh "+ params.CLUSTER_NAME+"1  "+params.FIRST_REGION_NAME
+                sh "./aws/scripts/destroy-eks-cluster.sh "+ params.CLUSTER_NAME+"  "+params.FIRST_REGION_NAME
               }
             }
           }
