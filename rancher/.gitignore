@@ -1,0 +1,5 @@
+terraform.tfstate
+.terraform/*
+terraform.tfstate.*
+aws/terraform.tfstate
+gke/terraform.tfstate
