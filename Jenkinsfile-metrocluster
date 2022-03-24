@@ -1,59 +1,89 @@
 pipeline {
-    agent any
+    agent  any
     stages {
-        stage('Setup Parameters') {
-            steps {
-                script {
-                    properties([
-                        parameters([
-                            string(
-                                defaultValue: 'aws-pnayak',
-                                name: 'AWS_CREDS',
-                                trim: true
-                            ),
-                            choice(
-                                choices: ['Default: Do Nothing', 'Deploy Metro Cluster', 'Migrate App from Source to Destination'],
-                                name: 'ACTION_REQUESTING'
-                            ),
-                            string(
-                                defaultValue: 'pnayak-eks',
-                                name: 'CLUSTER_NAME',
-                                trim: true
-                            ),
-                            string(
-                                defaultValue: 'pnayak-eks-ng',
-                                name: 'NODEGROUP_NAME',
-                                trim: true
-                            ),
-                            string(
-                                defaultValue: 'us-east-1',
-                                name: 'FIRST_REGION_NAME',
-                                trim: true
-                            )
-                        ])
-                    ])
-                }
-            }
+      stage('Setup parameters') {
+        steps {
+          script {
+            properties([
+              parameters([
+                string(
+                  defaultValue: 'aws-pnayak',
+                  name: 'AWS_CREDS',
+                  trim: true
+                ),
+                choice(
+                  choices: ['Default: Do Nothing', 'Deploy EKS Cluster', 'Destroy EKS Cluster'],
+                  name: 'ACTION_REQUESTING'
+                ),
+                string(
+                  defaultValue: 'pnayak-eks',
+                  name: 'CLUSTER_NAME',
+                  trim: true
+                ),
+                string(
+                  defaultValue: 'pnayak-eks-ng',
+                  name: 'NODEGROUP_NAME',
+                  trim: true
+                ),
+                string(
+                  defaultValue: 'us-east-1',
+                  name: 'FIRST_REGION_NAME',
+                  trim: true
+                )
+              ])
+            ])
+          }
         }
-        stage('Create ETCD Cluster') {
-            when { expression { params.ACTION_REQUESTING == 'Deploy Metro Cluster'  }  }
+      }
+      stage('EKS Cluster') {
+        parallel {
+          stage('Create EKS Clusters ') {
+            when { expression { params.ACTION_REQUESTING == 'Deploy EKS Cluster'  }  }
             steps {
-                sh "aws ec2 describe-instances"
+              withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
+                echo "Deploying EKS Cluster "+params.CLUSTER_NAME+"1 in the region:"+ params.FIRST_REGION_NAME
+                sh "./aws/scripts/create-eks-cluster.sh "+ params.CLUSTER_NAME+"  "+params.NODEGROUP_NAME+"  "+params.FIRST_REGION_NAME
               }
             }
-        } 
-
-        stage('Verify Cluster Pair Status') {
-            when { expression { params.ACTION_REQUESTING == 'Deploy Metro Cluster' }  }
-                steps {
-                    withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
-                        echo "Deploying EKS Cluster "+params.CLUSTER_NAME+"1 in the region "+ params.FIRST_REGION_NAME
-                        
-                    }
-                }
+          }
+          stage('Destroy Portworx Cluster') {
+            when { expression { params.ACTION_REQUESTING == 'Destroy EKS Cluster'  }  }
+            steps {
+              withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
+                echo "Deleting Portworx from on EKS Cluster"
+                sh "kubectl delete -f portworx/px-operator.yaml"
+                sh "kubectl delete -f portworx/px-specs.yaml"
+              }
+            }
+          }
         }
-    }
+      }
+      stage('Portworx Cluster') {
+        parallel {
+          stage('Deploy Portworx Storage Cluster') {
+            when { expression { params.ACTION_REQUESTING == 'Deploy EKS Cluster'  }  }
+            steps {
+              withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
+                echo "Installing Portworx on EKS Cluster"
+                sh "kubectl apply -f portworx/px-operator.yaml"
+                sh "kubectl apply -f portworx/px-specs.yaml"
+              }
+            }
+          }
+          stage('Destroy EKS Clusters ') {
+            when { expression { params.ACTION_REQUESTING == 'Destroy EKS Cluster'  }  }
+            steps {
+              withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
+                echo "Destroying EKS Cluster "+params.CLUSTER_NAME+"1 in the region:"+ params.FIRST_REGION_NAME
+                sh "./aws/scripts/destroy-eks-cluster.sh "+ params.CLUSTER_NAME+"  "+params.FIRST_REGION_NAME
+              }
+            }
+          }
+        }
+      }
+  }
 }
+
         
         
               
