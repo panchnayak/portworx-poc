@@ -24,7 +24,7 @@ pipeline {
             steps {
                 withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
                     echo "Creating Separate SingleNode ETCD Cluster in the region:"+ params.FIRST_REGION_NAME
-                    sh "./aws/scripts/deploy-etcd-cluster.sh "+ params.SG_ID+"  "+params.UBNET_ID
+                    sh "./aws/scripts/deploy-etcd-cluster.sh "+ params.SG_ID+"  "+params.SUBNET_ID
                 }
             }
         }
