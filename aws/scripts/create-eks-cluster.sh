@@ -1,4 +1,4 @@
-#!/bib/bash -x
+#!/bin/bash -x
 
 if [ $# -lt 3 ]
   then
