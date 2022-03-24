@@ -1,5 +1,5 @@
 pipeline {
-    agent  any
+    agent any
     stages {
         stage('Setup Parameters') {
             steps {
@@ -64,8 +64,7 @@ pipeline {
                     }
                 }
             }
-        }
-              
+        } 
         stage('Deploy Portworx on Each Cluster') {
             parallel {
                 stage('Deploy Portworx on Cluster 1') {
@@ -90,7 +89,6 @@ pipeline {
                 }
             }
         }
-
         stage('Generate and Apply a ClusterPair Spec') {
             parallel {
                 stage('Generate ClusterPair Spec from Cluster 2') {
@@ -115,9 +113,8 @@ pipeline {
                 }
             }
         }
-            
         stage('Verify Cluster Pair Status') {
-            when { expression { params.ACTION_REQUESTING == 'Deploy Metro Cluster'  }  }
+            when { expression { params.ACTION_REQUESTING == 'Deploy Metro Cluster' }  }
                 steps {
                     withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
                         echo "Deploying EKS Cluster "+params.CLUSTER_NAME+"1 in the region:"+ params.FIRST_REGION_NAME
