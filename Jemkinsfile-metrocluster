@@ -73,7 +73,7 @@ pipeline {
                     steps {
                         withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
                             echo "Deploying EKS Cluster "+params.CLUSTER_NAME+"1 in the region:"+ params.FIRST_REGION_NAME
-                            sh "./aws/scripts/create-etcd-clustere.sh "+ params.CLUSTER_NAME+"  "+params.FIRST_REGION_NAME
+                            
                         }
                     }
                 }
@@ -82,7 +82,7 @@ pipeline {
                     steps {
                         withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
                             echo "Deploying EKS Cluster "+params.CLUSTER_NAME+"1 in the region:"+ params.FIRST_REGION_NAME
-                            sh "./aws/scripts/create-eks-cluster.sh "+ params.CLUSTER_NAME+"-1  "+params.NODEGROUP_NAME+"  "+params.FIRST_REGION_NAME
+                            
                         }
                     }
                 }
@@ -96,7 +96,7 @@ pipeline {
                         steps {
                             withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
                                 echo "Deploying EKS Cluster "+params.CLUSTER_NAME+"1 in the region:"+ params.FIRST_REGION_NAME
-                                sh "./aws/scripts/create-etcd-clustere.sh "+ params.CLUSTER_NAME+"  "+params.FIRST_REGION_NAME
+                                
                             }
                         }
                 }
@@ -107,7 +107,7 @@ pipeline {
                         steps {
                             withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
                                 echo "Deploying EKS Cluster "+params.CLUSTER_NAME+"1 in the region:"+ params.FIRST_REGION_NAME
-                                sh "./aws/scripts/create-etcd-clustere.sh "+ params.CLUSTER_NAME+"  "+params.FIRST_REGION_NAME
+                                
                             }
                         }
                 }
@@ -119,7 +119,7 @@ pipeline {
                 steps {
                     withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
                         echo "Deploying EKS Cluster "+params.CLUSTER_NAME+"1 in the region:"+ params.FIRST_REGION_NAME
-                        sh "./aws/scripts/create-etcd-clustere.sh "+ params.CLUSTER_NAME+"  "+params.FIRST_REGION_NAME
+                        
                     }
                 }
         }

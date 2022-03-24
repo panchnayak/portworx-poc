@@ -88,7 +88,7 @@ resource "null_resource" "px_jenkins_deployment" {
        "/tmp/scripts/install-tools.sh",
        "/tmp/scripts/install-plugins.sh ${var.jenkins_username} ${var.jenkins_password}",
       "sudo systemctl restart jenkins",
-      "/tmp/scripts/create-pipeline.sh ${var.jenkins_username} ${var.jenkins_password}",
+      "/tmp/scripts/create-pipelines.sh ${var.jenkins_username} ${var.jenkins_password}",
       "sudo rm -rf /tmp/portworx-poc"
     ]
 

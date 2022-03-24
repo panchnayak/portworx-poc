@@ -20,7 +20,7 @@
       <submoduleCfg class="list"/>
       <extensions/>
     </scm>
-    <scriptPath>Jenkinsfile-argocd</scriptPath>
+    <scriptPath>Jenkinsfile-metrocluster</scriptPath>
   </definition>
   <triggers/>
 </flow-definition>
