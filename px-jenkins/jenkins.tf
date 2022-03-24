@@ -73,7 +73,7 @@ resource "null_resource" "px_jenkins_deployment" {
       "sudo yum update -y",
       "sudo yum install epel-release -y",
       "sudo yum install git -y",
-      "sudo rm -rf /tmp/portworx-poc /tmp/scripts /tmp/pipelines"
+      "sudo rm -rf /tmp/portworx-poc /tmp/scripts /tmp/pipelines",
       "cd /tmp && git clone https://github.com/panchnayak/portworx-poc.git",
       "cp -r /tmp/portworx-poc/px-jenkins/scripts .",
       "cp -r /tmp/portworx-poc/px-jenkins/pipelines .",
