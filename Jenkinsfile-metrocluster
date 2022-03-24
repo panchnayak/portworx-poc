@@ -7,7 +7,7 @@ pipeline {
                     properties([
                         parameters([
                             string(defaultValue: 'aws-pnayak',name: 'AWS_CREDS',trim: true),
-                            choice(choices: ['Default: Do Nothing', 'Deploy EKS Cluster', 'Destroy EKS Cluster'],name: 'ACTION_REQUESTING'),
+                            choice(choices: ['Default: Do Nothing', 'Deploy Metro Cluster', 'Destroy Metro Cluster'],name: 'ACTION_REQUESTING'),
                             string(defaultValue: 'pnayak-eks',name: 'CLUSTER_NAME',trim: true),
                             string(defaultValue: 'pnayak-eks-ng',name: 'NODEGROUP_NAME',trim: true),
                             string(defaultValue: 'us-east-1',name: 'FIRST_REGION_NAME',trim: true),
@@ -26,7 +26,7 @@ pipeline {
         stage('EKS Cluster') {
             parallel {
                 stage('Create EKS Clusters ') {
-                    when { expression { params.ACTION_REQUESTING == 'Deploy EKS Cluster'  }  }
+                    when { expression { params.ACTION_REQUESTING == 'Deploy EKS Cluster-x'  }  }
                         steps {
                             withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
                                 echo "Deploying EKS Cluster "+params.CLUSTER_NAME+"1 in the region:"+ params.FIRST_REGION_NAME
