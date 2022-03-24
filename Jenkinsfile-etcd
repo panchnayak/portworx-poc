@@ -19,7 +19,7 @@ pipeline {
           }
         }
         stage('Create ETCD Cluster') { 
-            when { expression { params.ACTION_REQUESTING == 'Deploy Metro Cluster' } }
+            when { expression { params.ACTION_REQUESTING == 'Deploy ETCD Cluster' } }
             steps {
                 withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
                     echo "Creating Separate SingleNode ETCD Cluster in the region:"+ params.FIRST_REGION_NAME
@@ -29,7 +29,7 @@ pipeline {
             }
         }
         stage('Destroy ETCD Cluster') { 
-            when { expression { params.ACTION_REQUESTING == 'Destroy Metro Cluster' } }
+            when { expression { params.ACTION_REQUESTING == 'Destroy ETCD Cluster' } }
             steps {
                 withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
                     echo "Creating Separate SingleNode ETCD Cluster in the region:"+ params.FIRST_REGION_NAME
