@@ -14,7 +14,7 @@ declare -a PathList=(
    "kubectl-command.xml" 
    "eks-px.xml"  
    "gke-px.xml"  
-   "metro-cluster.yaml" 
+   "metro-cluster.xml" 
    "cassandra-db.xml"  
    "backup-demo.xml"
    )

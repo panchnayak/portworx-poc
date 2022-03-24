@@ -27,6 +27,6 @@ rm /tmp/pxc.tar.gz
 sudo mv /tmp/pxc/kubectl-pxc /usr/local/bin/kubectl-pxc
 sudo chmod +x /usr/local/bin/kubectl-pxc
 alias pxctl='kubectl pxc pxctl'
-curl -Lo /tmp/argocd https://github.com/argoproj/argo-cd/releases/download/v2.3.1/argocd-linux-amd64
-chmod +x /tmp/argocd
-sudo mv /tmp/argocd /usr/local/bin
+#curl -Lo /tmp/argocd https://github.com/argoproj/argo-cd/releases/download/v2.3.1/argocd-linux-amd64
+#chmod +x /tmp/argocd
+#sudo mv /tmp/argocd /usr/local/bin
