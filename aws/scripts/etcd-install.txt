@@ -1,10 +1,14 @@
+#!/bin/bash
+
 sudo yum update -y
 sudo amazon-linux-extras install docker -y
 sudo service docker start
 sudo systemctl enable docker
 sudo usermod -a -G docker ec2-user
-export IP=`curl http://169.254.169.254/latest/meta-data/public-ipv4`
-docker run -d --net=host --volume=/var/lib/px-etcd:/etcd-data --name etcd quay.io/coreos/etcd /usr/local/bin/etcd -data-dir=/etcd-data \
-        --name node1 --advertise-client-urls http://$private_ipv4:2379 --listen-client-urls http://0.0.0.0:2379 \
-        --initial-advertise-peer-urls http://$private_ipv4:2380 --listen-peer-urls http://$private_ipv4:2380 --initial-cluster node1=http://${IP}:2379
-    
+docker run -d --restart unless-stopped -v /usr/share/ca-certificates/:/etc/ssl/certs -p 2382:2382 \
+ --name etcd quay.io/coreos/etcd:latest \
+ /usr/local/bin/etcd \
+ -name etcd0 \
+ -auto-compaction-retention=3 -quota-backend-bytes=8589934592 \
+ -advertise-client-urls http://$(hostname -i):2382 \
+ -listen-client-urls http://0.0.0.0:2382
