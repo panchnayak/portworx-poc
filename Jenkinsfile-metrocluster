@@ -10,8 +10,10 @@ pipeline {
                             choice(choices: ['Default: Do Nothing', 'Deploy Metro Cluster', 'Destroy Metro Cluster'],name: 'ACTION_REQUESTING'),
                             string(defaultValue: 'pnayak-eks',name: 'CLUSTER_NAME',trim: true),
                             string(defaultValue: 'pnayak-eks-ng',name: 'NODEGROUP_NAME',trim: true),
+                            string(defaultValue: 'Security-Group-ID-for-ETCD-Instance',name: 'SG_ID',trim: true),
+                            string(defaultValue: 'Subnet-ID-For-ETCD-Instance',name: 'SUBNET_ID',trim: true),
                             string(defaultValue: 'us-east-1',name: 'FIRST_REGION_NAME',trim: true),
-                            string( defaultValue: 'us-east-1',name: 'SECOND_REGION_NAME',trim: true)
+                            string(defaultValue: 'us-east-1',name: 'SECOND_REGION_NAME',trim: true)
                         ])
                     ])
                 }
@@ -20,7 +22,10 @@ pipeline {
         stage('Create ETCD Cluster') { 
             when { expression { params.ACTION_REQUESTING == 'Deploy Metro Cluster' } }
             steps {
-                sh "aws ec2 describe-instances" 
+                withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
+                    echo "Creating Separate SingleNode ETCD Cluster in the region:"+ params.FIRST_REGION_NAME
+                    sh "./aws/scripts/deploy-etcd-cluster.sh "+ params.SG_ID+"  "+params.UBNET_ID
+                }
             }
         }
         stage('EKS Cluster') {

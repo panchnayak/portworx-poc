@@ -32,10 +32,6 @@ variable "volume_size" {
   default = 15
 }
 
-variable "aws_ami_id" {
-  default = "ami-033b95fb8079dc481"
-}
-
 variable "instance_type" {
   default = "t3.large"
 }
