@@ -78,7 +78,7 @@ resource "null_resource" "px_jenkins_deployment" {
       "sudo mkdir -p /var/lib/jenkins/init.groovy.d",
       "sudo cp /tmp/scripts/jenkins-create-admin.groovy /var/lib/jenkins/init.groovy.d",
       "cd /tmp/scripts",
-      "chmod +x install-jenkins.sh init-jenkins.sh install-tools.sh install-plugins.sh create-pipeline.sh",
+      "chmod +x install-jenkins.sh init-jenkins.sh install-tools.sh install-plugins.sh create-pipelines.sh",
       "/tmp/scripts/install-jenkins.sh",
       #setting up JAVA_HOME path for all users
       "export JAVA_HOME=/usr/lib/jvm/openjdk11",
