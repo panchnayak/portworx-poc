@@ -90,7 +90,7 @@ variable "jenkins_password" {
 }
 
 variable "jenkins_ami_id" {
-  default = "ami-0e306787811345859"
+  default = "ami-05304b61b3d5e00f7"
 }
 
 
