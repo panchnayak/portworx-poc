@@ -1,0 +1,132 @@
+pipeline {
+    agent  any
+    stages {
+        stage('Setup Parameters') {
+            steps {
+                script {
+                    properties([
+                        parameters([
+                            string(
+                                defaultValue: 'aws-pnayak',
+                                name: 'AWS_CREDS',
+                                trim: true
+                            ),
+                            choice(
+                                choices: ['Default: Do Nothing', 'Deploy Metro Cluster', 'Migrate App from Source to Destination'],
+                                name: 'ACTION_REQUESTING'
+                            ),
+                            string(
+                                defaultValue: 'pnayak-eks',
+                                name: 'CLUSTER_NAME',
+                                trim: true
+                            ),
+                            string(
+                                defaultValue: 'pnayak-eks-ng',
+                                name: 'NODEGROUP_NAME',
+                                trim: true
+                            ),
+                            string(
+                                defaultValue: 'us-east-1',
+                                name: 'FIRST_REGION_NAME',
+                                trim: true
+                            )
+                        ])
+                    ])
+                }
+            }
+        }
+        stage('Create ETCD Cluster') {
+            when { expression { params.ACTION_REQUESTING == 'Deploy Metro Cluster'  }  }
+            steps {
+              withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
+                echo "Creating ETC Cluster "+params.CLUSTER_NAME+"1 in the region:"+ params.FIRST_REGION_NAME
+                sh "./aws/scripts/create-etcd-clustere.sh "+ params.CLUSTER_NAME+"  "+params.FIRST_REGION_NAME
+              }
+            }
+        } 
+        stage('Create 2 EKS Clusters') {
+            parallel {
+                stage('Create EKS Clusters 1') {
+                    when { expression { params.ACTION_REQUESTING == 'Deploy Metro Cluster'  }  }
+                    steps {
+                        withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
+                        echo "Deploying EKS Cluster "+params.CLUSTER_NAME+"1 in the region:"+ params.FIRST_REGION_NAME
+                        sh "./aws/scripts/create-eks-cluster.sh "+ params.CLUSTER_NAME+"-1  "+params.NODEGROUP_NAME+"  "+params.FIRST_REGION_NAME
+                        }
+                    }
+                }
+            
+                stage('Create EKS Clusters 2') {
+                    when { expression { params.ACTION_REQUESTING == 'Deploy Metro Cluster'  }  }
+                    steps {
+                        withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
+                            echo "Deploying EKS Cluster "+params.CLUSTER_NAME+"1 in the region:"+ params.FIRST_REGION_NAME
+                            sh "./aws/scripts/create-eks-cluster.sh "+ params.CLUSTER_NAME+"-2  "+params.NODEGROUP_NAME+"  "+params.FIRST_REGION_NAME
+                        }
+                    }
+                }
+            }
+        }
+              
+        stage('Install Portworx on Each Cluster') {
+            parallel {
+                stage('Deploy Portworx on Cluster 1') {
+                    when { expression { params.ACTION_REQUESTING == 'Deploy Metro Cluster'  }  }
+                    steps {
+                        withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
+                            echo "Deploying EKS Cluster "+params.CLUSTER_NAME+"1 in the region:"+ params.FIRST_REGION_NAME
+                            sh "./aws/scripts/create-etcd-clustere.sh "+ params.CLUSTER_NAME+"  "+params.FIRST_REGION_NAME
+                        }
+                    }
+                }
+                stage('Deploy Portworx on Cluster 2') {
+                    when { expression { params.ACTION_REQUESTING == 'Deploy Metro Cluster'  }  }
+                    steps {
+                        withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
+                            echo "Deploying EKS Cluster "+params.CLUSTER_NAME+"1 in the region:"+ params.FIRST_REGION_NAME
+                            sh "./aws/scripts/create-eks-cluster.sh "+ params.CLUSTER_NAME+"-1  "+params.NODEGROUP_NAME+"  "+params.FIRST_REGION_NAME
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Generate and Apply a ClusterPair Spec') {
+            parallel {
+                stage('Generate ClusterPair Spec from Cluster 2') {
+                    when { expression { params.ACTION_REQUESTING == 'Deploy Metro Cluster'  }  }
+                        steps {
+                            withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
+                                echo "Deploying EKS Cluster "+params.CLUSTER_NAME+"1 in the region:"+ params.FIRST_REGION_NAME
+                                sh "./aws/scripts/create-etcd-clustere.sh "+ params.CLUSTER_NAME+"  "+params.FIRST_REGION_NAME
+                            }
+                        }
+                }
+                
+
+                stage('Apply ClusterPair Spec On Cluster 2') {
+                    when { expression { params.ACTION_REQUESTING == 'Deploy Metro Cluster'  }  }
+                        steps {
+                            withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
+                                echo "Deploying EKS Cluster "+params.CLUSTER_NAME+"1 in the region:"+ params.FIRST_REGION_NAME
+                                sh "./aws/scripts/create-etcd-clustere.sh "+ params.CLUSTER_NAME+"  "+params.FIRST_REGION_NAME
+                            }
+                        }
+                }
+            }
+        }
+            
+        stage('Verify Cluster Pair Status') {
+            when { expression { params.ACTION_REQUESTING == 'Deploy Metro Cluster'  }  }
+                steps {
+                    withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
+                        echo "Deploying EKS Cluster "+params.CLUSTER_NAME+"1 in the region:"+ params.FIRST_REGION_NAME
+                        sh "./aws/scripts/create-etcd-clustere.sh "+ params.CLUSTER_NAME+"  "+params.FIRST_REGION_NAME
+                    }
+                }
+        }
+    }
+}
+        
+        
+              
