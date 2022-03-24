@@ -38,9 +38,7 @@ pipeline {
         stage('Create ETCD Cluster') {
             when { expression { params.ACTION_REQUESTING == 'Deploy Metro Cluster'  }  }
             steps {
-              withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
-                echo "Creating ETC Cluster "+params.CLUSTER_NAME+"1 in the region:"+ params.FIRST_REGION_NAME
-                sh "./aws/scripts/create-etcd-clustere.sh "+ params.CLUSTER_NAME+"  "+params.FIRST_REGION_NAME
+                sh "aws ec2 describe-instances"
               }
             }
         } 
