@@ -25,7 +25,7 @@ pipeline {
                 withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
                     echo "Creating Separate SingleNode ETCD Cluster in the region:"+ params.FIRST_REGION_NAME
                     echo "./aws/scripts/deploy-etcd-cluster.sh "+ params.SG_ID+"  "+params.SUBNET_ID
-                    sh "./aws/scripts/deploy-etcd-cluster.sh sg-035dbbea77f8bcd78  subnet-00e830763fcde7b86"
+                    sh "./aws/scripts/deploy-etcd-cluster.sh sg-035dbbea77f8bcd78  subnet-03cf37ada5c174917"
                 }
             }
         }
@@ -72,6 +72,16 @@ pipeline {
                             sh "./aws/scripts/destroy-eks-cluster.sh "+ params.CLUSTER_NAME+"  "+params.FIRST_REGION_NAME
                         }
                     }
+                }
+            }
+        }
+        stage('Destroy ETCD Cluster') { 
+            when { expression { params.ACTION_REQUESTING == 'Deploy Metro Cluster' } }
+            steps {
+                withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
+                    echo "Creating Separate SingleNode ETCD Cluster in the region:"+ params.FIRST_REGION_NAME
+                    echo "./aws/scripts/deploy-etcd-cluster.sh "+ params.SG_ID+"  "+params.SUBNET_ID
+                    sh "./aws/scripts/destroy-etcd-cluster.sh sg-035dbbea77f8bcd78  subnet-00e830763fcde7b86"
                 }
             }
         }
