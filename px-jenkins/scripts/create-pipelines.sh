@@ -2,11 +2,11 @@
 
 
 declare -a PipelineList=(
-   "1-Execute-kubectl-commands-for-EKS" 
-   "2-EKS-K8s-Cluster-Pipeline"  
-   "3-GKE-Cluster-Pipeline"  
-   "4-Deploy-Metro-Cluster"  
-   "5-Deploy-Cassandra-DB" 
+   "1-Execute-kubectl-commands-for-K8s" 
+   "2-Deploy-Independent-AWS-EKS"  
+   "3-Deploy-Independent-GCP-GKE"  
+   "4-Complete-Metro-Cluster-Demo"  
+   "5-Deploy-Cassandra-DB-On-Existing-K8s" 
    "6-Portworx-Backup-Demo" 
    )
 
