@@ -1,0 +1,43 @@
+pipeline {
+    agent any
+    stages {
+       stage('Setup ArgoCD Parameters') {
+          steps {
+            script {
+              properties([
+                        parameters([
+                            string(defaultValue: 'aws-pnayak',name: 'AWS_CREDS',trim: true),
+                            choice(choices: ['Default: Do Nothing', 'Deploy ETCD Cluster', 'Destroy ETCD Cluster'],name: 'ACTION_REQUESTING'),
+                            string(defaultValue: 'us-east-1',name: 'REGION_NAME',trim: true),
+                            string(defaultValue: 'Security-Group-ID-for-ETCD-Instance',name: 'SG_ID',trim: true),
+                            string(defaultValue: 'Subnet-ID-For-ETCD-Instance',name: 'SUBNET_ID',trim: true),
+                            string(defaultValue: 'Subnet-ID-For-ETCD-Instance',name: 'INSTANCE_ID',trim: true),
+                            
+                        ])
+                    ])
+            }
+          }
+        }
+        stage('Create ETCD Cluster') { 
+            when { expression { params.ACTION_REQUESTING == 'Deploy Metro Cluster' } }
+            steps {
+                withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
+                    echo "Creating Separate SingleNode ETCD Cluster in the region:"+ params.FIRST_REGION_NAME
+                    echo "./aws/scripts/deploy-etcd-cluster.sh "+ params.SG_ID+"  "+params.SUBNET_ID
+                    sh "./aws/scripts/deploy-etcd-cluster.sh sg-035dbbea77f8bcd78  subnet-06aff9bc516f1552f"
+                }
+            }
+        }
+        stage('Destroy ETCD Cluster') { 
+            when { expression { params.ACTION_REQUESTING == 'Destroy Metro Cluster' } }
+            steps {
+                withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
+                    echo "Creating Separate SingleNode ETCD Cluster in the region:"+ params.FIRST_REGION_NAME
+                    echo "./aws/scripts/destroy-etcd-cluster.sh "+ params.SG_ID+"  "+params.SUBNET_ID
+                    sh "aws ec2 describe-instances"
+                    sh "aws ec2 terminate-instances "+ params.INSTANCE_ID
+                }
+            }
+        }
+    }
+}

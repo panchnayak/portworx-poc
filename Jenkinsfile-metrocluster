@@ -10,8 +10,6 @@ pipeline {
                             choice(choices: ['Default: Do Nothing', 'Deploy Metro Cluster', 'Destroy Metro Cluster'],name: 'ACTION_REQUESTING'),
                             string(defaultValue: 'pnayak-eks',name: 'CLUSTER_NAME',trim: true),
                             string(defaultValue: 'pnayak-eks-ng',name: 'NODEGROUP_NAME',trim: true),
-                            string(defaultValue: 'Security-Group-ID-for-ETCD-Instance',name: 'SG_ID',trim: true),
-                            string(defaultValue: 'Subnet-ID-For-ETCD-Instance',name: 'SUBNET_ID',trim: true),
                             string(defaultValue: 'us-east-1',name: 'FIRST_REGION_NAME',trim: true),
                             string(defaultValue: 'us-east-1',name: 'SECOND_REGION_NAME',trim: true)
                         ])
@@ -19,19 +17,10 @@ pipeline {
                 }
             }
         }
-        stage('Create ETCD Cluster') { 
-            when { expression { params.ACTION_REQUESTING == 'Deploy Metro Cluster' } }
-            steps {
-                withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
-                    echo "Creating Separate SingleNode ETCD Cluster in the region:"+ params.FIRST_REGION_NAME
-                    echo "./aws/scripts/deploy-etcd-cluster.sh "+ params.SG_ID+"  "+params.SUBNET_ID
-                    sh "./aws/scripts/deploy-etcd-cluster.sh sg-035dbbea77f8bcd78  subnet-06aff9bc516f1552f"
-                }
-            }
-        }
+        
         stage('EKS Cluster') {
             parallel {
-                stage('Create EKS Clusters ') {
+                stage('Create EKS Cluster-1') {
                     when { expression { params.ACTION_REQUESTING == 'Deploy Metro Cluster-x'  }  }
                         steps {
                             withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
@@ -40,21 +29,20 @@ pipeline {
                             }
                         }
                 }
-                stage('Destroy Portworx Cluster') {
-                    when { expression { params.ACTION_REQUESTING == 'Destroy EKS Cluster'  }  }
-                    steps {
-                        withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
-                            echo "Deleting Portworx from on EKS Cluster"
-                            sh "kubectl delete -f portworx/px-operator.yaml"
-                            sh "kubectl delete -f portworx/px-specs.yaml"
+                stage('Create EKS Cluster-2') {
+                    when { expression { params.ACTION_REQUESTING == 'Deploy Metro Cluster-x'  }  }
+                        steps {
+                            withAWS(credentials: params.AWS_CREDS, region: params.SECOND_REGION_NAME) {
+                                echo "Deploying EKS Cluster "+params.CLUSTER_NAME+"1 in the region:"+ params.FIRST_REGION_NAME
+                                sh "./aws/scripts/create-eks-cluster.sh "+ params.CLUSTER_NAME+"  "+params.NODEGROUP_NAME+"  "+params.SECOND_REGION_NAME
+                            }
                         }
-                    }
                 }
             }
         }
         stage('Portworx Cluster') {
             parallel {
-                stage('Deploy Portworx Storage Cluster') {
+                stage('Deploy Portworx EKS Cluster-1') {
                     when { expression { params.ACTION_REQUESTING == 'Deploy Metro Cluster-x'  }  }
                     steps {
                         withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
@@ -64,27 +52,53 @@ pipeline {
                         }
                     }
                 }
-                stage('Destroy EKS Clusters ') {
-                    when { expression { params.ACTION_REQUESTING == 'Destroy EKS Cluster'  }  }
+                stage('DDeploy Portworx EKS Cluster-2') {
+                    when { expression { params.ACTION_REQUESTING == 'Deploy Metro Cluster-x'  }  }
                     steps {
                         withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
-                            echo "Destroying EKS Cluster "+params.CLUSTER_NAME+"1 in the region:"+ params.FIRST_REGION_NAME
-                            sh "./aws/scripts/destroy-eks-cluster.sh "+ params.CLUSTER_NAME+"  "+params.FIRST_REGION_NAME
+                            echo "Installing Portworx on EKS Cluster"
+                            sh "kubectl apply -f portworx/px-operator.yaml"
+                            sh "kubectl apply -f portworx/px-specs.yaml"
                         }
                     }
                 }
             }
         }
-        stage('Destroy ETCD Cluster') { 
-            when { expression { params.ACTION_REQUESTING == 'Destroy Metro Cluster' } }
-            steps {
-                withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
-                    echo "Creating Separate SingleNode ETCD Cluster in the region:"+ params.FIRST_REGION_NAME
-                    echo "./aws/scripts/deploy-etcd-cluster.sh "+ params.SG_ID+"  "+params.SUBNET_ID
-                    sh "./aws/scripts/destroy-etcd-cluster.sh sg-035dbbea77f8bcd78  subnet-00e830763fcde7b86"
+        stage('Generate and Apply a ClusterPair Spec') {
+            parallel {
+                stage('Generate ClusterPairSpec EKS Cluster-2') {
+                    when { expression { params.ACTION_REQUESTING == 'Deploy Metro Cluster' } }
+                    steps {
+                        withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
+                            echo "Generate ClusterPairSpec EKS Cluster-2'"+params.CLUSTER_NAME+"1 in the region "+ params.FIRST_REGION_NAME
+                            sh "kubectl apply -f portworx/px-operator.yaml"
+                        }
+                    }
+                }
+                stage('Apply ClusterPairSpec Cluster-1') {
+                    when { expression { params.ACTION_REQUESTING == 'Deploy Metro Cluster' } }
+                    steps {
+                        withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
+                            echo "Apply ClusterPairSpec Cluster-1 "+params.CLUSTER_NAME+"1 in the region "+ params.FIRST_REGION_NAME
+                            sh "kubectl apply -f portworx/px-operator.yaml"
+                        }
+                    }
                 }
             }
         }
+
+        stage('Verify Cluster Pair Status') {
+            when { expression { params.ACTION_REQUESTING == 'Deploy Metro Cluster' } }
+            steps {
+                withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
+                    echo "Verify Cluster Pair Status "+params.CLUSTER_NAME+"1 in the region "+ params.FIRST_REGION_NAME
+                    sh "kubectl apply -f portworx/px-operator.yaml"
+                }
+            }
+        }
+
+        
+
     }
 }
 

@@ -1,1 +1,0 @@
-aaws ec2 terminate-instances
