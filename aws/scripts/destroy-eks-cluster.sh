@@ -11,7 +11,7 @@ EKS_CLUSTER_NAME=$1
 AWS_TYPE=t3.large
 FIRST_AWS_REGION=$2
 #SECOND_AWS_REGION=$3
-NUMBER_OF_NODES=3
+NUMBER_OF_NODES=$3
 
 
 VPC_ID=$(eksctl utils describe-stacks --region $FIRST_AWS_REGION --cluster $EKS_CLUSTER_NAME | grep vpc- | cut -f 2 -d \")
