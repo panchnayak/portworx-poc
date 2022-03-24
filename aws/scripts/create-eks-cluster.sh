@@ -1,13 +1,15 @@
-if [ $# -lt 2 ]
+#!/bib/bash -x
+
+if [ $# -lt 3 ]
   then
-    echo "Error: No Cluster name supplied please supply the Cluster name as the first argument,and Region name in the second argument, Not going ahead"
+    echo "Error: No Cluster name supplied please supply the Cluster name as the first argument,and NodeGroup name as 2n argument and Region name in the third argument, Not going ahead"
     exit 0
 fi
 
-echo "Proceeding to crate EKS Cluster : $1 in Region $2"
+echo "Proceeding to crate EKS Cluster : $1 in Region $3"
 
 EKS_CLUSTER_NAME=$1
-NODE_GROUP_NAME = $2
+NODE_GROUP_NAME=$2
 NODE_TYPE=t3.large
 FIRST_AWS_REGION=$3
 #SECOND_AWS_REGION=$3

@@ -1,3 +1,4 @@
+#!/bib/bash -x
 
 if [ $# -lt 2 ]
   then
