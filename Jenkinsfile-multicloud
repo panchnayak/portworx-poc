@@ -4,6 +4,7 @@ pipeline {
         stage('Setup parameters') {
             steps {
                 script {
+                    input "Before Running this pipeline  ensure you have Run the ETCD Pipeline to Have a Separate ETCD Cluster Running , and you have crrated the PortWorx Specs with the IP of ETCD"
                     properties([
                         parameters([
                             string(defaultValue: 'aws-pnayak',name: 'AWS_CREDS',trim: true, description: 'AWS Credential Name, Should have created previously'),
