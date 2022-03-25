@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Setup parameters') {
             parallel {
-                stage {
+                stage ('Base parameters'){
                     steps {
                         script {
                             properties([
@@ -16,7 +16,7 @@ pipeline {
                         }
                     }
                 }
-                stage {
+                stage ('AWS Parameters'){
                     when { expression { params.FIRST_CLOUD_ENV == 'First-Cloud: AWS'  }  } 
                     script {
                         properties([
@@ -29,7 +29,7 @@ pipeline {
                         ])
                     }
                 }
-                stage {
+                stage ('GCP Parameters'){
                     when { expression { params.FIRST_CLOUD_ENV == 'First-Cloud: GCP'  }  } 
                     script {
                         properties([
@@ -41,7 +41,7 @@ pipeline {
                         ])
                     }
                 }
-                stage {
+                stage ('vSphere Parameters'){
                     when { expression { params.FIRST_CLOUD_ENV == 'First-Cloud: VMware vSphere'  }  } 
                     script {
                         properties([
