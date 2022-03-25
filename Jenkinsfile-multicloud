@@ -7,7 +7,7 @@ pipeline {
                     properties([
                         parameters([
                             string(defaultValue: 'aws-pnayak',name: 'AWS_CREDS',trim: true),
-                            choice(choices: ['Default: Do Nothing', 'Deploy Metro Cluster', 'Destroy Metro Cluster'],name: 'ACTION_REQUESTING'),
+                            choice(choices: ['Default: Do Nothing', 'Deploy Multi Cloud Portworx Cluster', 'Destroy MultiCloud Portworx Cluster'],name: 'ACTION_REQUESTING'),
                             choice(choices: ['First-Cloud: AWS', 'First-Cloud: GCP', 'First-Cloud: VMware vSphere'],name: 'FIRST_CLOUD_ENV'),
                             string(defaultValue: 'pnayak-eks-1',name: 'EKS_CLUSTER_NAME',trim: true),
                             string(defaultValue: 'pnayak-eks-1-ng',name: 'NODEGROUP_NAME',trim: true),
