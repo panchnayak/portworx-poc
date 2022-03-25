@@ -8,10 +8,37 @@ pipeline {
                         parameters([
                             string(defaultValue: 'aws-pnayak',name: 'AWS_CREDS',trim: true),
                             choice(choices: ['Default: Do Nothing', 'Deploy Metro Cluster', 'Destroy Metro Cluster'],name: 'ACTION_REQUESTING'),
-                            string(defaultValue: 'pnayak-eks',name: 'CLUSTER_NAME',trim: true),
+                            choice(choices: ['First-Cloud: AWS', 'First-Cloud: GCP', 'First-Cloud: VMware vSphere'],name: 'FIRST_CLOUD_ENV')
+                        ])
+                    ])
+                }
+                script {
+                    properties([
+                        parameters([
+                            when { expression { params.FIRST_CLOUD_ENV == 'First-Cloud: AWS'  }  }
+                            string(defaultValue: 'pnayak-eks',name: 'EKS_CLUSTER_NAME',trim: true),
                             string(defaultValue: 'pnayak-eks-ng',name: 'NODEGROUP_NAME',trim: true),
-                            string(defaultValue: 'us-east-1',name: 'FIRST_REGION_NAME',trim: true),
-                            string(defaultValue: 'us-east-1',name: 'SECOND_REGION_NAME',trim: true)
+                            string(defaultValue: 'us-east-1',name: 'AWS_REGION_NAME',trim: true),
+                            choice(choices: ['Second-Cloud: AWS', 'Second-Cloud: GCP', 'Second-Cloud: VMware vSphere'],name: 'SECOND_CLOUD_ENV')
+                        ])
+                    ])
+                }
+                script {
+                    properties([
+                        parameters([
+                            when { expression { params.FIRST_CLOUD_ENV == 'First-Cloud: GCP'  }  }
+                            string(defaultValue: 'pnayak-gke',name: 'GKE_CLUSTER_NAME',trim: true),
+                            string(defaultValue: 'us-east-1',name: 'GCP_ZONE_NAME',trim: true),
+                            choice(choices: ['Second-Cloud: AWS', 'Second-Cloud: GCP', 'Second-Cloud: VMware vSphere'],name: 'SECOND_CLOUD_ENV')
+                        ])
+                    ])
+                }
+                script {
+                    properties([
+                        parameters([
+                            when { expression { params.FIRST_CLOUD_ENV == 'First-Cloud: VMware vSphere'  }  }
+                            string(defaultValue: 'pnayak-vsphere',name: 'VSPHERE_CLUSTER_NAME',trim: true),
+                            choice(choices: ['Second-Cloud: AWS', 'Second-Cloud: GCP', 'Second-Cloud: VMware vSphere'],name: 'SECOND_CLOUD_ENV')
                         ])
                     ])
                 }
@@ -48,7 +75,7 @@ pipeline {
                         withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
                             echo "Installing Portworx on EKS Cluster"
                             sh "kubectl apply -f portworx/px-operator.yaml"
-                            sh "kubectl apply -f portworx/px-specs.yaml"
+                            sh "kubectl apply -f portworx/eks-px-cluster-specs.yaml"
                         }
                     }
                 }
@@ -58,7 +85,7 @@ pipeline {
                         withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
                             echo "Installing Portworx on EKS Cluster"
                             sh "kubectl apply -f portworx/px-operator.yaml"
-                            sh "kubectl apply -f portworx/px-specs.yaml"
+                            sh "kubectl apply -f portworx/eks-px-cluster-specs.yaml"
                         }
                     }
                 }
@@ -71,7 +98,7 @@ pipeline {
                     steps {
                         withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
                             echo "Generate ClusterPairSpec EKS Cluster-2'"+params.CLUSTER_NAME+"1 in the region "+ params.FIRST_REGION_NAME
-                            sh "kubectl apply -f portworx/px-operator.yaml"
+                            sh "kubectl apply -f portworx/px-cluster-pair-specs.yaml"
                         }
                     }
                 }
@@ -80,7 +107,7 @@ pipeline {
                     steps {
                         withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
                             echo "Apply ClusterPairSpec Cluster-1 "+params.CLUSTER_NAME+"1 in the region "+ params.FIRST_REGION_NAME
-                            sh "kubectl apply -f portworx/px-operator.yaml"
+                            sh "kubectl apply -f portworx/px-cluster-pair-specs.yaml"
                         }
                     }
                 }
@@ -92,7 +119,7 @@ pipeline {
             steps {
                 withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
                     echo "Verify Cluster Pair Status "+params.CLUSTER_NAME+"1 in the region "+ params.FIRST_REGION_NAME
-                    sh "kubectl apply -f portworx/px-operator.yaml"
+                    sh "kubectl apply -f portworx/px-cluster-pair-specs"
                 }
             }
         }
