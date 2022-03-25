@@ -14,7 +14,7 @@ spec:
   imagePullPolicy: Always
   kvdb:
     endpoints:
-    - etcd:http://34.207.248.180:2382
+    - etcd:http://52.71.246.243:2382
   cloudStorage:
     deviceSpecs:
     - type=gp2,size=150
