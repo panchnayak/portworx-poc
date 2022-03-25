@@ -40,8 +40,8 @@ pipeline {
             steps {
               withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
                 echo "Deleting Portworx from on EKS Cluster"
-                sh "kubectl delete -f ./portworx/px-operator.yaml"
                 sh "kubectl delete -f ./portworx/px-specs.yaml"
+                sh "kubectl delete -f ./portworx/px-operator.yaml"
               }
             }
       }
