@@ -2,7 +2,6 @@ pipeline {
     agent  any
     stages {
         stage('Setup parameters') {
-            parallel {
                 stage ('Base parameters'){
                     steps {
                         script {
@@ -10,55 +9,25 @@ pipeline {
                                 parameters([
                                     string(defaultValue: 'aws-pnayak',name: 'AWS_CREDS',trim: true),
                                     choice(choices: ['Default: Do Nothing', 'Deploy Metro Cluster', 'Destroy Metro Cluster'],name: 'ACTION_REQUESTING'),
-                                    choice(choices: ['First-Cloud: AWS', 'First-Cloud: GCP', 'First-Cloud: VMware vSphere'],name: 'FIRST_CLOUD_ENV')
-                                ])
-                            ])
-                        }
-                    }
-                }
-                stage ('AWS Parameters'){
-                    when { expression { params.FIRST_CLOUD_ENV == 'First-Cloud: AWS'  }  } 
-                    steps {
-                        script {
-                            properties([
-                                parameters([
-                                    string(defaultValue: 'pnayak-eks',name: 'EKS_CLUSTER_NAME',trim: true),
-                                    string(defaultValue: 'pnayak-eks-ng',name: 'NODEGROUP_NAME',trim: true),
+                                    choice(choices: ['First-Cloud: AWS', 'First-Cloud: GCP', 'First-Cloud: VMware vSphere'],name: 'FIRST_CLOUD_ENV'),
+                                    string(defaultValue: 'pnayak-eks-1',name: 'EKS_CLUSTER_NAME',trim: true),
+                                    string(defaultValue: 'pnayak-eks-1-ng',name: 'NODEGROUP_NAME',trim: true),
                                     string(defaultValue: 'us-east-1',name: 'AWS_REGION_NAME',trim: true),
-                                    choice(choices: ['Second-Cloud: AWS', 'Second-Cloud: GCP', 'Second-Cloud: VMware vSphere'],name: 'SECOND_CLOUD_ENV')
-                                ])
-                            ])
-                        }
-                    }
-                }
-                stage ('GCP Parameters'){
-                    when { expression { params.FIRST_CLOUD_ENV == 'First-Cloud: GCP'  }  } 
-                    steps {
-                        script {
-                            properties([
-                                parameters([
-                                    string(defaultValue: 'pnayak-gke',name: 'GKE_CLUSTER_NAME',trim: true),
+                                    string(defaultValue: 'pnayak-gke-1',name: 'GKE_CLUSTER_NAME',trim: true),
                                     string(defaultValue: 'us-east-1',name: 'GCP_ZONE_NAME',trim: true),
-                                    choice(choices: ['Second-Cloud: AWS', 'Second-Cloud: GCP', 'Second-Cloud: VMware vSphere'],name: 'SECOND_CLOUD_ENV')
+                                    string(defaultValue: 'pnayak-vsphere-1',name: 'VSPHERE_CLUSTER_NAME',trim: true),
+                                    choice(choices: ['Second-Cloud: AWS', 'Second-Cloud: GCP', 'Second-Cloud: VMware vSphere'],name: 'SECOND_CLOUD_ENV'),
+                                    string(defaultValue: 'pnayak-eks-2',name: 'EKS_CLUSTER_NAME',trim: true),
+                                    string(defaultValue: 'pnayak-eks-2-ng',name: 'NODEGROUP_NAME',trim: true),
+                                    string(defaultValue: 'us-east-1',name: 'AWS_REGION_NAME',trim: true),
+                                    string(defaultValue: 'pnayak-gke-2',name: 'GKE_CLUSTER_NAME',trim: true),
+                                    string(defaultValue: 'us-east-1',name: 'GCP_ZONE_NAME',trim: true),
+                                    string(defaultValue: 'pnayak-vsphere-2',name: 'VSPHERE_CLUSTER_NAME',trim: true)
                                 ])
                             ])
                         }
                     }
                 }
-                stage ('vSphere Parameters'){
-                    when { expression { params.FIRST_CLOUD_ENV == 'First-Cloud: VMware vSphere'  }  }
-                    steps { 
-                        script {
-                            properties([
-                                parameters([
-                                    string(defaultValue: 'pnayak-vsphere',name: 'VSPHERE_CLUSTER_NAME',trim: true),
-                                    choice(choices: ['Second-Cloud: AWS', 'Second-Cloud: GCP', 'Second-Cloud: VMware vSphere'],name: 'SECOND_CLOUD_ENV')
-                                ])
-                            ])
-                        }
-                    }
-                }
-            }
         }
         
         
