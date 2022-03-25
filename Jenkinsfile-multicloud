@@ -6,22 +6,22 @@ pipeline {
                 script {
                     properties([
                         parameters([
-                            string(defaultValue: 'aws-pnayak',name: 'AWS_CREDS',trim: true),
+                            string(defaultValue: 'aws-pnayak',name: 'AWS_CREDS',trim: true, description: 'AWS Credential Name, Should have created previously'),
                             choice(choices: ['Default: Do Nothing', 'Deploy Multi Cloud Portworx Cluster', 'Destroy MultiCloud Portworx Cluster'],name: 'ACTION_REQUESTING'),
-                            choice(choices: ['First-Cloud: AWS', 'First-Cloud: GCP', 'First-Cloud: VMware vSphere'],name: 'FIRST_CLOUD_ENV'),
-                            string(defaultValue: 'pnayak-eks-1',name: 'EKS_CLUSTER_NAME',trim: true),
+                            choice(choices: ['First Cloud-AWS', 'First Cloud-GCP', 'First Cloud-VMware-vSphere'],name: 'FIRST_CLOUD_ENV'),
+                            string(defaultValue: 'pnayak-eks-1',name: 'EKS_CLUSTER_1_NAME',trim: true),
                             string(defaultValue: 'pnayak-eks-1-ng',name: 'NODEGROUP_NAME',trim: true),
                             string(defaultValue: 'us-east-1',name: 'AWS_REGION_NAME',trim: true),
-                            string(defaultValue: 'pnayak-gke-1',name: 'GKE_CLUSTER_NAME',trim: true),
+                            string(defaultValue: 'pnayak-gke-1',name: 'GKE_CLUSTER_1_NAME',trim: true),
                             string(defaultValue: 'us-east-1',name: 'GCP_ZONE_NAME',trim: true),
-                            string(defaultValue: 'pnayak-vsphere-1',name: 'VSPHERE_CLUSTER_NAME',trim: true),
-                            choice(choices: ['Second-Cloud: AWS', 'Second-Cloud: GCP', 'Second-Cloud: VMware vSphere'],name: 'SECOND_CLOUD_ENV'),
+                            string(defaultValue: 'pnayak-vsphere-1',name: 'VSPHERE_CLUSTER_1_NAME',trim: true),
+                            choice(choices: ['Second Cloud-AWS', 'Second Cloud-GCP', 'Second Cloud-VMware-vSphere'],name: 'SECOND_CLOUD_ENV'),
                             string(defaultValue: 'pnayak-eks-2',name: 'EKS_CLUSTER_NAME',trim: true),
                             string(defaultValue: 'pnayak-eks-2-ng',name: 'NODEGROUP_NAME',trim: true),
                             string(defaultValue: 'us-east-1',name: 'AWS_REGION_NAME',trim: true),
-                            string(defaultValue: 'pnayak-gke-2',name: 'GKE_CLUSTER_NAME',trim: true),
+                            string(defaultValue: 'pnayak-gke-2',name: 'GKE_CLUSTER_2_NAME',trim: true),
                             string(defaultValue: 'us-east-1',name: 'GCP_ZONE_NAME',trim: true),
-                            string(defaultValue: 'pnayak-vsphere-2',name: 'VSPHERE_CLUSTER_NAME',trim: true)
+                            string(defaultValue: 'pnayak-vsphere-2',name: 'VSPHERE_CLUSTER_1_NAME',trim: true)
                         ])
                     ])
                 }
