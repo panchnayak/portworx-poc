@@ -15,30 +15,33 @@ pipeline {
                 script {
                     properties([
                         parameters([
-                            when { expression { params.FIRST_CLOUD_ENV == 'First-Cloud: AWS'  }  }
+                            when { expression { params.FIRST_CLOUD_ENV == 'First-Cloud: AWS'  }  } {
                             string(defaultValue: 'pnayak-eks',name: 'EKS_CLUSTER_NAME',trim: true),
                             string(defaultValue: 'pnayak-eks-ng',name: 'NODEGROUP_NAME',trim: true),
                             string(defaultValue: 'us-east-1',name: 'AWS_REGION_NAME',trim: true),
                             choice(choices: ['Second-Cloud: AWS', 'Second-Cloud: GCP', 'Second-Cloud: VMware vSphere'],name: 'SECOND_CLOUD_ENV')
+                            }
                         ])
                     ])
                 }
                 script {
                     properties([
                         parameters([
-                            when { expression { params.FIRST_CLOUD_ENV == 'First-Cloud: GCP'  }  }
+                            when { expression { params.FIRST_CLOUD_ENV == 'First-Cloud: GCP'  }  } {
                             string(defaultValue: 'pnayak-gke',name: 'GKE_CLUSTER_NAME',trim: true),
                             string(defaultValue: 'us-east-1',name: 'GCP_ZONE_NAME',trim: true),
                             choice(choices: ['Second-Cloud: AWS', 'Second-Cloud: GCP', 'Second-Cloud: VMware vSphere'],name: 'SECOND_CLOUD_ENV')
+                            }
                         ])
                     ])
                 }
                 script {
                     properties([
                         parameters([
-                            when { expression { params.FIRST_CLOUD_ENV == 'First-Cloud: VMware vSphere'  }  }
+                            when { expression { params.FIRST_CLOUD_ENV == 'First-Cloud: VMware vSphere'  }  } {
                             string(defaultValue: 'pnayak-vsphere',name: 'VSPHERE_CLUSTER_NAME',trim: true),
                             choice(choices: ['Second-Cloud: AWS', 'Second-Cloud: GCP', 'Second-Cloud: VMware vSphere'],name: 'SECOND_CLOUD_ENV')
+                            }
                         ])
                     ])
                 }
