@@ -1,46 +1,36 @@
 pipeline {
     agent any
     stages {
-       stage('Setup ArgoCD Parameters') {
-          steps {
-            script {
-              properties([
-                parameters([
-                  string(
-                    defaultValue: 'aws-pnayak',
-                    name: 'AWS_CREDS',
-                    trim: true
-                  ),
-                  string(
-                    defaultValue: 'us-east-1',
-                    name: 'FIRST_REGION_NAME',
-                    trim: true
-                  ),
-                  choice(
-                    choices: ['nothing', 'deploy-cassandra-db', 'delete-cassandra-db'],
+        stage('Setup Cassandra Parameters') {
+            steps {
+                script {
+                    properties([
+                        parameters([
+                            choice(choices: ['Default: Do Nothing','Deploy-Cassandra-DB', 'Delete-Cassandra-DB'],
                     name: 'REQUESTED_ACTION'
-                  )
-                ])
-              ])
+                            string(defaultValue: 'aws-pnayak',name: 'AWS_CREDS',trim: true),
+                            string(defaultValue: 'us-east-1',name: 'FIRST_REGION_NAME',trim: true)
+                        ])
+                    ])
+                }
             }
-          }
         }
-        stage('Deploy Cassandra DB on Portworx Storage Cluster') {
-          when { expression { params.REQUESTED_ACTION == 'deploy-cassandra-db'  }  }
+        stage('Deploy Cassandra DB on Portworx Cluster') {
+          when { expression { params.REQUESTED_ACTION == 'Deploy-Cassandra-DB'  }  }
             steps {
               withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
-                echo "Deploying Cassandra DB on Portworx Cluster"
-                sh "kubectl apply -f https://raw.githubusercontent.com/panchnayak/portworx-poc/main/cassandra-db.yaml"
+                echo "Installing Cassandra DB on Portworx Cluster"
+                sh "kubectl apply -f https://raw.githubusercontent.com/panchnayak/portworx-poc/main/usecases/cassandra/cassandra.yaml"
                 sh "kubectl get svc -A"
               }
             }
         }
-        stage('Uninstall Install Cassndra DB as ArgoCD App') {
-          when { expression { params.REQUESTED_ACTION == 'delete-cassandra-db'  }  }
+        stage('Uninstall Cassndra DB fron Portworx Cluster') {
+          when { expression { params.REQUESTED_ACTION == 'Delete-Cassandra-DB'  }  }
           steps {
             withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
-                echo "Deploying Cassandra DB on Portworx Cluster"
-                sh "kubectl delete -f https://raw.githubusercontent.com/panchnayak/portworx-poc/main/cassandra-db.yaml"
+                echo "Deleting Cassandra DB from Portworx Cluster"
+                sh "kubectl delete -f https://raw.githubusercontent.com/panchnayak/portworx-poc/main/usecases/cassandra/cassandra.yaml"
             }
           }
         }
