@@ -6,9 +6,10 @@ declare -a PipelineList=(
    "2-Deploy-Independent-AWS-EKS"  
    "3-Deploy-Independent-GCP-GKE"
    "4-Deploy-ETCD-Cluster"  
-   "5-Complete-Metro-Cluster-Demo"  
-   "6-Deploy-Cassandra-DB-On-Existing-K8s" 
-   "7-Portworx-Backup-Demo" 
+   "5-Install-Portworx-on-MultiCloud-Env"
+   "6-Complete-Metro-Cluster-Demo"  
+   "7-Deploy-Cassandra-DB-On-Existing-K8s" 
+   "8-Portworx-Backup-Demo" 
    )
 
 declare -a PathList=(
@@ -16,6 +17,7 @@ declare -a PathList=(
    "eks-px.xml"  
    "gke-px.xml"
    "etcd-cluster.xml"  
+   "multicloud-cluster.xml"
    "metro-cluster.xml" 
    "cassandra-db.xml"  
    "backup-demo.xml"
