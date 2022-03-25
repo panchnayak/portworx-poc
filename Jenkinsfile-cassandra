@@ -6,8 +6,7 @@ pipeline {
                 script {
                     properties([
                         parameters([
-                            choice(choices: ['Default: Do Nothing','Deploy-Cassandra-DB', 'Delete-Cassandra-DB'],
-                    name: 'REQUESTED_ACTION'
+                            choice(choices: ['Default: Do Nothing','Deploy-Cassandra-DB', 'Delete-Cassandra-DB'],name: 'REQUESTED_ACTION'),
                             string(defaultValue: 'aws-pnayak',name: 'AWS_CREDS',trim: true),
                             string(defaultValue: 'us-east-1',name: 'FIRST_REGION_NAME',trim: true)
                         ])
