@@ -29,9 +29,7 @@ pipeline {
             when { expression { params.ACTION_REQUESTING == 'Destroy ETCD Cluster' } }
             steps {
                     echo "Creating Separate SingleNode ETCD Cluster in the region:"+ params.FIRST_REGION_NAME
-                    echo "./aws/scripts/destroy-etcd-cluster.sh "+ params.SG_ID+"  "+params.SUBNET_ID
-                    sh "aws ec2 describe-instances"
-                    sh "aws ec2 terminate-instances "+ params.INSTANCE_ID
+                    sh "aws ec2 terminate-instances --instance-ids "+ params.INSTANCE_ID
             }
         }
     }
