@@ -29,8 +29,8 @@ resource "aws_instance" "px_jenkins_instance" {
   # we specified
   availability_zone      = "us-east-1a"
   instance_type          = "${var.instance_type}"
-  ami                    = "${data.aws_ami.centos.id}"
-  #ami                    = "${var.jenkins_ami_id}"
+  #ami                    = "${data.aws_ami.centos.id}"
+  ami                    = "${var.jenkins_ami_id}"
   key_name               = "${var.key_name}"
   vpc_security_group_ids = ["${module.px_jenkins_sg.security_group_id}"]
   subnet_id              = "${module.px_poc_vpc.public_subnets[0]}"
@@ -51,7 +51,7 @@ resource "aws_instance" "px_jenkins_instance" {
   }
 }
 
-
+/*
 resource "null_resource" "px_jenkins_deployment" {
 
   #provisioner "file" {
@@ -102,4 +102,5 @@ resource "null_resource" "px_jenkins_deployment" {
     }
   }
 }
+*/
 
