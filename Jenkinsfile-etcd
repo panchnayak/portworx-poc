@@ -21,22 +21,18 @@ pipeline {
         stage('Create ETCD Cluster') { 
             when { expression { params.ACTION_REQUESTING == 'Deploy ETCD Cluster' } }
             steps {
-                withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
                     echo "Creating Separate SingleNode ETCD Cluster in the region:"+ params.FIRST_REGION_NAME
                     echo "./aws/scripts/deploy-etcd-cluster.sh "+ params.SG_ID+"  "+params.SUBNET_ID
                     sh "./aws/scripts/deploy-etcd-cluster.sh "+ params.SG_ID+"  "+params.SUBNET_ID
-                }
             }
         }
         stage('Destroy ETCD Cluster') { 
             when { expression { params.ACTION_REQUESTING == 'Destroy ETCD Cluster' } }
             steps {
-                withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
                     echo "Creating Separate SingleNode ETCD Cluster in the region:"+ params.FIRST_REGION_NAME
                     echo "./aws/scripts/destroy-etcd-cluster.sh "+ params.SG_ID+"  "+params.SUBNET_ID
                     sh "aws ec2 describe-instances"
                     sh "aws ec2 terminate-instances "+ params.INSTANCE_ID
-                }
             }
         }
     }
