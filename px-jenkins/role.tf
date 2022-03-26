@@ -8,6 +8,19 @@ resource "aws_iam_role_policy" "px_jenkins_policy" {
     Version = "2012-10-17"
     Statement = [
       {
+            "Effect": "Allow",
+            "Action": "ec2:RunInstances",
+            "Resource": [
+                "arn:aws:ec2:*:*:subnet/subnet-subnet-id",
+                "arn:aws:ec2:*:*:network-interface/*",
+                "arn:aws:ec2:*:*:instance/*",
+                "arn:aws:ec2:*:*:volume/*",
+                "arn:aws:ec2:*::image/ami-*",
+                "arn:aws:ec2:*:*:key-pair/*",
+                "arn:aws:ec2:*:*:security-group/*"
+            ]
+      },
+      {
         Action = [
             "ec2:Describe*",
             "autoscaling:DescribeAutoScalingGroups",
