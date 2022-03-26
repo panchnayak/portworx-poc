@@ -35,6 +35,7 @@ resource "aws_instance" "px_jenkins_instance" {
   vpc_security_group_ids = ["${module.px_jenkins_sg.security_group_id}"]
   subnet_id              = "${module.px_poc_vpc.public_subnets[0]}"
   associate_public_ip_address = true
+  iam_instance_profile = "${var.px_jenkins_instance_profile}"
 
   # Our Security group to allow HTTP and SSH access
   #user_data              = "${file("install_jenkins1.sh")}"
