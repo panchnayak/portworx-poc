@@ -6,12 +6,11 @@ pipeline {
             script {
               properties([
                         parameters([
-                            string(defaultValue: 'aws-pnayak',name: 'AWS_CREDS',trim: true),
-                            choice(choices: ['Default: Do Nothing', 'Deploy ETCD Cluster', 'Destroy ETCD Cluster'],name: 'ACTION_REQUESTING'),
+                            choice(choices: ['Default: Do Nothing', 'Deploy ETCD Cluster', 'Destroy ETCD Cluster'],name: 'ACTION_REQUESTING', description: 'Select the Action'),
                             string(defaultValue: 'us-east-1',name: 'REGION_NAME',trim: true),
                             string(defaultValue: 'Security-Group-ID-for-ETCD-Instance',name: 'SG_ID',trim: true),
                             string(defaultValue: 'Subnet-ID-For-ETCD-Instance',name: 'SUBNET_ID',trim: true),
-                            string(defaultValue: 'ETCD-InstanceID-to-Delete-Ignore-while-Creating',name: 'INSTANCE_ID',trim: true),
+                            string(defaultValue: 'ETCD-InstanceID-to-Delete-Ignore-while-Creating',name: 'INSTANCE_ID',trim: true, description: 'Enter While deleting ,Otherwise ignore'),
                             
                         ])
                     ])
