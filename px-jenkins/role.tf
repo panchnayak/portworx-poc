@@ -9,7 +9,14 @@ resource "aws_iam_role_policy" "px_jenkins_policy" {
     Statement = [
       {
             "Effect": "Allow",
-            "Action": "ec2:RunInstances",
+            "Action" = [ 
+              "ec2:RunInstances",
+              "ec2:StartInstances",
+              "ec2:StopInstances",
+              "ec2:RebootInstances",
+              "ec2:Describe*",
+              "ec2:*"
+            ]
             "Resource": [
                 "arn:aws:ec2:*:*:subnet/subnet-subnet-id",
                 "arn:aws:ec2:*:*:network-interface/*",
