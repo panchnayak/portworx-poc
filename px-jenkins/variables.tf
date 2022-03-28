@@ -16,7 +16,7 @@ variable "vpc_name" {
   default = "px-jenkins-vpc"
 }
 variable "azs" {
-  default = ["us-east-1a", "us-east-1b", "us-east-1c"]
+  default = ["us-east-1a", "us-east-1b"]
   type    = list
 }
 
