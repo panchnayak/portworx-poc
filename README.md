@@ -11,9 +11,13 @@ clone this repository
 git clone https://github.com/panchnayak/portworx-poc.git
 cd portworx-poc/px-jenkins
 ```
-Edit the variable.tf file to change the names of your environmnt and names.
+Edit the variable.tf file to change the dafault names and values for your environmnt.
 
 ```
+vi variable.tf
+
+edit the default names and values
+
 terraform init
 teraform plan
 terraform apply
