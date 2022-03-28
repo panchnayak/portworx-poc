@@ -35,7 +35,11 @@ tf output public_ip
 
 You can acces the Jenkins login page by accesing the http://$JENKINS_IP_ADDRESS:8080/
 
-After acessing the login page login with the default username and password as "admin:password"
+Login with the following
+
+```
+default username and password as "admin:password"
+```
 
 They it will ask you to install Suggested plugins, you can click to install the Suggested plugins.
 
@@ -48,6 +52,9 @@ You can see there are multiple pielines already created for you to use.
 Jenkins needs your AWS credential to use it for creating Instances or EKS cluster on AWS
 
 ## Using the Pipeline on Jenkins
+
+1.First Pipeline is for ruuning eksctl command on your Kubernetes Cluster created by this Jenkins Server
+2.....
 
 Clieck on EKS Pipeline to create the EKS cluster on AWS
 
