@@ -1,7 +1,7 @@
-module "rancher-sg" {
+module "px_rancher_sg" {
   source = "terraform-aws-modules/security-group/aws"
 
-  name        = "${var.rancher_sg}"
+  name        = "${var.px_rancher_sg}"
   description = "Security group for web servrs with custom ports open within VPC"
   vpc_id      = "${module.vpc.vpc_id}"
 

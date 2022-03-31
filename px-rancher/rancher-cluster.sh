@@ -7,6 +7,9 @@ k8s_version="v1.20.10-rancher1-1"
 curlimage="appropriate/curl"
 jqimage="stedolan/jq"
 
+
+
+
 for image in $curlimage $jqimage "rancher/rancher:${rancher_version}"; do
   until sudo docker inspect $image > /dev/null 2>&1; do
     sudo docker pull $image

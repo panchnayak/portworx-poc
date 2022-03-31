@@ -13,7 +13,7 @@ variable "region" {
 }
 
 variable "vpc_name" {
-  default = "px-jenkins-vpc"
+  default = "px-vpc"
 }
 variable "azs" {
   default = ["us-east-1a", "us-east-1b"]

@@ -1,8 +1,7 @@
 ## If you change this variable, You have to change in your AWS credential file:
 variable "vpc_name" {
-  default = "px-rancher-vpc"
+  default = "px-vpc"
 }
-
 variable "key_name" {
   default = "rancher-keypair"
 }
@@ -38,7 +37,7 @@ variable "instance_type" {
 
 variable "user_name" {
   type = string
-  default = "ec2-user"
+  default = "centos"
 }
 
 variable "key_pub" {
@@ -53,6 +52,17 @@ variable "key_path" {
   default = "~/.ssh"
 }
 
-variable "rancher_sg" {
+variable "px_rancher_sg" {
   default = "rancher-server-sg"
+}
+
+variable "px_rancher_policy" {
+  default = "px-policy-pnayak"
+}
+
+variable "px_rancher_role" {
+  default = "px-jenkins-role"
+}
+variable "px_rancher_instance_profile" {
+  default = "px-rancher-instance-profile"
 }

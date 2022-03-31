@@ -80,24 +80,25 @@ output "private_route_table_association_ids" {
 }
 
 output "security_group_id" {
-  value = module.rancher-sg.security_group_id
+  value = module.px_rancher_sg.security_group_id
 }
 
 output "public_ip" {
-  value = module.ec2_cluster.public_ip
+  value = aws_instance.px_rancher_instance.public_ip
+}
+output "public_dns_name" {
+  value = aws_instance.px_rancher_instance.public_dns
 }
 
 output "aws_iam_role" {
-  value = resource.aws_iam_role.px_role.arn
+  value = resource.aws_iam_role.px_rancher_role.arn
 }
-
 
 output "aws_iam_role_policy" {
-  value = resource.aws_iam_role_policy.px_policy.id
+  value = resource.aws_iam_role_policy.px_rancher_policy.id
 }
 
-
 output "aws_iam_instance_profile" {
-  value = resource.aws_iam_instance_profile.px_instance_profile.name
+  value = resource.aws_iam_instance_profile.px_rancher_instance_profile.name
 }
 

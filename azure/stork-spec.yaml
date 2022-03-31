@@ -1,0 +1,153 @@
+# SOURCE: https://install.portworx.com/?comp=stork&storkNonPx=true
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: stork-account
+  namespace: kube-system
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    scheduler.alpha.kubernetes.io/critical-pod: ""
+  labels:
+    tier: control-plane
+  name: stork
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      name: stork
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  replicas: 3
+  template:
+    metadata:
+      annotations:
+        scheduler.alpha.kubernetes.io/critical-pod: ""
+      labels:
+        name: stork
+        tier: control-plane
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: "name"
+                    operator: In
+                    values:
+                    - stork
+              topologyKey: "kubernetes.io/hostname"
+      hostPID: false
+      containers:
+      - command:
+        - /stork
+        - --verbose
+        - --leader-elect=true
+        - --health-monitor-interval=120
+        - --webhook-controller=false
+        image: openstorage/stork:2.8.2
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: '0.1'
+        name: stork
+      serviceAccountName: stork-account
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: stork-scheduler-role
+rules:
+  - apiGroups: [""]
+    resources: ["endpoints"]
+    verbs: ["get", "create", "update"]
+  - apiGroups: [""]
+    resources: ["configmaps"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["", "events.k8s.io"]
+    resources: ["events"]
+    verbs: ["create", "patch", "update"]
+  - apiGroups: [""]
+    resourceNames: ["kube-scheduler"]
+    resources: ["endpoints"]
+    verbs: ["delete", "get", "patch", "update"]
+  - apiGroups: [""]
+    resources: ["nodes"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["delete", "get", "list", "watch"]
+  - apiGroups: [""]
+    resources: ["bindings", "pods/binding"]
+    verbs: ["create"]
+  - apiGroups: [""]
+    resources: ["pods/status"]
+    verbs: ["patch", "update"]
+  - apiGroups: [""]
+    resources: ["replicationcontrollers", "services"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["apps", "extensions"]
+    resources: ["replicasets"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["apps"]
+    resources: ["statefulsets"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["policy"]
+    resources: ["poddisruptionbudgets"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: [""]
+    resources: ["persistentvolumeclaims", "persistentvolumes"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["storage.k8s.io"]
+    resources: ["storageclasses", "csinodes"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["coordination.k8s.io"]
+    resources: ["leases"]
+    verbs: ["create", "update", "get", "list", "watch"]
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: stork-scheduler-role-binding
+subjects:
+- kind: ServiceAccount
+  name: stork-scheduler-account
+  namespace: kube-system
+roleRef:
+  kind: ClusterRole
+  name: stork-scheduler-role
+  apiGroup: rbac.authorization.k8s.io
+---
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: stork-snapshot-sc
+provisioner: stork-snapshot
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: stork-role
+rules:
+  - apiGroups: ["*"]
+    resources: ["*"]
+    verbs: ["*"]
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: stork-role-binding
+subjects:
+- kind: ServiceAccount
+  name: stork-account
+  namespace: kube-system
+roleRef:
+  kind: ClusterRole
+  name: stork-role
+  apiGroup: rbac.authorization.k8s.io

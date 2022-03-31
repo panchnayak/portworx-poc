@@ -8,10 +8,8 @@ fi
 
 echo "Proceeding to destroy EKS Cluster : $1"
 EKS_CLUSTER_NAME=$1
-NODE_GROUP_NAME = $2
 NODE_TYPE=t3.large
-FIRST_AWS_REGION=$3
-#SECOND_AWS_REGION=$3
+FIRST_AWS_REGION=$2
 NUMBER_OF_NODES=3
 
 

@@ -1,13 +1,12 @@
-resource "aws_iam_role_policy" "px_policy" {
-  name = "px_policy"
-  role = aws_iam_role.px_role.id
+resource "aws_iam_role_policy" "px_rancher_policy" {
+  name = "${var.px_rancher_policy}"
+  role = aws_iam_role.px_rancher_role.id
 
   # Terraform's "jsonencode" function converts a
   # Terraform expression result to valid JSON syntax.
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
-
       {
             "Effect": "Allow",
             "Action" = [ 
@@ -165,8 +164,8 @@ resource "aws_iam_role_policy" "px_policy" {
   })
 }
 
-resource "aws_iam_role" "px_role" {
-  name = "px_role"
+resource "aws_iam_role" "px_rancher_role" {
+  name = "${var.px_rancher_role}"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -183,7 +182,7 @@ resource "aws_iam_role" "px_role" {
   })
 }
 
-resource "aws_iam_instance_profile" "px_instance_profile" {
-  name = "px_instance_profile"
-  role = aws_iam_role.px_role.name
+resource "aws_iam_instance_profile" "px_rancher_instance_profile" {
+  name = "${var.px_rancher_instance_profile}"
+  role = aws_iam_role.px_rancher_role.name
 }

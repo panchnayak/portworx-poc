@@ -94,11 +94,9 @@ output "aws_iam_role" {
   value = resource.aws_iam_role.px_jenkins_role.arn
 }
 
-
 output "aws_iam_role_policy" {
   value = resource.aws_iam_role_policy.px_jenkins_policy.id
 }
-
 
 output "aws_iam_instance_profile" {
   value = resource.aws_iam_instance_profile.px_jenkins_instance_profile.name
