@@ -16,7 +16,7 @@ pipeline {
             }
         }
       stage('Create EKS Clusters') {
-            when { expression { params.ACTION_REQUESTING == 'Deploy EKS Cluster-x'  }  }
+            when { expression { params.ACTION_REQUESTING == 'Deploy EKS Cluster'  }  }
             steps {
                 echo "Deploying EKS Cluster "+params.CLUSTER_NAME+"1 in the region:"+ params.FIRST_REGION_NAME
                 sh "./aws/scripts/create-eks-cluster.sh "+ params.CLUSTER_NAME+"  "+params.NODEGROUP_NAME+"  "+params.FIRST_REGION_NAME
