@@ -31,7 +31,7 @@ pipeline {
                 withAWS(credentials: params.AWS_CREDENTIAL, region: params.REGION_NAME) {
                     echo "Installing Portworx on EKS Cluster"
                     sh "kubectl apply -f ./portworx/px-operator.yaml"
-                    sh "kubectl apply -f ./portworx/px-specs.yaml"
+                    sh "kubectl apply -f ./portworx/eks-px-cluster-specs.yaml"
                 }
             }
       }
@@ -40,7 +40,7 @@ pipeline {
             steps {
                 withAWS(credentials: params.AWS_CREDENTIAL, region: params.REGION_NAME) {
                     echo "Deleting Portworx from on EKS Cluster"
-                    sh "kubectl delete -f ./portworx/px-specs.yaml"
+                    sh "kubectl delete -f ./portworx/eks-px-cluster-specs.yaml"
                     sh "kubectl delete -f ./portworx/px-operator.yaml"
                 }
             }

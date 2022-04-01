@@ -7,6 +7,7 @@ pipeline {
               properties([
                         parameters([
                             choice(choices: ['Default: Do Nothing', 'Deploy ETCD Cluster', 'Destroy ETCD Cluster'],name: 'ACTION_REQUESTING', description: 'Select the Action'),
+                            string(defaultValue: 'pnayak-aws',name: 'AWS_CREDENTIAL',trim: true),
                             string(defaultValue: 'us-east-1',name: 'REGION_NAME',trim: true),
                             string(defaultValue: 'Security-Group-ID-for-ETCD-Instance',name: 'SG_ID',trim: true),
                             string(defaultValue: 'Subnet-ID-For-ETCD-Instance',name: 'SUBNET_ID',trim: true),
@@ -20,16 +21,20 @@ pipeline {
         stage('Create ETCD Cluster') { 
             when { expression { params.ACTION_REQUESTING == 'Deploy ETCD Cluster' } }
             steps {
+                withAWS(credentials: params.AWS_CREDENTIAL, region: params.REGION_NAME) {
                     echo "Creating Separate SingleNode ETCD Cluster in the region:"+ params.FIRST_REGION_NAME
                     echo "./aws/scripts/deploy-etcd-cluster.sh "+ params.SG_ID+"  "+params.SUBNET_ID
                     sh "./aws/scripts/deploy-etcd-cluster.sh "+ params.SG_ID+"  "+params.SUBNET_ID
+                }
             }
         }
         stage('Destroy ETCD Cluster') { 
             when { expression { params.ACTION_REQUESTING == 'Destroy ETCD Cluster' } }
             steps {
+                withAWS(credentials: params.AWS_CREDENTIAL, region: params.REGION_NAME) {
                     echo "Creating Separate SingleNode ETCD Cluster in the region:"+ params.FIRST_REGION_NAME
                     sh "aws ec2 terminate-instances --instance-ids "+ params.INSTANCE_ID
+                }
             }
         }
     }
