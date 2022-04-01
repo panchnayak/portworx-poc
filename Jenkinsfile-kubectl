@@ -19,8 +19,8 @@ pipeline {
             when { expression { params.ACTION_REQUESTING == 'Excute kubectl'  }  }
             steps {
               withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
-                  echo "Executing kubectl on EKS Cluster"
-                  sh "kubectl "+params.KUBECTL_COMMAND_ARGUMENTS
+                  echo "Executing kubectl or other command on EKS Cluster"
+                  sh params.KUBECTL_COMMAND_ARGUMENTS
               }
             }
       }
