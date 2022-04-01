@@ -7,8 +7,8 @@ pipeline {
                     properties([
                         parameters([
                             choice(choices: ['Default: Do Nothing','Excute kubectl'],name: 'ACTION_REQUESTING'),
-                            string(defaultValue: 'aws-pnayak',name: 'AWS_CREDS',trim: true),
-                            string(defaultValue: 'us-east-1',name: 'FIRST_REGION_NAME',trim: true),
+                            string(defaultValue: 'pnayak-aws',name: 'AWS_CREDS',trim: true),
+                            string(defaultValue: 'us-east-2',name: 'FIRST_REGION_NAME',trim: true),
                             string(defaultValue: 'get pods -A',name: 'KUBECTL_COMMAND_ARGUMENTS',trim: true),
                         ])
                     ])
