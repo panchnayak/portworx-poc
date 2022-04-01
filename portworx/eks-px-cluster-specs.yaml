@@ -1,23 +1,23 @@
-# SOURCE: https://install.portworx.com/?operator=true&mc=false&kbver=&k=etcd%3Ahttp%3A%2F%2F34.207.248.180%3A2382&s=%22type%3Dgp2%2Csize%3D150%22&c=px-cluster-53745c12-2ab9-4eb6-bc73-6952b0ebeca0&eks=true&stork=true&csi=true&mon=true&tel=false&st=k8s&promop=true
+# SOURCE: https://install.portworx.com/?operator=true&mc=false&kbver=&b=true&kd=type%3Dgp2%2Csize%3D150&s=%22type%3Dgp2%2Csize%3D150%22&c=px-cluster-9ea915ed-187b-401b-a65b-d08040462400&eks=true&stork=true&csi=true&mon=true&tel=false&st=k8s&promop=true
 kind: StorageCluster
 apiVersion: core.libopenstorage.org/v1
 metadata:
-  name: px-cluster-53745c12-2ab9-4eb6-bc73-6952b0ebeca0
+  name: px-cluster-9ea915ed-187b-401b-a65b-d08040462400
   namespace: kube-system
   annotations:
-    portworx.io/install-source: "https://install.portworx.com/?operator=true&mc=false&kbver=&k=etcd%3Ahttp%3A%2F%2F34.207.248.180%3A2382&s=%22type%3Dgp2%2Csize%3D150%22&c=px-cluster-53745c12-2ab9-4eb6-bc73-6952b0ebeca0&eks=true&stork=true&csi=true&mon=true&tel=false&st=k8s&promop=true"
+    portworx.io/install-source: "https://install.portworx.com/?operator=true&mc=false&kbver=&b=true&kd=type%3Dgp2%2Csize%3D150&s=%22type%3Dgp2%2Csize%3D150%22&c=px-cluster-9ea915ed-187b-401b-a65b-d08040462400&eks=true&stork=true&csi=true&mon=true&tel=false&st=k8s&promop=true"
     portworx.io/is-eks: "true"
 spec:
   deleteStrategy:
     type: UninstallAndWipe
-  image: portworx/oci-monitor:2.9.1.3
+  image: portworx/oci-monitor:2.9.1.4
   imagePullPolicy: Always
   kvdb:
-    endpoints:
-    - etcd:http://52.71.246.243:2382
+    internal: true
   cloudStorage:
     deviceSpecs:
     - type=gp2,size=150
+    kvdbDeviceSpec: type=gp2,size=150
   secretsProvider: k8s
   stork:
     enabled: true
