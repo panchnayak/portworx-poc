@@ -7,9 +7,9 @@ pipeline {
                     properties([
                         parameters([
                             choice(choices: ['Default: Do Nothing', 'Deploy EKS Cluster', 'Destroy EKS Cluster'],name: 'ACTION_REQUESTING'),
-                            string(defaultValue: 'pnayak-eks',name: 'CLUSTER_NAME',trim: true),
-                            string(defaultValue: 'pnayak-eks-ng',name: 'NODEGROUP_NAME',trim: true),
-                            string(defaultValue: 'us-east-1',name: 'REGION_NAME',trim: true),
+                            string(defaultValue: 'pn-eks',name: 'CLUSTER_NAME',trim: true),
+                            string(defaultValue: 'pn-px-ng',name: 'NODEGROUP_NAME',trim: true),
+                            string(defaultValue: 'us-east-2',name: 'REGION_NAME',trim: true),
                         ])
                     ])
                 }
