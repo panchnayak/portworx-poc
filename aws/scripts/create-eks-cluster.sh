@@ -13,7 +13,7 @@ NODE_TYPE=t3.large
 AWS_REGION=$3
 #SECOND_AWS_REGION=$3
 NUMBER_OF_NODES=3
-eksctl create cluster --region $AWS_REGION --nodes $NUMBER_OF_NODES --node-type $NODE_TYPE --name $EKS_CLUSTER_NAME  --nodegroup-name $NODE_GROUP_NAME --wait >&/tmp/eks-create
+eksctl create cluster --region $AWS_REGION --nodes $NUMBER_OF_NODES --node-type $NODE_TYPE --name $EKS_CLUSTER_NAME  --nodegroup-name $NODE_GROUP_NAME
 VPC_ID=$(eksctl utils describe-stacks --region $AWS_REGION --cluster $EKS_CLUSTER_NAME | grep vpc- | cut -f 2 -d \")
 PROFILE_ARN=$(aws ec2 describe-instances --filters "Name=vpc-id,Values=$VPC_ID" --region $AWS_REGION --query Reservations[0].Instances[0].IamInstanceProfile.Arn --output text | cut -f 2 -d /)
 ROLE_NAME=$(aws iam get-instance-profile --instance-profile-name $PROFILE_ARN --region $AWS_REGION --query InstanceProfile.Roles[0].RoleName --output text)
