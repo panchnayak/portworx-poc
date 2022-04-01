@@ -7,6 +7,7 @@ pipeline {
                     properties([
                         parameters([
                             choice(choices: ['Default: Do Nothing', 'Deploy EKS Cluster', 'Destroy EKS Cluster'],name: 'ACTION_REQUESTING'),
+                            string(defaultValue: 'pnayak-aws',name: 'AWS_CREDENTIAL',trim: true),
                             string(defaultValue: 'pn-eks',name: 'CLUSTER_NAME',trim: true),
                             string(defaultValue: 'pn-px-ng',name: 'NODEGROUP_NAME',trim: true),
                             string(defaultValue: 'us-east-2',name: 'REGION_NAME',trim: true),
@@ -18,31 +19,39 @@ pipeline {
       stage('Create EKS Clusters') {
             when { expression { params.ACTION_REQUESTING == 'Deploy EKS Cluster'  }  }
             steps {
-                echo "Deploying EKS Cluster "+params.CLUSTER_NAME+" in the region:"+ params.REGION_NAME
-                sh "./aws/scripts/create-eks-cluster.sh "+ params.CLUSTER_NAME+"  "+params.NODEGROUP_NAME+"  "+params.REGION_NAME
+                withAWS(credentials: params.AWS_CREDENTIAL, region: params.REGION_NAME) {
+                    echo "Deploying EKS Cluster "+params.CLUSTER_NAME+" in the region:"+ params.REGION_NAME
+                    sh "./aws/scripts/create-eks-cluster.sh "+ params.CLUSTER_NAME+"  "+params.NODEGROUP_NAME+"  "+params.REGION_NAME
+                }
             }
       }       
       stage('Deploy Portworx Storage Cluster') {
             when { expression { params.ACTION_REQUESTING == 'Deploy EKS Cluster'  }  }
             steps {
-                echo "Installing Portworx on EKS Cluster"
-                sh "kubectl apply -f ./portworx/px-operator.yaml"
-                sh "kubectl apply -f ./portworx/px-specs.yaml"
+                withAWS(credentials: params.AWS_CREDENTIAL, region: params.REGION_NAME) {
+                    echo "Installing Portworx on EKS Cluster"
+                    sh "kubectl apply -f ./portworx/px-operator.yaml"
+                    sh "kubectl apply -f ./portworx/px-specs.yaml"
+                }
             }
       }
       stage('Destroy Portworx Cluster') {
             when { expression { params.ACTION_REQUESTING == 'Destroy EKS Cluster'  }  }
             steps {
-                echo "Deleting Portworx from on EKS Cluster"
-                sh "kubectl delete -f ./portworx/px-specs.yaml"
-                sh "kubectl delete -f ./portworx/px-operator.yaml"
+                withAWS(credentials: params.AWS_CREDENTIAL, region: params.REGION_NAME) {
+                    echo "Deleting Portworx from on EKS Cluster"
+                    sh "kubectl delete -f ./portworx/px-specs.yaml"
+                    sh "kubectl delete -f ./portworx/px-operator.yaml"
+                }
             }
       }
       stage('Destroy EKS Clusters') {
             when { expression { params.ACTION_REQUESTING == 'Destroy EKS Cluster'  }  }
             steps {
-                echo "Deploying EKS Cluster "+params.CLUSTER_NAME+" in the region:"+ params.REGION_NAME
-                sh "./aws/scripts/destroy-eks-cluster.sh "+ params.CLUSTER_NAME+"  "+params.NODEGROUP_NAME+"  "+params.REGION_NAME
+                withAWS(credentials: params.AWS_CREDENTIAL, region: params.REGION_NAME) {
+                    echo "Deploying EKS Cluster "+params.CLUSTER_NAME+" in the region:"+ params.REGION_NAME
+                    sh "./aws/scripts/destroy-eks-cluster.sh "+ params.CLUSTER_NAME+"  "+params.NODEGROUP_NAME+"  "+params.REGION_NAME
+                }
             }
       }
     }
