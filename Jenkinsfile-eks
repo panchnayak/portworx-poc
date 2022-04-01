@@ -30,7 +30,7 @@ pipeline {
             steps {
                 withAWS(credentials: params.AWS_CREDENTIAL, region: params.REGION_NAME) {
                     echo "Installing Portworx on EKS Cluster"
-                    sh "kubectl apply -f ./portworx/px-operator.yaml"
+                    sh "kubectl apply -f kubectl apply -f 'https://install.portworx.com/2.9?comp=pxoperator'"
                     sh "kubectl apply -f ./portworx/eks-px-cluster-specs.yaml"
                 }
             }
