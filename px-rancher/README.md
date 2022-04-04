@@ -65,8 +65,16 @@ You can download the specs and edit them as you need before applying they to the
 Apply the following to install portworx operator
 kubectl apply -f 'https://install.portworx.com/2.9?comp=pxoperator'
 
+with the downloaded kubeconfig you can install the portworx opratior using the following command
+
+kubectl --kubeconfig pnayak1.yml apply -f 'https://install.portworx.com/2.9?comp=pxoperator' --insecure-skip-tls-verify
+
 6. Apply the specs as the following
 kubectl apply -f your-eks-specs-downloaded-from-central-portworx-com.yaml
+
+With the downloaded kubeconfig you can install the portworx specs using the following command
+
+kubectl --kubeconfig pnayak1.yml apply -f eks-portworx-specs.yaml --insecure-skip-tls-verify
 
 ```
 Watch the pods get created using the following 
