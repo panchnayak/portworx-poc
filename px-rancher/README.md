@@ -34,44 +34,53 @@ For now eks is tested.
 
 ```
 1. Add your AWS credentials
-
-### ![AWS Credential](/repository/px-rancher/images/aws-creds.jpg?raw=true "Add AWS Credential")
-
+```
+![AWS Credential](/px-rancher/images/aws-credential.jpg?raw=true "Add AWS Credential")
+```
 2. Create EKS Cluster using Rancher
    Provide the Cluster name and node group name
    After the creation of the NodeGroup, eidentify the role attached to it 
-3. Open the Role attached to the NodeGroup, then search and add a policy named "rancher-portworx-policy" to the role.
 ```
 ![EKS NodeGroup Role](/px-rancher/images/eks-nodegroup-role.jpg?raw=true "EKS NodeGroup Role attached")
+```
+3. Open the Role attached to the NodeGroup, then search and add a policy named "rancher-portworx-policy" to the role.
+```
+![EKS Portworx Policy](/px-rancher/images/portworx-policy.jpg?raw=true "Attach Portworx Policy")
 ```
 Go back to Rancher Dashboard and download the kubeconfig file or open the 
 4. Create an account on https://central.portworx.com/
 5. Create a portworx specs to be applied to the Kubernetes cluster
+```
+![Portworx Specs](/px-rancher/images/central-portworx.jpg?raw=true "Create Portwox Spec")
 
 You can download the specs and edit them as you need before applying they to the cluster
 
+![EKS Kubeconfig](/px-rancher/images/rancher-kubeconfig-download.jpg?raw=true "Download EKS Kubeconfig")
+
+```
 5. Apply the Specs using kubectl command as the follwoing example
 
-the following is to install portworx operator
-
-```
+Apply the following to install portworx operator
 kubectl apply -f 'https://install.portworx.com/2.9?comp=pxoperator'
-```
-6. Apply the specs as the following
 
-```
+6. Apply the specs as the following
 kubectl apply -f your-eks-specs-downloaded-from-central-portworx-com.yaml
 
 ```
-
 Watch the pods get created using the following 
-
-```
 watch kubectl get pods -A
-```
 
-Or go to your 
+![App Pods](/px-rancher/images/rancher-eks-pods.jpg?raw=true "All Portworx Pods")
+
+Or go to your Rancher Cluster View to see all the pods in the kube-system namespace, if you have not modified the namespace in the portworx specs.
+
 *Note - Confirm the portworx-api pods are running
+
+![Rancher App Pods](/px-rancher/images/all-pods.jpg?raw=true "Rancher View All Pods")
+
+See the Storage classes are available
+
+![Portworx Storage Classses](/px-rancher/images/portwox-storage-class.jpg?raw=true "POrtworx Storage Classess Rancher View ")
 
 Please inform me if you face any problem.
 
