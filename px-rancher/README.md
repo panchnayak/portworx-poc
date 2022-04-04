@@ -1,8 +1,10 @@
 # px-rancher
 
-Rancher K8s Management and Orchestration Platform Deployment on AWS.
+Portworx Installation on K8s Cluster provisioned by Rancher Singlenode Cluster
 
-This will Create a Quick Instances on AWS and you Can access it using the public IP address or DNS name of the Instance.
+Rancher is a K8s Management and Orchestration Platform.
+
+This will Create a Quick Rancher SingleNode Cluster Instances on AWS and you Can access it using the public IP address or DNS name of the Instance.
 
 Install Terraform on your laptop or desktop
 
