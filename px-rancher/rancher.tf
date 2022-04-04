@@ -33,12 +33,10 @@ resource "aws_instance" "px_rancher_instance" {
   ami                    = "${data.aws_ami.centos.id}"
   key_name               = "${var.key_name}"
   vpc_security_group_ids = ["${module.px_rancher_sg.security_group_id}"]
-  subnet_id              = "${module.vpc.public_subnets[0]}"
+  subnet_id              = "${module.px_poc_vpc.public_subnets[0]}"
   associate_public_ip_address = true
-  iam_instance_profile = "${var.px_rancher_instance_profile}"
-
-  # Our Security group to allow HTTP and SSH access
-  #user_data              = "${file("install_jenkins1.sh")}"
+  iam_instance_profile = "rancher-portworx-role"
+  
   #Instance tags
   root_block_device {
   volume_type= "gp2"

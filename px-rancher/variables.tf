@@ -1,7 +1,8 @@
 ## If you change this variable, You have to change in your AWS credential file:
 variable "vpc_name" {
-  default = "px-vpc"
+  default = "px-vpc-rancher"
 }
+
 variable "key_name" {
   default = "rancher-keypair"
 }

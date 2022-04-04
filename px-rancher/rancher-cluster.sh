@@ -7,9 +7,6 @@ k8s_version="v1.20.10-rancher1-1"
 curlimage="appropriate/curl"
 jqimage="stedolan/jq"
 
-
-
-
 for image in $curlimage $jqimage "rancher/rancher:${rancher_version}"; do
   until sudo docker inspect $image > /dev/null 2>&1; do
     sudo docker pull $image
@@ -48,11 +45,8 @@ while true; do
     fi
 done
 
-
 # Change password
-
 echo "Changing Password"
-
 sudo docker run --rm --net=host $curlimage -s 'https://127.0.0.1/v3/users?action=changepassword' -H 'content-type: application/json' -H "Authorization: Bearer $LOGINTOKEN" --data-binary '{"currentPassword":"'$BOOTSTRAP_PASSWORD'","newPassword":"'$admin_password'"}' --insecure
 
 # Create API key
@@ -64,7 +58,6 @@ echo "Extract and store token"
 APITOKEN=`echo $APIRESPONSE | sudo docker run --rm -i $jqimage -r .token`
 
 # Configure server-url
-
 echo "Configure server-url"
 
 RANCHER_SERVER="https://${rancher_ip}"

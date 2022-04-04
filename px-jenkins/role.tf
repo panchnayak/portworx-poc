@@ -10,11 +10,6 @@ resource "aws_iam_role_policy" "px_jenkins_policy" {
       {
             "Effect": "Allow",
             "Action" = [ 
-              "ec2:RunInstances",
-              "ec2:StartInstances",
-              "ec2:StopInstances",
-              "ec2:RebootInstances",
-              "ec2:Describe*",
               "ec2:*"
             ]
             "Resource": [
