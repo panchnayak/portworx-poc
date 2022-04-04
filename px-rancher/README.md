@@ -41,9 +41,9 @@ For now eks is tested.
    Provide the Cluster name and node group name
    After the creation of the NodeGroup, eidentify the role attached to it 
 3. Open the Role attached to the NodeGroup, then search and add a policy named "rancher-portworx-policy" to the role.
-
+```
 ![EKS NodeGroup Role](/images/eks-nodegroup-role.jpg?raw=true "EKS NodeGroup Role attached")
-
+```
 Go back to Rancher Dashboard and download the kubeconfig file or open the 
 4. Create an account on https://central.portworx.com/
 5. Create a portworx specs to be applied to the Kubernetes cluster
