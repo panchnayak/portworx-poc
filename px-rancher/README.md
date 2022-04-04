@@ -54,26 +54,21 @@ Go back to Rancher Dashboard and download the kubeconfig file or open the
 5. Create a portworx specs to be applied to the Kubernetes cluster
 ```
 ![Portworx Specs](/px-rancher/images/central-portworx.jpg?raw=true "Create Portwox Spec")
-
 You can download the specs and edit them as you need before applying they to the cluster
-
 ![EKS Kubeconfig](/px-rancher/images/rancher-kubeconfig-download.jpg?raw=true "Download EKS Kubeconfig")
-
 ```
-5. Apply the Specs using kubectl command as the follwoing example
+6. Apply the Specs using kubectl command as the follwoing example
 
 Apply the following to install portworx operator
 kubectl apply -f 'https://install.portworx.com/2.9?comp=pxoperator'
 
 with the downloaded kubeconfig you can install the portworx opratior using the following command
-
 kubectl --kubeconfig pnayak1.yml apply -f 'https://install.portworx.com/2.9?comp=pxoperator' --insecure-skip-tls-verify
 
-6. Apply the specs as the following
+7. Apply the specs as the following
 kubectl apply -f your-eks-specs-downloaded-from-central-portworx-com.yaml
 
 With the downloaded kubeconfig you can install the portworx specs using the following command
-
 kubectl --kubeconfig pnayak1.yml apply -f eks-portworx-specs.yaml --insecure-skip-tls-verify
 
 ```
