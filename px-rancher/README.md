@@ -8,7 +8,34 @@ Rancher is a K8s Cluster Management software, which can deploy and manage kubern
 
 This will Create a Quick Rancher SingleNode Cluster Instances on AWS and you Can access it using the public IP address or DNS name of the Instance.
 
-Install Terraform on your laptop or desktop
+Please follow this tutoral if you are new to terraform
+
+https://learn.hashicorp.com/tutorials/terraform/install-cli
+
+## Install Terraform on your laptop or desktop
+
+Follow this if you want to install terraform CentOS or Redhat Linux
+```
+sudo yum install -y yum-utils
+sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
+sudo yum -y install terraform
+```
+
+Follow this if you want to install terraform on Ubuntu
+
+```
+sudo apt-get update && sudo apt-get install -y gnupg software-properties-common curl
+curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+```
+
+Follow this if you are on MacOS
+```
+brew tap hashicorp/tap
+brew install hashicorp/tap/terraform
+```
+
+Now clone the repository using git
 
 ```
 git clone https://github.com/panchnayak/portworx-poc.git
