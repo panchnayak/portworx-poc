@@ -1,6 +1,10 @@
 # Deploying Portworx on EKS using Rancher 
 
-Rancher is a K8s Management and Orchestration Platform.
+Portworx is a Software Definded Storage (SDS) overlay for any Container Orchestration Platform i.e any CNCF compliant Kubernetes (K8s) or Hashicorp Nomad application deployment platform.
+
+Rancher is a K8s Cluster Management software, which can deploy and manage kubernetes on a veriety of Cloud and on-premise platforms.
+
+# Deploying Rancher ob AWS using Terraform 
 
 This will Create a Quick Rancher SingleNode Cluster Instances on AWS and you Can access it using the public IP address or DNS name of the Instance.
 
