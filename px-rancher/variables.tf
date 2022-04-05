@@ -33,7 +33,7 @@ variable "aws_ami_id" {
 }
 
 variable "instance_type" {
-  default = "t3.large"
+  default = "t3.small"
 }
 
 variable "user_name" {
