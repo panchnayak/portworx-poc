@@ -4,7 +4,7 @@ Portworx is a Software Definded Storage (SDS) overlay for any Container Orchestr
 
 Rancher is a K8s Cluster Management software, which can deploy and manage kubernetes on a veriety of Cloud and on-premise platforms.
 
-# Deploying Rancher ob AWS using Terraform 
+# Deploying Rancher on AWS using Terraform 
 
 This will Create a Quick Rancher SingleNode Cluster Instances on AWS and you Can access it using the public IP address or DNS name of the Instance.
 
