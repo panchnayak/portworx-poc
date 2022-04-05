@@ -1,4 +1,4 @@
-# Deploying rancher on a custom AWS VPC and then deploy EKS using Rancher finally deploy Portworx SDS overlay on AWS EKS
+# Deploying Portworx on EKS using Rancher 
 
 Rancher is a K8s Management and Orchestration Platform.
 
