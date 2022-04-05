@@ -84,21 +84,21 @@ output "security_group_id" {
 }
 
 output "public_ip" {
-  value = aws_instance.px_jenkins_instance.public_ip
+  value = aws_instance.jenkins_instance.public_ip
 }
 output "public_dns_name" {
-  value = aws_instance.px_jenkins_instance.public_dns
+  value = aws_instance.jenkins_instance.public_dns
 }
 
 output "aws_iam_role" {
-  value = resource.aws_iam_role.px_jenkins_role.arn
+  value = resource.aws_iam_role.jenkins_role.arn
 }
 
 output "aws_iam_role_policy" {
-  value = resource.aws_iam_role_policy.px_jenkins_policy.id
+  value = resource.aws_iam_role_policy.jenkins_policy.id
 }
 
 output "aws_iam_instance_profile" {
-  value = resource.aws_iam_instance_profile.px_jenkins_instance_profile.name
+  value = resource.aws_iam_instance_profile.jenkins_instance_profile.name
 }
 

@@ -2,7 +2,7 @@
 module "px_jenkins_sg" {
   source = "terraform-aws-modules/security-group/aws"
 
-  name        = "${var.px_jenkins_sg}"
+  name        = "${var.jenkins_sg}"
   description = "Security group for web servrs with custom ports open within VPC"
   vpc_id      = "${module.px_poc_vpc.vpc_id}"
 

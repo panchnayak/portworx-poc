@@ -13,7 +13,7 @@ variable "region" {
 }
 
 variable "vpc_name" {
-  default = "px-vpc"
+  default = "jenkins-vpc"
 }
 variable "azs" {
   default = ["us-east-1a", "us-east-1b"]
@@ -24,7 +24,7 @@ variable "vpc_cidr" {
   default = "10.0.0.0/16"
 }
 
-variable "px_jenkins_sg" {
+variable "jenkins_sg" {
     default="px_jenkins_server_sg"
 }
 
@@ -53,15 +53,15 @@ variable "key_path" {
   default = "~/.ssh"
 }
 
-variable "px_jenkin_policy" {
-  default = "px-policy-pnayak"
+variable "jenkin_policy" {
+  default = "jenkins-policy"
 }
 
-variable "px_jenkins_role" {
-  default = "px-jenkins-role"
+variable "jenkins_role" {
+  default = "jenkins-role"
 }
-variable "px_jenkins_instance_profile" {
-  default = "px-jenkins-instance-profile"
+variable "jenkins_instance_profile" {
+  default = "jenkins-instance-profile"
 }
 
 variable "curlimage" {

@@ -23,7 +23,7 @@ resource "aws_key_pair" "ssh_key_pub" {
    public_key = "${file("${var.key_path}/${var.key_pub}")}"
 }
 
-resource "aws_instance" "px_jenkins_instance" {
+resource "aws_instance" "jenkins_instance" {
   
   # Lookup the correct AMI based on the region
   # we specified
@@ -35,7 +35,7 @@ resource "aws_instance" "px_jenkins_instance" {
   vpc_security_group_ids = ["${module.px_jenkins_sg.security_group_id}"]
   subnet_id              = "${module.px_poc_vpc.public_subnets[0]}"
   associate_public_ip_address = true
-  iam_instance_profile = "${var.px_jenkins_instance_profile}"
+  iam_instance_profile = "${var.vpc_name}-${var.jenkins_instance_profile}"
 
   # Our Security group to allow HTTP and SSH access
   #user_data              = "${file("install_jenkins1.sh")}"
@@ -97,7 +97,7 @@ resource "null_resource" "px_jenkins_deployment" {
 
     connection {
       user        = "${var.user_name}"
-      host        = "${aws_instance.px_jenkins_instance.public_ip}"
+      host        = "${aws_instance.jenkins_instance.public_ip}"
       agent       = false
       private_key = "${file("${var.key_path}/${var.key_private}")}"
     }

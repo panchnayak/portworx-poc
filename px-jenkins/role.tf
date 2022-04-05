@@ -1,6 +1,6 @@
-resource "aws_iam_role_policy" "px_jenkins_policy" {
-  name = "${var.px_jenkin_policy}"
-  role = aws_iam_role.px_jenkins_role.id
+resource "aws_iam_role_policy" "jenkins_policy" {
+  name = "${var.vpc_name}-${var.jenkin_policy}"
+  role = aws_iam_role.jenkins_role.id
 
   # Terraform's "jsonencode" function converts a
   # Terraform expression result to valid JSON syntax.
@@ -12,35 +12,7 @@ resource "aws_iam_role_policy" "px_jenkins_policy" {
             "Action" = [ 
               "ec2:*"
             ]
-            "Resource": [
-                "arn:aws:ec2:*:*:subnet/subnet-subnet-id",
-                "arn:aws:ec2:*:*:network-interface/*",
-                "arn:aws:ec2:*:*:instance/*",
-                "arn:aws:ec2:*:*:volume/*",
-                "arn:aws:ec2:*::image/ami-*",
-                "arn:aws:ec2:*:*:key-pair/*",
-                "arn:aws:ec2:*:*:security-group/*"
-            ]
-      },
-      {
-        Action = [
-            "ec2:Describe*",
-            "autoscaling:DescribeAutoScalingGroups",
-            "ec2:AttachVolume",
-            "ec2:DetachVolume",
-            "ec2:CreateTags",
-            "ec2:CreateVolume",
-            "ec2:DeleteTags",
-            "ec2:DeleteVolume",
-            "ec2:DescribeTags",
-            "ec2:DescribeVolumeAttribute",
-            "ec2:DescribeVolumesModifications",
-            "ec2:DescribeVolumeStatus",
-            "ec2:DescribeVolumes",
-            "ec2:DescribeInstances"
-        ]
-        Effect   = "Allow"
-        Resource = "*"
+            "Resource": "*" 
       },
       {
             "Effect": "Allow",
@@ -97,70 +69,13 @@ resource "aws_iam_role_policy" "px_jenkins_policy" {
                 "autoscaling:CreateAutoScalingGroup"
             ],
             "Resource": "*"
-        },
-        {
-            "Effect": "Allow",
-            "Action": "ec2:DeleteInternetGateway",
-            "Resource": "arn:aws:ec2:*:*:internet-gateway/*"
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "ec2:AuthorizeSecurityGroupIngress",
-                "ec2:DeleteSubnet",
-                "ec2:DeleteTags",
-                "ec2:CreateNatGateway",
-                "ec2:CreateVpc",
-                "ec2:AttachInternetGateway",
-                "ec2:DescribeVpcAttribute",
-                "ec2:DeleteRouteTable",
-                "ec2:AssociateRouteTable",
-                "ec2:DescribeInternetGateways",
-                "ec2:CreateRoute",
-                "ec2:CreateInternetGateway",
-                "ec2:RevokeSecurityGroupEgress",
-                "ec2:CreateSecurityGroup",
-                "ec2:ModifyVpcAttribute",
-                "ec2:DeleteInternetGateway",
-                "ec2:DescribeRouteTables",
-                "ec2:ReleaseAddress",
-                "ec2:AuthorizeSecurityGroupEgress",
-                "ec2:DescribeTags",
-                "ec2:CreateTags",
-                "ec2:DeleteRoute",
-                "ec2:CreateRouteTable",
-                "ec2:DetachInternetGateway",
-                "ec2:DescribeNatGateways",
-                "ec2:DisassociateRouteTable",
-                "ec2:AllocateAddress",
-                "ec2:DescribeSecurityGroups",
-                "ec2:RevokeSecurityGroupIngress",
-                "ec2:DeleteSecurityGroup",
-                "ec2:DeleteNatGateway",
-                "ec2:DeleteVpc",
-                "ec2:CreateSubnet",
-                "ec2:DescribeSubnets",
-                "ec2:DescribeAvailabilityZones",
-                "ec2:DescribeImages",
-                "ec2:describeAddresses",
-                "ec2:DescribeVpcs",
-                "ec2:CreateLaunchTemplate",
-                "ec2:DescribeLaunchTemplates",
-                "ec2:RunInstances",
-                "ec2:DeleteLaunchTemplate",
-                "ec2:DescribeLaunchTemplateVersions",
-                "ec2:DescribeImageAttribute",
-                "ec2:DescribeKeyPairs",
-                "ec2:ImportKeyPair"
-            ],
-            "Resource": "*"
         }
     ]
   })
 }
 
-resource "aws_iam_role" "px_jenkins_role" {
-  name = "${var.px_jenkins_role}"
+resource "aws_iam_role" "jenkins_role" {
+  name = "${var.vpc_name}-${var.jenkins_role}"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -177,7 +92,7 @@ resource "aws_iam_role" "px_jenkins_role" {
   })
 }
 
-resource "aws_iam_instance_profile" "px_jenkins_instance_profile" {
-  name = "${var.px_jenkins_instance_profile}"
-  role = aws_iam_role.px_jenkins_role.name
+resource "aws_iam_instance_profile" "jenkins_instance_profile" {
+  name = "${var.jenkins_instance_profile}"
+  role = aws_iam_role.jenkins_role.name
 }
