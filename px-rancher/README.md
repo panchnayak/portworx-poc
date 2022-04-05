@@ -1,6 +1,4 @@
-# Deploying Rancher on a Custom AWS VPC and then Deploy EKS using Rancher finally Deploy Portworx SDS Overlay on AWS EKS
-
-Portworx Installation on K8s Cluster provisioned by Rancher Singlenode Cluster
+# Deploying rancher on a custom AWS VPC and then deploy EKS using Rancher finally deploy Portworx SDS overlay on AWS EKS
 
 Rancher is a K8s Management and Orchestration Platform.
 
@@ -56,6 +54,8 @@ Go back to Rancher Dashboard and download the kubeconfig file or open the
 ![Portworx Specs](/px-rancher/images/central-portworx.jpg?raw=true "Create Portwox Spec")
 You can download the specs and edit them as you need before applying they to the cluster
 ![EKS Kubeconfig](/px-rancher/images/rancher-kubeconfig-download.jpg?raw=true "Download EKS Kubeconfig")
+
+## Portworx Installation on K8s Cluster provisioned by Rancher Singlenode Cluster
 
 6. Apply the Specs using kubectl command as the follwoing example
 
