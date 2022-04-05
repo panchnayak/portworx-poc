@@ -76,9 +76,8 @@ With the downloaded kubeconfig you can install the portworx specs using the foll
 ```
 kubectl --kubeconfig pnayak1.yml apply -f eks-portworx-specs.yaml --insecure-skip-tls-verify
 ```
-
-```
 Watch the pods get created using the following 
+
 ```
 watch kubectl get pods -A
 ```
