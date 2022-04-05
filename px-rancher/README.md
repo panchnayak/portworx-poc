@@ -4,7 +4,7 @@ Portworx is a Software Definded Storage (SDS) overlay for any Container Orchestr
 
 Rancher is a K8s Cluster Management software, which can deploy and manage kubernetes on a veriety of Cloud and on-premise platforms.
 
-# Deploying Rancher on AWS using Terraform 
+## Deploying Rancher on AWS using Terraform 
 
 This will Create a Quick Rancher SingleNode Cluster Instances on AWS and you Can access it using the public IP address or DNS name of the Instance.
 
@@ -21,7 +21,7 @@ terraform init
 terraform plan
 terraform apply
 ```
-get the IP address of the Instance created ,you can get it using
+Get the IP address of the Instance created ,you can get it using
 
 ```
 teeraform output
@@ -42,8 +42,11 @@ For now eks is tested.
 ![AWS Credential](/px-rancher/images/aws-credential.jpg?raw=true "Add AWS Credential")
 
 2. Create EKS Cluster using Rancher
-   Provide the Cluster name and node group name
-   After the creation of the NodeGroup, eidentify the role attached to it 
+   Provide the Cluster name and node group name and other details to create the EKS cluster.
+
+![EKS NodeGroup Role](/px-rancher/images/eks-nodegroup-role.jpg?raw=true "EKS NodeGroup Role attached")
+
+   After the creation of the NodeGroup, edentify the role attached to it 
 
 ![EKS NodeGroup Role](/px-rancher/images/eks-nodegroup-role.jpg?raw=true "EKS NodeGroup Role attached")
 
@@ -52,12 +55,15 @@ For now eks is tested.
 ![EKS Portworx Policy](/px-rancher/images/portworx-policy.jpg?raw=true "Attach Portworx Policy")
 
 Go back to Rancher Dashboard and download the kubeconfig file or open the 
+
+![EKS Kubeconfig](/px-rancher/images/rancher-kubeconfig-download.jpg?raw=true "Download EKS Kubeconfig")
+
 4. Create an account on https://central.portworx.com/
-5. Create a portworx specs to be applied to the Kubernetes cluster
+5. Login with your credentials and create portworx specs to be applied to the Kubernetes cluster
 
 ![Portworx Specs](/px-rancher/images/central-portworx.jpg?raw=true "Create Portwox Spec")
 You can download the specs and edit them as you need before applying they to the cluster
-![EKS Kubeconfig](/px-rancher/images/rancher-kubeconfig-download.jpg?raw=true "Download EKS Kubeconfig")
+
 
 ## Portworx Installation on K8s Cluster provisioned by Rancher Singlenode Cluster
 
