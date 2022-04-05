@@ -1,4 +1,4 @@
-# px-rancher
+# Deploying Rancher on a Custom AWS VPC and then Deploy EKS using Rancher finally Deploy Portworx SDS Overlay on AWS EKS
 
 Portworx Installation on K8s Cluster provisioned by Rancher Singlenode Cluster
 
