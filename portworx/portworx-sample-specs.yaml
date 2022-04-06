@@ -1,11 +1,11 @@
-# SOURCE: https://install.portworx.com/?operator=true&mc=false&kbver=&b=true&kd=type%3Dgp2%2Csize%3D150&s=%22type%3Dgp2%2Csize%3D150%22&c=px-cluster-3c5ed99c-7e0c-4180-a587-4bd7289a3326&eks=true&stork=true&csi=true&mon=true&tel=false&st=k8s&promop=true
+# SOURCE: https://install.portworx.com/?operator=true&mc=false&kbver=&b=true&kd=type%3Dgp2%2Csize%3D150&s=%22type%3Dgp2%2Csize%3D150%22&c=px-cluster-9ea915ed-187b-401b-a65b-d08040462400&eks=true&stork=true&csi=true&mon=true&tel=false&st=k8s&promop=true
 kind: StorageCluster
 apiVersion: core.libopenstorage.org/v1
 metadata:
-  name: px-cluster-3c5ed99c-7e0c-4180-a587-4bd7289a3326
+  name: px-cluster-9ea915ed-187b-401b-a65b-d08040462400
   namespace: portworx
   annotations:
-    portworx.io/install-source: "https://install.portworx.com/?operator=true&mc=false&kbver=&b=true&kd=type%3Dgp2%2Csize%3D150&s=%22type%3Dgp2%2Csize%3D150%22&c=px-cluster-3c5ed99c-7e0c-4180-a587-4bd7289a3326&eks=true&stork=true&csi=true&mon=true&tel=false&st=k8s&promop=true"
+    portworx.io/install-source: "https://install.portworx.com/?operator=true&mc=false&kbver=&b=true&kd=type%3Dgp2%2Csize%3D150&s=%22type%3Dgp2%2Csize%3D150%22&c=px-cluster-9ea915ed-187b-401b-a65b-d08040462400&eks=true&stork=true&csi=true&mon=true&tel=false&st=k8s&promop=true"
     portworx.io/is-eks: "true"
 spec:
   deleteStrategy:

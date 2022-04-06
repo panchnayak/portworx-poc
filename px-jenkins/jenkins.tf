@@ -55,18 +55,6 @@ resource "aws_instance" "jenkins_instance" {
 
 resource "null_resource" "px_jenkins_deployment" {
 
-  #provisioner "file" {
-  #  source      = "./scripts"
-  #  destination = "/tmp"
-
-  #  connection {
-  #    user        = "${var.user_name}"
-  #    host        = "${aws_instance.jenkins_instance.public_ip}"
-  #    agent       = false
-  #    private_key = "${file("${var.key_path}/${var.key_private}")}"
-  #  }
-  #}
-
   provisioner "remote-exec" {
     inline = [
       "curl --silent --location http://pkg.jenkins.io/redhat-stable/jenkins.repo | sudo tee /etc/yum.repos.d/jenkins.repo",

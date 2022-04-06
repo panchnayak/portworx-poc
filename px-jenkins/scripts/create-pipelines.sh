@@ -2,9 +2,9 @@
 
 
 declare -a PipelineList=(
-   "1-Execute-kubectl-commands-for-K8s" 
-   "2-Deploy-Independent-AWS-EKS-Cluster"  
-   "3-Deploy-Independent-GCP-GKE-Cluster"
+   "1-Deploy-Independent-AWS-EKS-Cluster"  
+   "2-Deploy-Independent-GCP-GKE-Cluster"
+   "3-Execute-kubectl-commands-for-K8s" 
    "4-Deploy-ETCD-Single-Node-Cluster"  
    "5-Deploy-Portworx-on-the-Kubernetes-Cluster"
    "6-Deploy-Cassandra-DB-On-Existing-K8s" 
@@ -14,9 +14,9 @@ declare -a PipelineList=(
    )
 
 declare -a PathList=(
-   "kubectl-command.xml" 
    "eks-px.xml"  
    "gke-px.xml"
+   "kubectl-command.xml"
    "etcd-cluster.xml"  
    "portworx-install.xml"
    "cassandra-db.xml" 
