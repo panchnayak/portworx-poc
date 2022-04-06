@@ -16,7 +16,7 @@ pipeline {
                 }
             }
         }
-        stage{
+        stage ('Deploy or Destroy PortWorx Cluster') {
             parallel {
                 stage('Deploy Portworx Storage Cluster') {
                         when { expression { params.ACTION_REQUESTING == 'Deploy Portworx Cluster'  }  }
