@@ -8,34 +8,37 @@ pipeline {
               parameters([
                             choice(choices: ['Default: Do Nothing', 'Deploy EKS Backup Cluster', 'Destroy EKS Backup Cluster'],name: 'ACTION_REQUESTING'),
                             string(defaultValue: 'pnayak-aws',name: 'AWS_CREDENTIAL',trim: true),
-                            string(defaultValue: 'pn-eks',name: 'CLUSTER_NAME',trim: true),
-                            string(defaultValue: 'pn-px-ng',name: 'NODEGROUP_NAME',trim: true),
+                            string(defaultValue: 'px-backup',name: 'NAMESPACE',trim: true),
                             string(defaultValue: 'us-east-2',name: 'REGION_NAME',trim: true),
                         ])
             ])
           }
         }
       }
-      parallell {
-            stage('Create EKS Clusters') {
-                when { expression { params.ACTION_REQUESTING == 'Deploy EKS Backup Cluster'  }  }
-                steps {
-                    withAWS(credentials: params.AWS_CREDENTIAL, region: params.REGION_NAME) {
-                        echo "Deploying EKS Cluster "+params.CLUSTER_NAME+" in the region:"+ params.REGION_NAME
-                        //sh "./aws/scripts/create-eks-cluster.sh "+ params.CLUSTER_NAME+"  "+params.NODEGROUP_NAME+"  "+params.REGION_NAME
-                    }
-                }
-            } 
-            stage('Destroy EKS Clusters') {
-                when { expression { params.ACTION_REQUESTING == 'Destroy EKS Backup Cluster'  }  }
-                steps {
-                    withAWS(credentials: params.AWS_CREDENTIAL, region: params.REGION_NAME) {
-                        echo "Deploying EKS Cluster "+params.CLUSTER_NAME+" in the region:"+ params.REGION_NAME
-                        //sh "./aws/scripts/destroy-eks-cluster.sh "+ params.CLUSTER_NAME+"  "+params.NODEGROUP_NAME+"  "+params.REGION_NAME
-                    }
-                }
+      stage ("Backup Demo") {
+        parallell {
+              stage('Install Backup of a Namespace') {
+                  when { expression { params.ACTION_REQUESTING == 'Deploy EKS Backup Cluster' }  }
+                  steps {
+                      withAWS(credentials: params.AWS_CREDENTIAL, region: params.REGION_NAME) {
+                          echo "Add the HELM repository pointing to the repository"
+                          sh "helm repo add portworx http://charts.portworx.io/ && helm repo update"
+                          echo "Deploying PX-Backup in the Namespace Cluster to "+params.NAMESPACE
+                          sh "helm install px-central portworx/px-central --namespace "+params.NAMESPACE+" --create-namespace --version 2.1.2 -f values-px-central.yaml"
+                      }
+                  }
+              } 
+              stage('UnInstall Px-backup from Cluster') {
+                  when { expression { params.ACTION_REQUESTING == 'Destroy EKS Backup Cluster'  }  }
+                  steps {
+                      withAWS(credentials: params.AWS_CREDENTIAL, region: params.REGION_NAME) {
+                        echo "Deploying PX-Backup in the Namespace Cluster to "+params.NAMESPACE
+                        sh "helm uninstall px-central portworx/px-central --namespace "+params.NAMESPACE
+                      }
+                  }
+              }
             }
-          }
-      }
+        }
     }
 }
+

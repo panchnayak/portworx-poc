@@ -8,7 +8,7 @@ pipeline {
                         parameters([
                             choice(choices: ['Default: Do Nothing','Deploy-Cassandra-DB', 'Delete-Cassandra-DB'],name: 'REQUESTED_ACTION'),
                             string(defaultValue: 'pnayak-aws',name: 'AWS_CREDS',trim: true),
-                            string(defaultValue: 'us-east-1',name: 'REGION_NAME',trim: true)
+                            string(defaultValue: 'us-east-2',name: 'REGION_NAME',trim: true)
                         ])
                     ])
                 }
