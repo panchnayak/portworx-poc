@@ -11,7 +11,7 @@ declare -a PipelineList=(
    "7-Deploy-or-Destroy-Cassandra-DB-On-Existing-K8s" 
    "8-Complete-or-Destroy-Metro-DR-Cluster-Demo"  
    "9-Portworx-or-Destroy-Backup-Demo" 
-   "10-Deploy-or Destroy-Portworx-on-MultiCloud-Env"
+   "10-Deploy-or-Destroy-Portworx-on-MultiCloud-Env"
    )
 
 declare -a PathList=(
