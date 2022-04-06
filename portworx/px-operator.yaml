@@ -96,3 +96,4 @@ spec:
                     - portworx-operator
               topologyKey: "kubernetes.io/hostname"
       serviceAccountName: portworx-operator
+      
