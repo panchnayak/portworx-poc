@@ -2,16 +2,16 @@
 
 
 declare -a PipelineList=(
-   "1-Deploy-Independent-AWS-EKS-Cluster"  
-   "2-Deploy-Independent-GCP-GKE-Cluster"
+   "1-Deploy-or-Destroy-AWS-EKS-Cluster"  
+   "2-Deploy-or-Destroy-GCP-GKE-Cluster"
    "3-Get-Kubeconfig-file-for-K8S-Cluster"
    "4-Execute-kubectl-commands-for-K8s" 
    "5-Deploy-ETCD-Single-Node-Cluster"  
-   "6-Deploy-Portworx-on-the-Kubernetes-Cluster"
-   "7-Deploy-Cassandra-DB-On-Existing-K8s" 
-   "8-Complete-Metro-DR-Cluster-Demo"  
-   "9-Portworx-Backup-Demo" 
-   "10-Install-Portworx-on-MultiCloud-Env"
+   "6-Deploy-or-Destroy-Portworx-on-the-Kubernetes-Cluster"
+   "7-Deploy-or-Destroy-Cassandra-DB-On-Existing-K8s" 
+   "8-Complete-or-Destroy-Metro-DR-Cluster-Demo"  
+   "9-Portworx-or-Destroy-Backup-Demo" 
+   "10-Deploy-or Destroy-Portworx-on-MultiCloud-Env"
    )
 
 declare -a PathList=(

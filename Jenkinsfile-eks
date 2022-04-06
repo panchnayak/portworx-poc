@@ -31,8 +31,8 @@ pipeline {
                         when { expression { params.ACTION_REQUESTING == 'Destroy EKS Cluster'  }  }
                         steps {
                             withAWS(credentials: params.AWS_CREDENTIAL, region: params.REGION_NAME) {
-                                echo "Deploying EKS Cluster "+params.CLUSTER_NAME+" in the region:"+ params.REGION_NAME
-                                sh "./aws/scripts/destroy-eks-cluster.sh "+ params.CLUSTER_NAME+"  "+params.NODEGROUP_NAME+"  "+params.REGION_NAME
+                                echo "Destroying EKS Cluster "+params.CLUSTER_NAME+" in the region:"+ params.REGION_NAME
+                                sh "./aws/scripts/destroy-eks-cluster.sh "+ params.CLUSTER_NAME+"  "+params.REGION_NAME
                             }
                         }
                 }
