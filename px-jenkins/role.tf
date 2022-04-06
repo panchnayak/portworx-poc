@@ -75,7 +75,7 @@ resource "aws_iam_role_policy" "jenkins_policy" {
 }
 
 resource "aws_iam_role" "jenkins_role" {
-  name = "${var.vpc_name}-${var.jenkins_role}"
+  name = "${var.jenkins_role}"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
