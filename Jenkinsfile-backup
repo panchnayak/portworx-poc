@@ -17,7 +17,7 @@ pipeline {
       }
       stage ("Backup Demo") {
         parallel {
-              stage('Install Backup of a Namespace') {
+              stage('Install PX-Backup on K8s Cluster') {
                   when { expression { params.ACTION_REQUESTING == 'Deploy EKS Backup Cluster' }  }
                   steps {
                       withAWS(credentials: params.AWS_CREDENTIAL, region: params.REGION_NAME) {
@@ -28,7 +28,7 @@ pipeline {
                       }
                   }
               } 
-              stage('UnInstall Px-backup from Cluster') {
+              stage('UnInstall PX-backup from Cluster') {
                   when { expression { params.ACTION_REQUESTING == 'Destroy EKS Backup Cluster'  }  }
                   steps {
                       withAWS(credentials: params.AWS_CREDENTIAL, region: params.REGION_NAME) {
