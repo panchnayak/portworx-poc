@@ -23,6 +23,8 @@ teraform plan
 terraform apply
 ```
 
+![Terraform Apply](/px-jenkins/images/terraform-apply.jpg?raw=true "Terraform Apply")
+
 This will create a new VPC and create a Jenkins Instance on the VPC. go and have a cup of coffee, first time it ll take some time to configure all the packages needed for Jenkisn to able to build the pipelines for different scenarios and use cases.
 
 So that you can focus on the Application Use cases rather than Jenkins and other tools instalation.

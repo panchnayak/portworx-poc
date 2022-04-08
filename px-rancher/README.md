@@ -120,9 +120,11 @@ Watch the pods get created using the following
 watch kubectl --kubeconfig pnayak1.yml get pods -n kube-system --insecure-skip-tls-verify
 ```
 
+Or go to your Rancher Cluster View to see all the pods in the kube-system namespace or any other namespace which you have given in your portworx specs.
+
 ![App Pods](/px-rancher/images/rancher-eks-pods.jpg?raw=true "All Portworx Pods")
 
-Or go to your Rancher Cluster View to see all the pods in the kube-system namespace or any other namespace which you have given in your portworx specs.
+and the following
 
 *Note - Confirm the portworx-api pods are running
 
