@@ -4,26 +4,55 @@ This repository is for creating Kubernetes clusters on various Cloud environment
 
 ## Quickstart Procedure
 
-Install terraform on your laptop or desktop
+Please follow this tutoral if you are new to terraform
 
-clone this repository
+https://learn.hashicorp.com/tutorials/terraform/install-cli
+
+## Install Terraform on your laptop or desktop
+
+Follow this if you want to install terraform CentOS or Redhat Linux
+```
+sudo yum install -y yum-utils
+sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
+sudo yum -y install terraform
+```
+
+Follow this if you want to install terraform on Ubuntu
+
+```
+sudo apt-get update && sudo apt-get install -y gnupg software-properties-common curl
+curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+```
+
+Follow this if you are on MacOS
+```
+brew tap hashicorp/tap
+brew install hashicorp/tap/terraform
+```
+
+Now clone the repository using git
+
 ```
 git clone https://github.com/panchnayak/portworx-poc.git
 cd portworx-poc/px-jenkins
 ```
-Edit the variable.tf file to change the dafault names and values for your environmnt.
+Edit the variable.tf file with your own default values
 
 ```
-vi variable.tf
-
-edit the default names and values
-
 terraform init
-teraform plan
+terraform plan
 terraform apply
 ```
-
 ![Terraform Apply](/px-jenkins/images/terraform-apply.jpg?raw=true "Terraform Apply")
+
+Get the IP address of the Instance created ,you can get it using
+
+```
+terraform output public_ip
+terraform output public_dns_name
+```
+![](/px-jenkins/images/public-ip.jpg?raw=true)
 
 This will create a new VPC and create a Jenkins Instance on the VPC. go and have a cup of coffee, first time it ll take some time to configure all the packages needed for Jenkisn to able to build the pipelines for different scenarios and use cases.
 
