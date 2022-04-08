@@ -79,7 +79,7 @@ For this POS I assumed that the IAM polocy rancher-portworx-policy aldeard exist
 
 ![EKS NodeGroup Role](/px-rancher/images/eks-nodegroup-role.jpg?raw=true "EKS NodeGroup Role attached")
 
-3. Open the Role attached to the NodeGroup, then search and add a policy named "px-policy-pnayak" or whatever named you have given in the variable file to the role.
+3. Open the Role attached to the NodeGroup, then search and add a policy named "px-policy-pnayak" or whatever name you have given in the variable file to the role.
 
 ![EKS Portworx Policy](/px-rancher/images/portworx-policy.jpg?raw=true "Attach Portworx Policy")
 
@@ -100,30 +100,27 @@ You can download the specs and edit them as you need before applying they to the
 
 Apply the following to install portworx operator
 ```
-kubectl apply -f 'https://install.portworx.com/2.9?comp=pxoperator'
+kubectl --kubeconfig pnayak1.yml apply -f 'https://install.portworx.com/2.9?comp=pxoperator'  --insecure-skip-tls-verify
 ```
 With the downloaded kubeconfig you can install the portworx opratior using the following command
 ```
 kubectl --kubeconfig pnayak1.yml apply -f 'https://install.portworx.com/2.9?comp=pxoperator' --insecure-skip-tls-verify
 ```
-7. Apply the specs as the following
-```
-kubectl apply -f your-eks-specs-downloaded-from-central-portworx-com.yaml
-```
+7. Then Apply the specs as the following
+With the downloaded kubeconfig you can install the portworx specs using the following command, there is a smaple specs file in the portworx directory, you can copy the downloaded specs in place of that or edit it.
 
-With the downloaded kubeconfig you can install the portworx specs using the following command
 ```
-kubectl --kubeconfig pnayak1.yml apply -f eks-portworx-specs.yaml --insecure-skip-tls-verify
+kubectl --kubeconfig pnayak1.yml apply -f eks-px-portworx-specs.yaml --insecure-skip-tls-verify
 ```
 Watch the pods get created using the following 
 
 ```
-watch kubectl get pods -A
+watch kubectl --kubeconfig pnayak1.yml get pods -n kube-system --insecure-skip-tls-verify
 ```
 
 ![App Pods](/px-rancher/images/rancher-eks-pods.jpg?raw=true "All Portworx Pods")
 
-Or go to your Rancher Cluster View to see all the pods in the kube-system namespace, if you have not modified the namespace in the portworx specs.
+Or go to your Rancher Cluster View to see all the pods in the kube-system namespace or any other namespace which you have given in your portworx specs.
 
 *Note - Confirm the portworx-api pods are running
 
