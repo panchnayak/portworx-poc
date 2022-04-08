@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Config
+clusters:
+- name: "pnayak"
+  cluster:
+    server: "https://54.145.213.203/k8s/clusters/c-zgjcr"
+    certificate-authority-data: "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJwekNDQ\
+      VUyZ0F3SUJBZ0lCQURBS0JnZ3Foa2pPUFFRREFqQTdNUnd3R2dZRFZRUUtFeE5rZVc1aGJXbGoKY\
+      kdsemRHVnVaWEl0YjNKbk1Sc3dHUVlEVlFRREV4SmtlVzVoYldsamJHbHpkR1Z1WlhJdFkyRXdIa\
+      GNOTWpJdwpOREE0TVRjek56STRXaGNOTXpJd05EQTFNVGN6TnpJNFdqQTdNUnd3R2dZRFZRUUtFe\
+      E5rZVc1aGJXbGpiR2x6CmRHVnVaWEl0YjNKbk1Sc3dHUVlEVlFRREV4SmtlVzVoYldsamJHbHpkR\
+      1Z1WlhJdFkyRXdXVEFUQmdjcWhrak8KUFFJQkJnZ3Foa2pPUFFNQkJ3TkNBQVR4R3BEM1dRSGplc\
+      itIeDByQWFBK0VicFdvRU56YzV4OEYyK0wzcTErUgphZURIYm5ZQTVvOHgyYUNNMXZwZWF5b1pIN\
+      mE2czViOXk4a0d1dG9KUmg3aG8wSXdRREFPQmdOVkhROEJBZjhFCkJBTUNBcVF3RHdZRFZSMFRBU\
+      UgvQkFVd0F3RUIvekFkQmdOVkhRNEVGZ1FVZXUxNThndCt0Z2tnMGp1TFR5QTkKc3ZKaFZsMHdDZ\
+      1lJS29aSXpqMEVBd0lEU0FBd1JRSWdXL014NUl4MVM4U0ZGV0V0aHg5blJFZG9FNGowS3BHNwpvW\
+      jR6MmpYNzhEQUNJUUQ4YU9RYlpFRVJnOWdNM3ZDR0w1U0Qvc1QwUFZWVG9mQSt4ZkNLUlczTm1RP\
+      T0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQ=="
+
+users:
+- name: "pnayak"
+  user:
+    token: "kubeconfig-user-rhljtrvddg:746c45jpbn9l527l72kxj2l8fqtf5dm9tkbvmsqh9dxkpwgkqq4xs6"
+
+
+contexts:
+- name: "pnayak"
+  context:
+    user: "pnayak"
+    cluster: "pnayak"
+
+current-context: "pnayak"

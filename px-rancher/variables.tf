@@ -33,7 +33,7 @@ variable "aws_ami_id" {
 }
 
 variable "instance_type" {
-  default = "t3.small"
+  default = "t3.large"
 }
 
 variable "user_name" {
@@ -57,13 +57,13 @@ variable "px_rancher_sg" {
   default = "rancher-server-sg"
 }
 
-variable "px_rancher_policy" {
+variable "portworx_policy" {
   default = "px-policy-pnayak"
 }
 
-variable "px_rancher_role" {
-  default = "px-jenkins-role"
+variable "portworx_role" {
+  default = "px-rancher-role-pnayak"
 }
-variable "px_rancher_instance_profile" {
+variable "portworx_instance_profile" {
   default = "px-rancher-instance-profile"
 }

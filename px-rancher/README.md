@@ -6,7 +6,7 @@ Rancher is a K8s Cluster Management software, which can deploy and manage kubern
 
 ## Deploying Rancher on AWS using Terraform 
 
-This will Create a Quick Rancher SingleNode Cluster Instances on AWS and you Can access it using the public IP address or DNS name of the Instance.
+This terraform script quickly creates a SingleNode Cluster Rancher Instances on AWS with a your own custom VPC,defined in the terraform variable file,and you Can access it using the public IP address or DNS name of the Instance.
 
 Please follow this tutoral if you are new to terraform
 
@@ -39,7 +39,7 @@ Now clone the repository using git
 
 ```
 git clone https://github.com/panchnayak/portworx-poc.git
-cd px-rancher
+cd portworx-poc/px-rancher
 ```
 Edit the variable.tf file with your own default values
 
@@ -51,18 +51,20 @@ terraform apply
 Get the IP address of the Instance created ,you can get it using
 
 ```
-teeraform output
+terraform output public_ip
+terraform output public_dns_name
 ```
+Open the browser and go to the URL http://$PUBLIC_IP/ 
 
 The default username for the rancher login page is "admin/adminPassword"
 
-Then you can create your Rancher Kubernates Cluster as you like for portworx demo cluster
+Now you can create your Kubernates Cluster as you like as your portworx demo cluster
 
-For now eks is tested.
-
+For now AWS EKS is tested.
 
 ## Create EKS Cluster for Portworx Deployment
 
+For this POS I assumed that the IAM polocy rancher-portworx-policy aldeard exists.
 
 1. Add your AWS credentials
 
@@ -73,11 +75,11 @@ For now eks is tested.
 
 ![EKS NodeGroup Role](/px-rancher/images/eks-nodegroup-role.jpg?raw=true "EKS NodeGroup Role attached")
 
-   After the creation of the NodeGroup, edentify the role attached to it 
+   After the creation of the NodeGroup on EKS , edentify the role attached to it 
 
 ![EKS NodeGroup Role](/px-rancher/images/eks-nodegroup-role.jpg?raw=true "EKS NodeGroup Role attached")
 
-3. Open the Role attached to the NodeGroup, then search and add a policy named "rancher-portworx-policy" to the role.
+3. Open the Role attached to the NodeGroup, then search and add a policy named "px-policy-pnayak" to the role.
 
 ![EKS Portworx Policy](/px-rancher/images/portworx-policy.jpg?raw=true "Attach Portworx Policy")
 

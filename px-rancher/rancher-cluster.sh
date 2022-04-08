@@ -2,7 +2,7 @@
 
 rancher_ip="$1"
 admin_password="adminPassword"
-rancher_version="v2.6.3"
+rancher_version="v2.6.4"
 k8s_version="v1.20.10-rancher1-1"
 curlimage="appropriate/curl"
 jqimage="stedolan/jq"
@@ -29,7 +29,7 @@ if [ -z "$BOOTSTRAP_PASSWORD" ]; then
     BOOTSTRAP_PASSWORD="admin"
 fi
 
-# Login
+# Login to rancher server
 while true; do
     LOGINRESPONSE=$(sudo docker run \
         --rm \
@@ -45,15 +45,17 @@ while true; do
     fi
 done
 
-# Change password
+# Change password for rancher server
 echo "Changing Password"
-sudo docker run --rm --net=host $curlimage -s 'https://127.0.0.1/v3/users?action=changepassword' -H 'content-type: application/json' -H "Authorization: Bearer $LOGINTOKEN" --data-binary '{"currentPassword":"'$BOOTSTRAP_PASSWORD'","newPassword":"'$admin_password'"}' --insecure
+sudo docker run --rm --net=host $curlimage -s 'https://127.0.0.1/v3/users?action=changepassword' -H 'content-type: application/json' -H "Authorization: Bearer $LOGINTOKEN" \
+--data-binary '{"currentPassword":"'$BOOTSTRAP_PASSWORD'","newPassword":"'$admin_password'"}' --insecure
 
-# Create API key
+# Create API key on rancher server
 echo "Create API key"
-APIRESPONSE=$(sudo docker run --rm --net=host $curlimage -s 'https://127.0.0.1/v3/token' -H 'content-type: application/json' -H "Authorization: Bearer $LOGINTOKEN" --data-binary '{"type":"token","description":"automation"}' --insecure)
+APIRESPONSE=$(sudo docker run --rm --net=host $curlimage -s 'https://127.0.0.1/v3/token' -H 'content-type: application/json' -H "Authorization: Bearer $LOGINTOKEN" \
+--data-binary '{"type":"token","description":"automation"}' --insecure)
 
-# Extract and store token
+# Extract and stored token
 echo "Extract and store token"
 APITOKEN=`echo $APIRESPONSE | sudo docker run --rm -i $jqimage -r .token`
 
@@ -68,11 +70,27 @@ while true; do
   sleep 5
 done
 
-# Create cluster
-CLUSTERRESPONSE=$(sudo docker run --rm --net=host $curlimage -s 'https://127.0.0.1/v3/cluster' -H 'content-type: application/json' -H "Authorization: Bearer $APITOKEN" --data-binary '{"dockerRootDir":"/var/lib/docker","enableNetworkPolicy":false,"type":"cluster","rancherKubernetesEngineConfig":{"kubernetesVersion":"'$k8s_version'","addonJobTimeout":30,"ignoreDockerVersion":true,"sshAgentAuth":false,"type":"rancherKubernetesEngineConfig","authentication":{"type":"authnConfig","strategy":"x509"},"network":{"options":{"flannelBackendType":"vxlan"},"plugin":"canal","canalNetworkProvider":{"iface":"eth1"}},"ingress":{"type":"ingressConfig","provider":"nginx"},"monitoring":{"type":"monitoringConfig","provider":"metrics-server"},"services":{"type":"rkeConfigServices","kubeApi":{"podSecurityPolicy":false,"type":"kubeAPIService"},"etcd":{"creation":"12h","extraArgs":{"heartbeat-interval":500,"election-timeout":5000},"retention":"72h","snapshot":false,"type":"etcdService","backupConfig":{"enabled":true,"intervalHours":12,"retention":6,"type":"backupConfig"}}}},"localClusterAuthEndpoint":{"enabled":true,"type":"localClusterAuthEndpoint"},"name":"quickstart"}' --insecure)
+# Create Quickstart cluster
+
+echo "Not creating Quckstart Cluster"
+
+#CLUSTERRESPONSE=$(sudo docker run --rm --net=host $curlimage -s 'https://127.0.0.1/v3/cluster' \
+#-H 'content-type: application/json' \
+#-H "Authorization: Bearer $APITOKEN" \
+#--data-binary '{"dockerRootDir":"/var/lib/docker","enableNetworkPolicy":false,"type":"cluster",\
+#"rancherKubernetesEngineConfig":{"kubernetesVersion":"'$k8s_version'","addonJobTimeout":30,"ignoreDockerVersion":true,\
+#"sshAgentAuth":false,"type":"rancherKubernetesEngineConfig","authentication":{"type":"authnConfig","strategy":"x509"},\
+#"network":{"options":{"flannelBackendType":"vxlan"},"plugin":"canal","canalNetworkProvider":{"iface":"eth1"}},\
+#"ingress":{"type":"ingressConfig","provider":"nginx"},"monitoring":{"type":"monitoringConfig","provider":"metrics-server"},\
+#"services":{"type":"rkeConfigServices","kubeApi":{"podSecurityPolicy":false,"type":"kubeAPIService"},"etcd":{"creation":"12h",\
+#"extraArgs":{"heartbeat-interval":500,"election-timeout":5000},"retention":"72h","snapshot":false,"type":"etcdService",\
+#"backupConfig":{"enabled":true,"intervalHours":12,"retention":6,"type":"backupConfig"}}}},"localClusterAuthEndpoint":{"enabled":true,\
+#"type":"localClusterAuthEndpoint"},"name":"quickstart"}' \
+#--insecure)
 
 # Extract clusterid to use for generating the docker run command
-CLUSTERID=`echo $CLUSTERRESPONSE | sudo docker run --rm -i $jqimage -r .id`
+#CLUSTERID=`echo $CLUSTERRESPONSE | sudo docker run --rm -i $jqimage -r .id`
 
 # Generate registrationtoken
-sudo docker run --rm --net=host $curlimage -s 'https://127.0.0.1/v3/clusterregistrationtoken' -H 'content-type: application/json' -H "Authorization: Bearer $APITOKEN" --data-binary '{"type":"clusterRegistrationToken","clusterId":"'$CLUSTERID'"}' --insecure
+#sudo docker run --rm --net=host $curlimage -s 'https://127.0.0.1/v3/clusterregistrationtoken' -H 'content-type: application/json' -H "Authorization: Bearer $APITOKEN" --data-binary '{"type":"clusterRegistrationToken","clusterId":"'$CLUSTERID'"}' --insecure
+

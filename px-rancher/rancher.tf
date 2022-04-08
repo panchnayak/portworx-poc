@@ -35,8 +35,8 @@ resource "aws_instance" "px_rancher_instance" {
   vpc_security_group_ids = ["${module.px_rancher_sg.security_group_id}"]
   subnet_id              = "${module.px_poc_vpc.public_subnets[0]}"
   associate_public_ip_address = true
-  iam_instance_profile = "rancher-portworx-role"
-  
+  iam_instance_profile = "${var.portworx_instance_profile}"
+
   #Instance tags
   root_block_device {
   volume_type= "gp2"
