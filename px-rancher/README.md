@@ -79,7 +79,7 @@ For this POS I assumed that the IAM polocy rancher-portworx-policy aldeard exist
 
 ![EKS NodeGroup Role](/px-rancher/images/eks-nodegroup-role.jpg?raw=true "EKS NodeGroup Role attached")
 
-3. Open the Role attached to the NodeGroup, then search and add a policy named "px-policy-pnayak" to the role.
+3. Open the Role attached to the NodeGroup, then search and add a policy named "px-policy-pnayak" or whatever named you have given in the variable file to the role.
 
 ![EKS Portworx Policy](/px-rancher/images/portworx-policy.jpg?raw=true "Attach Portworx Policy")
 
