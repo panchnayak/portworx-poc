@@ -62,7 +62,7 @@ Now you can create your Kubernates Cluster as you like as your portworx demo clu
 
 For now AWS EKS is tested.
 
-## Create EKS Cluster for Portworx Deployment
+## Create EKS Cluster on rancher dashboard for Portworx Deployment
 
 For this POS I assumed that the IAM polocy rancher-portworx-policy aldeard exists.
 
@@ -87,14 +87,16 @@ Go back to Rancher Dashboard and download the kubeconfig file or open the
 
 ![EKS Kubeconfig](/px-rancher/images/rancher-kubeconfig-download.jpg?raw=true "Download EKS Kubeconfig")
 
-4. Create an account on https://central.portworx.com/
+## Generate portworx operator specifiction using central.portworx.com
+
+4. Create an account on https://central.portworx.com
 5. Login with your credentials and create portworx specs to be applied to the Kubernetes cluster
 
 ![Portworx Specs](/px-rancher/images/central-portworx.jpg?raw=true "Create Portwox Spec")
 You can download the specs and edit them as you need before applying they to the cluster
 
 
-## Portworx Installation on K8s Cluster provisioned by Rancher Singlenode Cluster
+## Portworx Installation on K8s Cluster provisioned by Rancher using kubectl from local terminal
 
 6. Apply the Specs using kubectl command as the follwoing example
 
