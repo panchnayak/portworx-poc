@@ -1,6 +1,6 @@
-## Portworx POCs on Kubernetes clusters
+## Deploying Kubernetes Cluster and Portworx clusters using Jenkins
 
-This repository is for creating Kubernetes clusters on various Cloud environments and conducting Portworx POC.
+
 
 ## Quickstart Procedure
 
