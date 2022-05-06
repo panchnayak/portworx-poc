@@ -17,7 +17,7 @@ There are 4 different distict problems to be solved by Kubernetes
 3. Pod-to-Service communications
 4. External-to-Service communications
 
-## Kubernet4s Storage
+## Kubernetes Storage
 
 How storage is managed by Kubernetes, what are the different challenges to be solved ?
 
