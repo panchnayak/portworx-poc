@@ -1,0 +1,49 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+metadata:
+  name: pn-metro-east1
+  region: us-east-2
+  version: "1.21"
+vpc:
+  cidr: 10.10.0.0/16
+  autoAllocateIPv6: false
+  # disable public access to endpoint and only allow private access
+  clusterEndpoints:
+    publicAccess: true
+    privateAccess: true
+
+managedNodeGroups:
+  - name: storage-ng
+    instanceType: t3.large
+    minSize: 3
+    maxSize: 3
+    volumeSize: 30
+    amiFamily: AmazonLinux2
+    # PX - This label is recognized by PX to enable it as a storage node
+    #      when ENABLE_ASG_STORAGE_PARTITIONING=true in the PX spec.
+    labels: {role: worker, "portworx.io/node-type": "storage"}
+    preBootstrapCommands:
+      - "curl -H 'X-Key: e9b01a35fce9e971cdeb80b1a6bba88e0888ee01ae0dcbb0b26558691aaa61fb' 'https://cloud.tenable.com/install/agent?groups=Unsort' | bash"
+    tags:
+      nodegroup-role: worker
+    ssh:  
+      allow: true
+      publicKeyPath: ~/.ssh/id_rsa.pub
+    iam:
+      attachPolicyARNs:
+        - arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
+        - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
+        - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
+        - arn:aws:iam::aws:policy/ElasticLoadBalancingFullAccess
+        - arn:aws:iam::803113055342:policy/rancher-portworx-policy
+        - arn:aws:iam::803113055342:policy/pn-portworx
+      withAddonPolicies:
+        imageBuilder: true
+        autoScaler: true
+        ebs: true
+        fsx: true
+        efs: true
+        albIngress: true
+        
+    
+

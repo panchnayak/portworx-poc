@@ -1,5 +1,11 @@
 #!/bin/bash -x
 
+if [ $# -lt 2 ]
+  then
+    echo "Error: No usename and password Provided, please supply the user name as the first argument,and password for jenkins as 2n argument, Not going ahead"
+    exit 0
+fi
+
 
 declare -a PipelineList=(
    "1-Deploy-or-Destroy-AWS-EKS-Cluster"  

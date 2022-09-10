@@ -1,0 +1,95 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+metadata:
+  name: plein-b
+  region: us-east-1
+  version: "1.21"
+#availabilityZones: [ 'us-east-1a', 'us-east-1b', 'us-east-1c' ]
+vpc:
+  id: "vpc-064499248eea242f4"  # (optional, must match VPC ID used for each subnet below)
+  subnets:
+    # must provide 'private' and/or 'public' subnets by availibility zone as shown
+    private:
+      us-east-1a:
+        id: subnet-09d35b7169b78a3d5
+      us-east-1b:
+        id: subnet-0b530b18f1733dd3b
+      us-east-1c:
+        id: subnet-0bea15ee5e432eef8
+    #public:
+    #  us-east-1b:
+     #   id: subnet-046ebea9c81f19000
+    #  us-east-1a:
+    #    id: subnet-003dbf083f04d93a8
+      # us-west-2c:
+      #   id: subnet-0060d97f0c27752f9
+#vpc:
+#  subnets:
+#    private:
+#      us-east-1a: { id: subnet-0fffb5d56a94857da, subnet-0e7101fbb46f25954 }
+#      us-east-1b: { id: subnet-0eda1e3114be80de2, subnet-0e0d731a733524739 }
+#      us-east-1c: { id: subnet-0a5eac8718047fc7c, subnet-0b6b8bca46f0ae401 }
+managedNodeGroups:
+  - name: storage
+    privateNetworking: true
+    instanceType: t3.large
+    minSize: 3
+    maxSize: 3
+    volumeSize: 30
+    amiFamily: AmazonLinux2
+    # PX - This label is recognized by PX to enable it as a storage node
+    #      when ENABLE_ASG_STORAGE_PARTITIONING=true in the PX spec.
+    labels: {role: worker, "portworx.io/node-type": "storage"}
+    preBootstrapCommands:
+      - "curl -H 'X-Key: e9b01a35fce9e971cdeb80b1a6bba88e0888ee01ae0dcbb0b26558691aaa61fb' 'https://cloud.tenable.com/install/agent?groups=Unsort' | bash"
+    tags:
+      nodegroup-role: worker
+    ssh:  
+      allow: true
+    iam:
+      attachPolicyARNs:
+        - arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
+        - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
+        - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
+        - arn:aws:iam::aws:policy/ElasticLoadBalancingFullAccess
+        # PX - This references a policy to allow nodes to provision storage. 
+        #      see https://docs.portworx.com/portworx-install-with-kubernetes/cloud/aws/aws-eks/eksctl/eksctl-operator/
+        - arn:aws:iam::803113055342:policy/portworx
+      withAddonPolicies:
+        imageBuilder: true
+        autoScaler: true
+        ebs: true
+        fsx: true
+        efs: true
+        albIngress: true
+        cloudWatch: true
+  - name: storageless
+    privateNetworking: true
+    instanceType: t3.large
+    minSize: 1
+    maxSize: 3
+    desiredCapacity: 1
+    volumeSize: 30
+    amiFamily: AmazonLinux2
+    labels: {role: worker}
+    preBootstrapCommands:
+      - "curl -H 'X-Key: e9b01a35fce9e971cdeb80b1a6bba88e0888ee01ae0dcbb0b26558691aaa61fb' 'https://cloud.tenable.com/install/agent?groups=Unsort' | bash"
+    tags:
+      nodegroup-role: worker-storageless
+    ssh:
+      allow: true
+    iam:
+      attachPolicyARNs:
+        - arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
+        - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
+        - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
+        - arn:aws:iam::aws:policy/ElasticLoadBalancingFullAccess
+        - arn:aws:iam::803113055342:policy/portworx
+      withAddonPolicies:
+        imageBuilder: true
+        autoScaler: true
+        ebs: true
+        fsx: true
+        efs: true
+        albIngress: true
+        cloudWatch: true

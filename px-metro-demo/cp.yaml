@@ -1,0 +1,43 @@
+apiVersion: stork.libopenstorage.org/v1alpha1
+kind: ClusterPair
+metadata:
+  creationTimestamp: null
+  name: remotecluster
+  namespace: portworx
+spec:
+  config:
+    clusters:
+      pn-metro-east2.us-east-2.eksctl.io:
+        LocationOfOrigin: /Users/pnayak/.kube/config
+        certificate-authority-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUM1ekNDQWMrZ0F3SUJBZ0lCQURBTkJna3Foa2lHOXcwQkFRc0ZBREFWTVJNd0VRWURWUVFERXdwcmRXSmwKY201bGRHVnpNQjRYRFRJeU1Ea3dPVEl3TWpjMU9Gb1hEVE15TURrd05qSXdNamMxT0Zvd0ZURVRNQkVHQTFVRQpBeE1LYTNWaVpYSnVaWFJsY3pDQ0FTSXdEUVlKS29aSWh2Y05BUUVCQlFBRGdnRVBBRENDQVFvQ2dnRUJBSjIwCkRjNzhpam5XR2ErVm9zbTBqenI2YTY2aHg0NHdlQjd6cG9uWnBWZnczcWhFZ0xYcWRXbHBjVzdnanhpMmdNWEwKUmYzMUtMcFJuekdmcERRZFFTS3VnelRLeVdNcTFNaGVTM1Z1bll4VUZkVUFLYVpHU1oxQzA4dVVFeHpGNlhTTgpBTVBQZytMaVVmblp0eEEwcXViS0k2TzI3UlRnd09QbCtsRThiamFheUh3N3o4dk5yRWFKWHY1NWFFbCtNN09CCnZENVBtZDJnbGtHZndGZENFdU1vRHFHK1JFa2RRbkM5SjhLVkxCZEoweC84Q3FTd1Z2cWo4dzAxTHhWNHNXb0oKc1lmb1NYaDJLYmNLeW11cXRuN0JBQ1lueGhmaGVFR0xGdnlETnBpbTFaZGtlVDVlSEV4YkRsSXk1TEg0SElTOApQWG1QZFFjSnNLSXRzd3JyckpzQ0F3RUFBYU5DTUVBd0RnWURWUjBQQVFIL0JBUURBZ0trTUE4R0ExVWRFd0VCCi93UUZNQU1CQWY4d0hRWURWUjBPQkJZRUZBWEdYMlp3T0tsMnlIRmVKMFdDQWZLQTU0MHZNQTBHQ1NxR1NJYjMKRFFFQkN3VUFBNElCQVFDQXcxYmRuellXUGNucEhMSWlwdGJPT21qUm1XNUR3K0pWNjVPRTh6ZzdWWkMzK1VpSwpWRkFNY25QSDFuOUNOZmU1TTZsVGNjRk0rbHo3eEp5ZEhOVFRUaUtFTzN6bmNyOTF5ZCtNdkVoNzhlUlM1UGU1ClpSRHh1ZWVFc2tHZU9HamJRMlZYc0xtTUZ5aGk3YnFETXhSTFlzNmc2QnYvTzQ1aUZ0d2RPUDFBSFFrVFJab2IKdE9HbzVUSDhvZWJvVmxJMzdRUDh3SWZMZHVZR0ZleGtUeVR6TGVmNUxxaTBjUm1QNExCUzFvRmRnRmZSUVFvRgpvRnJDUUloWlVLdGRyNnl2NitZVUZzczUxTVNTcUZsaTVLbE1OQmNXUzBzdHBZa0I2RVlnMWlkSHZRVzVDVDFxClIrMnoxMkU1aEplTzNRcTJwVWpSUVJ6ZkdCRTI0YWpFdDVvMAotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+        server: https://729978DFF91744909D8DB0E5E1C84DD4.gr7.us-east-2.eks.amazonaws.com
+    contexts:
+      pnayak@pn-metro-east2.us-east-2.eksctl.io:
+        LocationOfOrigin: /Users/pnayak/.kube/config
+        cluster: pn-metro-east2.us-east-2.eksctl.io
+        user: pnayak@pn-metro-east2.us-east-2.eksctl.io
+    current-context: pnayak@pn-metro-east2.us-east-2.eksctl.io
+    preferences: {}
+    users:
+      pnayak@pn-metro-east2.us-east-2.eksctl.io:
+        LocationOfOrigin: /Users/pnayak/.kube/config
+        exec:
+          Config: null
+          apiVersion: client.authentication.k8s.io/v1beta1
+          args:
+          - token
+          - -i
+          - pn-metro-east2
+          command: aws-iam-authenticator
+          env:
+          - name: AWS_STS_REGIONAL_ENDPOINTS
+            value: regional
+          - name: AWS_DEFAULT_REGION
+            value: us-east-2
+          provideClusterInfo: false
+  options:
+  platformOptions: {}
+status:
+  remoteStorageId: ""
+  schedulerStatus: ""
+  storageStatus: ""

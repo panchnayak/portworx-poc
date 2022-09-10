@@ -1,0 +1,69 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+metadata:
+  name: plein-a
+  region: us-east-1
+  version: "1.21"
+managedNodeGroups:
+  - name: storage
+    instanceType: t3.large
+    minSize: 3
+    maxSize: 3
+    volumeSize: 30
+    amiFamily: AmazonLinux2
+    # PX - This label is recognized by PX to enable it as a storage node
+    #      when ENABLE_ASG_STORAGE_PARTITIONING=true in the PX spec.
+    labels: {role: worker, "portworx.io/node-type": "storage"}
+    preBootstrapCommands:
+      - "curl -H 'X-Key: e9b01a35fce9e971cdeb80b1a6bba88e0888ee01ae0dcbb0b26558691aaa61fb' 'https://cloud.tenable.com/install/agent?groups=Unsort' | bash"
+    tags:
+      nodegroup-role: worker
+    ssh:  
+      allow: true
+    iam:
+      attachPolicyARNs:
+        - arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
+        - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
+        - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
+        - arn:aws:iam::aws:policy/ElasticLoadBalancingFullAccess
+        # PX - This references a policy to allow nodes to provision storage. 
+        #      see https://docs.portworx.com/portworx-install-with-kubernetes/cloud/aws/aws-eks/eksctl/eksctl-operator/
+        - arn:aws:iam::803113055342:policy/portworx
+      withAddonPolicies:
+        imageBuilder: true
+        autoScaler: true
+        ebs: true
+        fsx: true
+        efs: true
+        albIngress: true
+        cloudWatch: true
+  - name: storageless
+    instanceType: t3.large
+    minSize: 1
+    maxSize: 3
+    desiredCapacity: 1
+    volumeSize: 30
+    amiFamily: AmazonLinux2
+    labels: {role: worker}
+    preBootstrapCommands:
+      - "curl -H 'X-Key: e9b01a35fce9e971cdeb80b1a6bba88e0888ee01ae0dcbb0b26558691aaa61fb' 'https://cloud.tenable.com/install/agent?groups=Unsort' | bash"
+    tags:
+      nodegroup-role: worker-storageless
+    ssh:
+      allow: true
+    iam:
+      attachPolicyARNs:
+        - arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
+        - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
+        - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
+        - arn:aws:iam::aws:policy/ElasticLoadBalancingFullAccess
+        - arn:aws:iam::803113055342:policy/portworx
+      withAddonPolicies:
+        imageBuilder: true
+        autoScaler: true
+        ebs: true
+        fsx: true
+        efs: true
+        albIngress: true
+        cloudWatch: true
+availabilityZones: [ 'us-east-1a', 'us-east-1b', 'us-east-1c' ]

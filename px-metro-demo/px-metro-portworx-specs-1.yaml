@@ -1,0 +1,34 @@
+# SOURCE: https://install.portworx.com/?operator=true&mc=false&k=etcd%3Ahttp%3A%2F%2F18.224.190.204%3A2382&s=%22type%3Dgp2%2Csize%3D150%22&c=px-cluster-d13012eb-5c1e-46fd-931c-62b3f692c1ff&eks=true&stork=true&csi=true&mon=true&tel=false&st=k8s&promop=true
+kind: StorageCluster
+apiVersion: core.libopenstorage.org/v1
+metadata:
+  name: px-metro-cluster
+  namespace: portworx
+  annotations:
+    portworx.io/install-source: "https://install.portworx.com/?operator=true&mc=false&k=etcd%3Ahttp%3A%2F%2F10.10.16.223%3A2382&s=%22type%3Dgp2%2Csize%3D150%22&c=px-cluster-16364720-0c84-4f58-9c49-1620ae2cb741&eks=true&stork=true&csi=true&mon=true&tel=false&st=k8s&promop=true"
+    portworx.io/is-eks: "true"
+    portworx.io/misc-args: "-cluster_domain us-east-2a"
+spec:
+  deleteStrategy:
+    type: UninstallAndWipe
+  image: portworx/oci-monitor:2.11.2
+  imagePullPolicy: Always
+  kvdb:
+    endpoints:
+    - etcd:http://10.10.16.223:2382
+  cloudStorage:
+    deviceSpecs:
+    - type=gp2,size=150
+  secretsProvider: k8s
+  stork:
+    enabled: true
+    args:
+      webhook-controller: "true"
+  autopilot:
+    enabled: true
+  monitoring:
+    prometheus:
+      enabled: true
+      exportMetrics: true
+  featureGates:
+    CSI: "true"

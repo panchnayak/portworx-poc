@@ -1,0 +1,60 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: petclinic
+  labels:
+    app: petclinic
+spec:
+  type: NodePort
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: 8080
+    nodePort: 30333
+  selector:
+    app: petclinic
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: petclinic
+  labels:
+    app: petclinic
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: petclinic
+  template:
+    metadata:
+      labels:
+        app: petclinic
+    spec:
+      containers:
+      - name: petclinic
+        image: springdeveloper/spring-petclinic:2.0.0.BUILD-SNAPSHOT
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80
+        livenessProbe:
+          httpGet:
+            path: /manage/health
+            port: 8080
+          initialDelaySeconds: 60
+          periodSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /manage/health
+            port: 8080
+          initialDelaySeconds: 15
+          periodSeconds: 5
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: 'production,kubernetes'
+        - name: POSTGRES_HOST
+          value: pg-panch-petclinic-9yrawn-pds-demo-0-vip.sales-prod.pds-dns.io
+        - name: POSTGRES_USERNAME
+          value: pds
+        - name: POSTGRES_PASSWORD
+          value: A6gL5SQQQp5m64A2LdHDNb0WNR9pSr3kUxuOwPb8

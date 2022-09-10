@@ -1,0 +1,24 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+metadata:
+  name: pnayak-metro-east2
+  region: us-east-2
+iam:
+    withOIDC: true
+
+nodeGroups:
+  - name: ng-pds-1
+    instanceType: m5.large
+    desiredCapacity: 3
+    volumeSize: 40
+    ssh:
+      allow: true # will use ~/.ssh/id_rsa.pub as the default ssh key
+    iam:
+      attachPolicyARNs:
+        - arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
+        - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
+        - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
+        - arn:aws:iam::aws:policy/ElasticLoadBalancingFullAccess
+        - arn:aws:iam::803113055342:policy/rancher-portworx-policy
+        - arn:aws:iam::803113055342:policy/pn-portworx
+
