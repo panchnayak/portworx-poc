@@ -36,8 +36,9 @@ kubectl -n portworx get pods -l name=portworx -o wide
 ### 3. Now create a storage class for our application.
 
 Storage classes allow Kubernetes to tell the underlying volume driver how to set up the volumes for capabilites such as IO profiles, HA levels, etc.
-
+```
 cat px-repl3-sc-demotemp.yaml
+
 kind: StorageClass
 apiVersion: storage.k8s.io/v1
 metadata:
@@ -49,11 +50,13 @@ parameters:
    priority_io: "high"
 allowVolumeExpansion: true
 reclaimPolicy: Delete
+```
 
 kubectl create -f px-repl3-sc-demotemp.yaml
 
 ### Now create a volume for the application
 
+```
 cat px-postgres-pvc.yaml
 kind: PersistentVolumeClaim
 apiVersion: v1
@@ -66,6 +69,9 @@ spec:
    resources:
      requests:
        storage: 1Gi
+```
+Apply to crate the PVC
+
 ```
 kubectl -n postgres-demo apply -f px-postgres-pvc.yaml
 ```
@@ -174,7 +180,8 @@ select count(*) from pgbench_accounts;
 EOF
 ```
 
-#### Now let's simulate data loss due to human error, with recovery from a snapshot, Take an adhoc snapshot from kubectl:
+#### Now let's simulate data loss due to human error, with recovery from a snapshot, Take an adhoc snapshot from kubectl
+```
 cat px-snap.yaml
 apiVersion: volumesnapshot.external-storage.k8s.io/v1
 kind: VolumeSnapshot
@@ -182,6 +189,9 @@ metadata:
   name: px-postgres-snapshot
 spec:
   persistentVolumeClaimName: px-postgres-pvc
+```
+
+Create the snapshot
 
 ```
 kubectl -n postgres-demo create -f px-snap.yaml
@@ -209,7 +219,7 @@ In this demo, we will clone the snapshot to a new PVC, and launch a new copy of 
 
 ```
 cat px-snap-pvc.yaml
-```
+
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -286,6 +296,9 @@ spec:
       - name: postgresdb
         persistentVolumeClaim:
           claimName: px-postgres-snap-clone
+```
+Resore the cloned Volume and see the status of the POD
+
 ```
 kubectl -n postgres-demo create -f postgres-app-restore.yaml
 kubectl -n postgres-demo get pods -l app=postgres-snap -o wide
