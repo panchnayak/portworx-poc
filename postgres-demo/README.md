@@ -7,13 +7,46 @@ PORTWORX DEMO Steps
 4.Deploy Postgress DB
 5.Simulate Node Failure
 6.Simulate Data disk full
-7.5.Simulate Human Error - Database Deletion
+7.Simulate Human Error - Database Deletion
 ```
 
 ### 1.Deploy Portworx
 
+Login to https://central.portworx.com to install portworx operator and create a custome portworx specs according to your environemnt.
+
 
 ### Setup the portworx Environemnt
+
+After successfull installing portworx you should have all the pods related to portworx running as shown here
+
+```
+[pnayak@px-demo ~]$ kubectl get pods -n portworx
+NAME                                                    READY   STATUS    RESTARTS       AGE
+autopilot-6cd9747b6d-mbnh4                              1/1     Running   0              130m
+portworx-api-4rtxq                                      1/1     Running   0              130m
+portworx-api-j79td                                      1/1     Running   0              130m
+portworx-api-q4g4g                                      1/1     Running   0              130m
+portworx-kvdb-ld4pp                                     1/1     Running   0              129m
+portworx-kvdb-mdnb8                                     1/1     Running   0              129m
+portworx-kvdb-s26k2                                     1/1     Running   0              129m
+portworx-pvc-controller-6585ffd498-7qf5s                1/1     Running   0              130m
+portworx-pvc-controller-6585ffd498-qtg8s                1/1     Running   0              130m
+portworx-pvc-controller-6585ffd498-srjpt                1/1     Running   0              130m
+prometheus-px-prometheus-0                              2/2     Running   0              130m
+px-cluster-46eb07a8-0a33-462a-90f2-d8021f4d7023-9zplm   2/2     Running   0              130m
+px-cluster-46eb07a8-0a33-462a-90f2-d8021f4d7023-bzndd   2/2     Running   0              130m
+px-cluster-46eb07a8-0a33-462a-90f2-d8021f4d7023-fj2cp   2/2     Running   0              130m
+px-csi-ext-74c6d5b85-5r5zt                              4/4     Running   3 (130m ago)   130m
+px-csi-ext-74c6d5b85-7n8m6                              4/4     Running   3 (130m ago)   130m
+px-csi-ext-74c6d5b85-tm2bl                              4/4     Running   3 (130m ago)   130m
+px-prometheus-operator-c8fd7c58c-6r4pq                  1/1     Running   0              130m
+stork-6dc7785c7b-hflkr                                  1/1     Running   1 (130m ago)   130m
+stork-6dc7785c7b-nwm9j                                  1/1     Running   0              130m
+stork-6dc7785c7b-zskxv                                  1/1     Running   0              130m
+stork-scheduler-67bf64d56-2wk4r                         1/1     Running   0              130m
+stork-scheduler-67bf64d56-mn2wh                         1/1     Running   0              130m
+stork-scheduler-67bf64d56-x5jlq                         1/1     Running   0              130m
+```
 
 ### Set the pxctl command and get the cluster status
 
@@ -87,7 +120,7 @@ kubectl -n postgres-demo get pods -l app=postgres -o wide
 ```
 ### Now we'll run a Portworx command to see what the Portworx cluster reveals about the volume
 
-# The syntax for this command is pxctl volume inspect VOL.
+The syntax for this command is pxctl volume inspect VOL.
 
 ```
 pxctl volume list pvc-ea54cd20-828f-427e-b550-9fb4c08421e0
@@ -213,9 +246,8 @@ EOF
 
 ### Ok, so we deleted our database, what now? Restore your snapshot and carry on.
 
-In this demo, we will clone the snapshot to a new PVC, and launch a new copy of the app with the restored data
-
-### Here is the code to create the clone
+In this demo, we will clone the snapshot to a new PVC, and launch a new copy of the app with the restored data,
+Here is the code to create the clone
 
 ```
 cat px-snap-pvc.yaml
@@ -316,5 +348,7 @@ select count(*) from pgbench_accounts;
 EOF
 ```
 
-### The demo is complete! We have demonstrated recovery from failed nodes/pods, recovery from running out of capacity, and recovering of data from a snapshot after human error
+### The demo is complete! 
+
+We have demonstrated recovery from failed nodes/pods, recovery from running out of capacity, and recovering of data from a snapshot after human error
 
