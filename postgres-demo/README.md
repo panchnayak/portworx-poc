@@ -1,5 +1,6 @@
 PORTWORX DEMO Steps
 
+```
 1.Deploy Portworx
 2.Create StorageClass
 3.Create a PVC
@@ -7,6 +8,7 @@ PORTWORX DEMO Steps
 5.Simulate Node Failure
 6.Simulate Data disk full
 7.5.Simulate Human Error - Database Deletion
+```
 
 ### 1.Deploy Portworx
 
