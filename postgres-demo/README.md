@@ -49,15 +49,11 @@ stork-scheduler-67bf64d56-x5jlq                         1/1     Running   0     
 ```
 
 ### Set the pxctl command and get the cluster status
-
-PX_POD=$(kubectl -n portworx get pods -l name=portworx -o jsonpath='{.items[0].metadata.name}')
-
-export PX_POD
-
-PX_POD=$(kubectl -n portworx get pods -l name=portworx  -o jsonpath='{.items[0].metadata.name}')
+```
+export PX_POD=$(kubectl -n portworx get pods -l name=portworx -o jsonpath='{.items[0].metadata.name}')
 alias pxctl='kubectl exec -n portworx $PX_POD -- /opt/pwx/bin/pxctl'
 alias p='kubectl exec $PX_POD -n portworx -- /opt/pwx/bin/pxctl'
-
+```
 
 ### USE CASE - DEPLOY POSTGRESS DB on KUBERNETS
 ### 1.Create namespace postgres-demo
@@ -350,5 +346,5 @@ EOF
 
 ### The demo is complete! 
 
-We have demonstrated recovery from failed nodes/pods, recovery from running out of capacity, and recovering of data from a snapshot after human error
+We have demonstrated recovery from failed nodes/pods, recovery from running out of capacity, and recovering of data from a snapshot after human error.
 

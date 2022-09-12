@@ -42,6 +42,11 @@ kubectl -n portworx patch stc px-metro-cluster --type merge -p='{"spec":{"stork"
 ### Test procedure
 
 pxctl cluster describe 
+
+kubectl pxc cluster describe
+
 storkctl deactivate clusterdomain cluster-1
-storkctl get custordomainstatus
+
+storkctl get clusterdomainsstatus
+
 storkctl activate migrations
