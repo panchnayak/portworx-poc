@@ -23,7 +23,7 @@ sudo mv /tmp/eksctl /usr/local/bin
 curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.21.2/2021-07-05/bin/linux/amd64/kubectl
 chmod +x kubectl && sudo mv kubectl /usr/local/bin/kubectl
 curl -sSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
-curl -Lo /tmp/pxc.tar.gz https://github.com/portworx/pxc/releases/download/v0.33.0/pxc-v0.33.0.linux.amd64.tar.gz
+curl -Lo /tmp/pxc.tar.gz https://github.com/portworx/pxc/releases/download/v0.35.0/pxc-v0.35.0.linux.amd64.tar.gz
 cd /tmp && tar -zxvf /tmp/pxc.tar.gz
 rm /tmp/pxc.tar.gz
 sudo mv /tmp/pxc/kubectl-pxc /usr/local/bin/kubectl-pxc
