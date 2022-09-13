@@ -64,10 +64,9 @@ resource "null_resource" "px_jenkins_deployment" {
       "sudo yum install git -y",
       "sudo rm -rf /tmp/portworx-poc /tmp/scripts /tmp/pipelines",
       "cd /tmp && git clone https://github.com/panchnayak/portworx-poc.git",
-      "cp -r /tmp/portworx-poc/px-jenkins/scripts .",
-      "cp -r /tmp/portworx-poc/px-jenkins/pipelines .",
+      "cp -r /tmp/portworx-poc/scripts .",
       "sudo mkdir -p /var/lib/jenkins/init.groovy.d",
-      "sudo cp /tmp/scripts/jenkins-create-admin.groovy /var/lib/jenkins/init.groovy.d",
+      "sudo cp /tmp/scripts/jenkins/jenkins-create-admin.groovy /var/lib/jenkins/init.groovy.d",
       "cd /tmp/scripts",
       "chmod +x install-jenkins.sh init-jenkins.sh install-tools.sh install-plugins.sh create-pipelines.sh",
       "/tmp/scripts/install-jenkins.sh",
@@ -75,11 +74,11 @@ resource "null_resource" "px_jenkins_deployment" {
       "export JAVA_HOME=/usr/lib/jvm/openjdk11",
       "export CLASSPATH=$JAVA_HOME/lib/tools.jar:$JAVA_HOME/lib/dt.jar:.",
       "export PATH=$PATH:$JAVA_HOME/bin:.",
-      "/tmp/scripts/init-jenkins.sh",
-       "/tmp/scripts/install-tools.sh",
-       "/tmp/scripts/install-plugins.sh ${var.jenkins_username} ${var.jenkins_password}",
+      "/tmp/scripts/jenkins/init-jenkins.sh",
+       "/tmp/scripts/jenkins/install-tools.sh",
+       "/tmp/scripts/jenkins/install-plugins.sh ${var.jenkins_username} ${var.jenkins_password}",
       "sudo systemctl restart jenkins",
-      "/tmp/scripts/create-pipelines.sh ${var.jenkins_username} ${var.jenkins_password}",
+      "/tmp/scripts/jenkins/create-pipelines.sh ${var.jenkins_username} ${var.jenkins_password}",
       "sudo rm -rf /tmp/portworx-poc"
     ]
 
