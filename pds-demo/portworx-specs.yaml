@@ -1,16 +1,16 @@
-# SOURCE: https://install.portworx.com/?operator=true&mc=false&b=true&kd=type%3Dgp2%2Csize%3D150&s=%22type%3Dgp2%2Csize%3D150%22&c=px-cluster-6bf53e77-c670-45bb-80e0-8078eba28364&eks=true&stork=true&csi=true&mon=true&tel=false&st=k8s&promop=true
+# SOURCE: https://install.portworx.com/?operator=true&mc=false&b=true&kd=type%3Dgp2%2Csize%3D150&s=%22type%3Dgp2%2Csize%3D150%22&c=px-cluster-11beb86e-ae90-4e82-93db-1d1d1fad9108&eks=true&stork=true&csi=true&mon=true&tel=false&st=k8s&promop=true
 kind: StorageCluster
 apiVersion: core.libopenstorage.org/v1
 metadata:
-  name: px-cluster-6bf53e77-c670-45bb-80e0-8078eba28364
+  name: px-cluster-eks
   namespace: portworx
   annotations:
-    portworx.io/install-source: "https://install.portworx.com/?operator=true&mc=false&b=true&kd=type%3Dgp2%2Csize%3D150&s=%22type%3Dgp2%2Csize%3D150%22&c=px-cluster-6bf53e77-c670-45bb-80e0-8078eba28364&eks=true&stork=true&csi=true&mon=true&tel=false&st=k8s&promop=true"
+    portworx.io/install-source: "https://install.portworx.com/?operator=true&mc=false&b=true&kd=type%3Dgp2%2Csize%3D150&s=%22type%3Dgp2%2Csize%3D150%22&c=px-cluster-11beb86e-ae90-4e82-93db-1d1d1fad9108&eks=true&stork=true&csi=true&mon=true&tel=false&st=k8s&promop=true"
     portworx.io/is-eks: "true"
 spec:
   deleteStrategy:
     type: UninstallAndWipe
-  image: portworx/oci-monitor:2.11.2
+  image: portworx/oci-monitor:2.11.3
   imagePullPolicy: Always
   kvdb:
     internal: true
@@ -31,3 +31,12 @@ spec:
     prometheus:
       enabled: true
       exportMetrics: true
+
+      
+
+      vol-0f6edfa4fb1fffd7b
+      vol-05d465e7199035bf9
+      vol-03624ca31f95bf0cc
+      vol-04a7aa1941196e116
+      vol-038cc9d383b5b0d94
+      vol-01cad2c5f420be9cc

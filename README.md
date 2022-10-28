@@ -36,7 +36,9 @@ There are different ways one can Create and Manage the Kubernetes Clusters, plea
 
 ## Quickstart Procedure
 
-Install terraform on your laptop or desktop
+Install terrafomr on your work machine,laptop or desktop, you can find the details to install terraform here.
+
+https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli#install-cli
 
 clone this repository
 ```
