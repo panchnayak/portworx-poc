@@ -34,7 +34,7 @@ declare -a PathList=(
    )
 
 for ((i=0;i<${#PipelineList[@]};i++)); do
-   java -jar jenkins-cli.jar -auth $1:$2 -s http://localhost:8080  create-job ${PipelineList[i]} < /tmp/pipelines/${PathList[i]}
+   java -jar jenkins-cli.jar -auth $1:$2 -s http://localhost:8080  create-job ${PipelineList[i]} < /tmp/scripts/jenkins/pipelines/${PathList[i]}
 done
 
 
