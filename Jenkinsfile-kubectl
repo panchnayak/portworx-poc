@@ -15,7 +15,7 @@ pipeline {
                 }
             }
         }
-      stage('Execute Kubectl Command') {
+      stage('Execute Kubectl Complete Command') {
             when { expression { params.ACTION_REQUESTING == 'Excute kubectl'  }  }
             steps {
               withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {

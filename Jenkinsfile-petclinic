@@ -1,0 +1,28 @@
+pipeline {
+    agent  any
+    stages {
+        stage('Setup parameters') {
+            steps {
+                script {
+                    properties([
+                        parameters([
+                            choice(choices: ['Default: Do Nothing','Deploy Petclinic'],name: 'ACTION_REQUESTING'),
+                            string(defaultValue: 'pnayak-aws',name: 'AWS_CREDS',trim: true),
+                            string(defaultValue: 'us-east-2',name: 'FIRST_REGION_NAME',trim: true),
+                        ])
+                    ])
+                }
+            }
+        }
+      stage('Execute Kubectl Command') {
+            when { expression { params.ACTION_REQUESTING == 'Deploy Petclinic'  }  }
+            steps {
+                  withAWS(credentials: params.AWS_CREDENTIAL, region: params.REGION_NAME) {
+                    echo "Deploying petclinc app on petclinic namespace"
+                    sh "kubectl apply -f ./usecases/petclinic-with-namespace.yaml"
+                    sh "kubectl get pods,svc -n petclinic"
+                  }
+              }
+      }
+    }
+}

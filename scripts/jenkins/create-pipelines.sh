@@ -16,7 +16,7 @@ declare -a PipelineList=(
    "6-Deploy-or-Destroy-Portworx-on-the-Kubernetes-Cluster"
    "7-Deploy-or-Destroy-Cassandra-DB-On-Existing-K8s" 
    "8-Complete-or-Destroy-Metro-DR-Cluster-Demo"  
-   "9-Portworx-or-Destroy-Backup-Demo" 
+   "9-Deploy-or-Destroy-Px-Backup-Demo" 
    "10-Deploy-or-Destroy-Portworx-on-MultiCloud-Env"
    )
 
@@ -29,7 +29,7 @@ declare -a PathList=(
    "portworx-install.xml"
    "cassandra-db.xml" 
    "metro-cluster.xml"
-   "backup-demo.xml"
+   "px-backup-demo.xml"
     "multicloud-cluster.xml"
    )
 

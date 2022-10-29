@@ -20,7 +20,7 @@
       <submoduleCfg class="list"/>
       <extensions/>
     </scm>
-    <scriptPath>Jenkinsfile-backup</scriptPath>
+    <scriptPath>Jenkinsfile-px-backup</scriptPath>
   </definition>
   <triggers/>
 </flow-definition>
