@@ -9,6 +9,7 @@ pipeline {
                             choice(choices: ['Default: Do Nothing', 'Deploy EKS Backup Cluster', 'Destroy EKS Backup Cluster'],name: 'ACTION_REQUESTING'),
                             string(defaultValue: 'pnayak-aws',name: 'AWS_CREDENTIAL',trim: true),
                             string(defaultValue: 'px-backup',name: 'NAMESPACE',trim: true),
+                            string(defaultValue: 'portworx-sc',name: 'STORAGE_CLASS_NAME',trim: true),
                             string(defaultValue: 'us-east-2',name: 'REGION_NAME',trim: true),
                         ])
             ])
@@ -23,8 +24,8 @@ pipeline {
                       withAWS(credentials: params.AWS_CREDENTIAL, region: params.REGION_NAME) {
                           echo "Add the HELM repository pointing to the repository"
                           sh "helm repo add portworx http://charts.portworx.io/ && helm repo update"
-                          echo "Deploying PX-Backup in the Namespace Cluster to "+params.NAMESPACE
-                          sh "helm install px-central portworx/px-central --namespace "+params.NAMESPACE+" --create-namespace --version 2.1.2 -f ./usecases/px-backup/values-px-central.yaml"
+                          echo "Deploying PX-Backup in the Namespace Cluster to "+params.NAMESPACE+" with StorgeClass "+params.STORAGE_CLASS_NAME
+                          sh "helm install px-central portworx/px-central --namespace "+params.NAMESPACE+" --create-namespace --version 2.3.1 --set persistentStorage.enabled=true,persistentStorage.storageClassName="+params.STORAGE_CLASS_NAME+",pxbackup.enabled=true"
                       }
                   }
               } 
@@ -32,8 +33,8 @@ pipeline {
                   when { expression { params.ACTION_REQUESTING == 'Destroy EKS Backup Cluster'  }  }
                   steps {
                       withAWS(credentials: params.AWS_CREDENTIAL, region: params.REGION_NAME) {
-                        echo "Deploying PX-Backup in the Namespace Cluster to "+params.NAMESPACE
-                        //sh "helm uninstall px-central portworx/px-central --namespace "+params.NAMESPACE
+                        echo "Uninstalling PX-Backup in the Namespace Cluster to "+params.NAMESPACE
+                        sh "helm uninstall px-central portworx/px-central --namespace "+params.NAMESPACE
                         sh "kubectl delete ns "+params.NAMESPACE
                       }
                   }
