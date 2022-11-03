@@ -1,0 +1,13 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  namespace: petclinic
+  annotations:
+    volume.beta.kubernetes.io/storage-class: px-repl3-sc
+  name: petclinic-db-mysql
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 8Gi
