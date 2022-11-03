@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: petclinic
+  creationTimestamp: null
+  labels:
+    app: petclinic-db-mysql
+  name: petclinic-db-mysql
+  selfLink: /api/v1/namespaces/default/services/petclinic-db-mysql
+spec:
+  ports:
+  - name: mysql
+    port: 3306
+    protocol: TCP
+    targetPort: mysql
+  selector:
+    app: petclinic-db-mysql
+  sessionAffinity: None
+  type: ClusterIP
