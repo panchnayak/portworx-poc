@@ -35,11 +35,19 @@ variable "volume_size" {
 variable "instance_type" {
   default = "t3.large"
 }
+variable "image_provider" {
+  default = "AWS"
+}
+
+variable "release" {
+  default = 7
+}
 
 variable "user_name" {
   type = string
   default = "centos"
 }
+
 
 variable "key_pub" {
   default = "id_rsa.pub"

@@ -1,21 +1,31 @@
 data "aws_ami" "centos" {
-owners      = ["679593333241"]
-most_recent = true
+  most_recent = true
 
   filter {
-      name   = "name"
-      values = ["CentOS Linux 7 x86_64 HVM EBS *"]
+    name   = "virtualization-type"
+    values = ["hvm"]
   }
 
   filter {
-      name   = "architecture"
-      values = ["x86_64"]
+    name   = "architecture"
+    values = ["x86_64"]
   }
 
+  # this filter is here to guarantee that ami's come from the official CentOS.org
+  # we can be sure of the ami's authenticity by filtering by the products id's unique to
+  # CentOS.org, which can be found on their web site at https://wiki.centos.org/Cloud/AWS
   filter {
-      name   = "root-device-type"
-      values = ["ebs"]
+    name = "product-code"
+    values = compact(var.image_provider == "AWS" ? [
+      var.release == 8 ? "47k9ia2igxpcce2bzo8u3kj03" : "", # Official `CentOS 8 (x86_64) - with Updates HVM` by AWS product id
+      var.release == 7 ? "cvugziknvmxgqna9noibqnnsy" : "", # Official `CentOS 7 (x86_64) - with Updates HVM` by AWS product id
+      ] : [
+      var.release == 7 ? "aw0evgkw8e5c1q413zgy5pjce" : "", # Official `CentOS 7 (x86_64) - with Updates HVM` by CentOS product id
+    ])
   }
+
+  owners = ["679593333241"]
+
 }
 
 resource "aws_key_pair" "ssh_key_pub" {
