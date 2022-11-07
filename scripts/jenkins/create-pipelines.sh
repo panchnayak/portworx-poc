@@ -33,7 +33,7 @@ declare -a PathList=(
    "day-2-2-px-volume.xml"
    "day-2-3-px-petclinic.xml"
    "day-2-4-cassandra-db.xml"
-   "day-3-1-2px-backup.xml"
+   "day-3-1-px-backup.xml"
    "day-3-2-px-ops-demo.xml"
    )
 
