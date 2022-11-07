@@ -20,9 +20,8 @@ pipeline {
                 when { expression { params.REQUESTED_ACTION == 'Deploy-Portworx-Volume'  }  }
                   steps {
                     withAWS(credentials: params.AWS_CREDS, region: params.REGION_NAME) {
-                      echo "Installing Cassandra DB on Portworx Cluster"
-                      sh "kubectl apply -f ./usecases/px-volume.yaml"
-                      sh "kubectl get svc -A"
+                      echo "Creating a portworx volume named "
+                      sh "./scripts/portworx/create-volume.sh"
                     }
                   }
               }
@@ -30,8 +29,8 @@ pipeline {
                 when { expression { params.REQUESTED_ACTION == 'Delete-Portworx-Volume'  }  }
                 steps {
                   withAWS(credentials: params.AWS_CREDS, region: params.REGION_NAME) {
-                      echo "Deleting Cassandra DB from Portworx Cluster"
-                      sh "kubectl delete -f ./usecases/px-volume.yaml"
+                      echo "Deleting portworx volume named"
+                      sh "./scripts/portworx/delete-volume.sh"
                   }
                 }
               }

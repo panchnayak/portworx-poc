@@ -20,9 +20,8 @@ pipeline {
                 when { expression { params.REQUESTED_ACTION == 'Deploy-Px-StorageClass'  }  }
                   steps {
                     withAWS(credentials: params.AWS_CREDS, region: params.REGION_NAME) {
-                      echo "Installing Cassandra DB on Portworx Cluster"
-                      sh "kubectl apply -f ./usecases/storage-class.yaml"
-                      sh "kubectl get svc -A"
+                      echo "Creatinga Storage Class on Portworx Cluster"
+                      sh "./scripts/portworx/create-sc.sh"
                     }
                   }
               }
@@ -30,8 +29,8 @@ pipeline {
                 when { expression { params.REQUESTED_ACTION == 'Delete-Px-StorageClass'  }  }
                 steps {
                   withAWS(credentials: params.AWS_CREDS, region: params.REGION_NAME) {
-                      echo "Deleting Cassandra DB from Portworx Cluster"
-                      sh "kubectl delete -f ./usecases/storage-class.yaml"
+                      echo "Deleting Storage Class from Portworx Cluster"
+                      sh "./scripts/portworx/delete-sc.sh"
                   }
                 }
               }
