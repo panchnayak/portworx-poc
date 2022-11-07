@@ -80,8 +80,6 @@ pipeline {
             when { expression { params.ACTION_REQUESTING == 'Deploy Multi Cloud Portworx Cluster'  }  }
             parallel {
                 stage('Generate ClusterPairSpec EKS Cluster-2') {
-                    when { expression { params.ACTION_REQUESTING == 'Deploy Multi Cloud Portworx Cluster'  }  }
-                    when { expression { params.ACTION_REQUESTING == 'Deploy Multi Cloud Portworx Cluster'  }  }
                     when { expression { params.ACTION_REQUESTING == 'Deploy Metro Cluster' } }
                     steps {
                         withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
@@ -103,8 +101,7 @@ pipeline {
         }
 
         stage('Verify Cluster Pair Status') {
-            when { expression { params.ACTION_REQUESTING == 'Deploy Multi Cloud Portworx Cluster'  }  }
-            when { expression { params.ACTION_REQUESTING == 'Deploy Metro Cluster' } }
+            when { expression { params.ACTION_REQUESTING == 'Deploy Multi Cloud Portworx Cluster'  } & expression { params.ACTION_REQUESTING == 'Deploy Metro Cluster' } }
             steps {
                 withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
                     echo "Verify Cluster Pair Status "+params.CLUSTER_NAME+"1 in the region "+ params.FIRST_REGION_NAME
