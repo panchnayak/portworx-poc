@@ -30,6 +30,7 @@ pipeline {
         }
         stage('EKS Cluster') {
             parallel {
+                when { expression { params.ACTION_REQUESTING == 'Deploy Multi Cloud Portworx Cluster'  }  }
                 stage('Create EKS Cluster-1') {
                     when { expression { params.ACTION_REQUESTING == 'Deploy Metro Cluster-x'  }  }
                         steps {
@@ -52,6 +53,7 @@ pipeline {
         }
         stage('Portworx Cluster') {
             parallel {
+                when { expression { params.ACTION_REQUESTING == 'Deploy Multi Cloud Portworx Cluster'  }  }
                 stage('Deploy Portworx EKS Cluster-1') {
                     when { expression { params.ACTION_REQUESTING == 'Deploy Metro Cluster-x'  }  }
                     steps {
@@ -76,6 +78,7 @@ pipeline {
         }
         stage('Generate and Apply a ClusterPair Spec') {
             parallel {
+                when { expression { params.ACTION_REQUESTING == 'Deploy Multi Cloud Portworx Cluster'  }  }
                 stage('Generate ClusterPairSpec EKS Cluster-2') {
                     when { expression { params.ACTION_REQUESTING == 'Deploy Metro Cluster' } }
                     steps {

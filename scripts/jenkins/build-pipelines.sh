@@ -15,7 +15,7 @@ declare -a PipelineList=(
    "Day-1-5-Deploy-or-Destroy-Portworx-on-the-Kubernetes-Cluster"
    "Day-1-6-Check-portworx-Cluster-Status"
    "Day-1-7-Deploy-ETCD-Single-Node-Cluster"
-   "Day-1-8-Complete-or-Destroy-Metro-DR-Cluster-Demo" 
+   "Day-1-8-Deploy-or-Destroy-Metro-DR-Cluster-Demo" 
    "Day-1-9-Deploy-or-Destroy-Portworx-on-MultiCloud-Env"
    "Day-2-1-Create-StorageClass"
    "Day-2-2-Create-Volumes-for-Apps"
