@@ -91,7 +91,7 @@ resource "null_resource" "px_jenkins_deployment" {
       "./create-pipelines.sh ${var.jenkins_username} ${var.jenkins_password}",
       "sleep 10s",
       "./build-pipelines.sh ${var.jenkins_username} ${var.jenkins_password}",
-       "sleep 10s",
+      "sleep 10s",
       "sudo rm -rf /tmp/portworx-poc"
     ]
 
