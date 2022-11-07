@@ -3,7 +3,7 @@ kind: ClusterConfig
 metadata:
   name: px-eksctl
   region: us-east-1
-  version: "1.14"
+  version: "1.24"
 managedNodeGroups:
   - name: storage-nodes
     instanceType: t3.large

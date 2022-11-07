@@ -31,7 +31,7 @@ pipeline {
                                 echo "Applying the Portworx Specification provided in the GITHUB URLs for your Kubernetes Cluster"
                                 sh "sleep 1m"
                                 sh "kubectl apply -f "+ params.PORTWORX_SPECS_URL
-                                sh "kubectl get pods "+ params.PORTWORX_NAMESPACE
+                                sh "kubectl get pods -n "+ params.PORTWORX_NAMESPACE
                             }
                         }
                 }
@@ -41,7 +41,7 @@ pipeline {
                             withAWS(credentials: params.AWS_CREDENTIAL, region: params.REGION_NAME) {
                                 echo "Deleting Portworx on the EKS Cluster"
                                 sh "kubectl delete -f "+ params.PORTWORX_SPECS_URL
-                                sh "kubectl delete -f ./portworx/px-operator.yaml"
+                                sh "kubectl delete -f 'https://install.portworx.com/2.12?comp=pxoperator&ns="+params.PORTWORX_NAMESPACE+"'"
                             }
                         }
                 }
