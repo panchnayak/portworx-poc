@@ -3,7 +3,7 @@ kind: ClusterConfig
 metadata:
   name: pnayak-east1
   region: us-east-1
-  version: "1.24"
+  version: "1.23"
 managedNodeGroups:
   - name: storage-nodes
     instanceType: t3.large
