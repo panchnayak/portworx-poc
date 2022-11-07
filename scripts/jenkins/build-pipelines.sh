@@ -15,7 +15,7 @@ declare -a PipelineList=(
    "Day-1-5-Deploy-or-Destroy-Portworx-on-the-Kubernetes-Cluster"
    "Day-1-6-Check-portworx-Cluster-Status"
    "Day-1-7-Deploy-ETCD-Single-Node-Cluster"
-   "Day-1-8-Deploy-or-Destroy-Metro-DR-Cluster-Demo" 
+   "Day-1-8-Complete-or-Destroy-Metro-DR-Cluster-Demo" 
    "Day-1-9-Deploy-or-Destroy-Portworx-on-MultiCloud-Env"
    "Day-2-1-Create-StorageClass"
    "Day-2-2-Create-Volumes-for-Apps"
@@ -25,26 +25,6 @@ declare -a PipelineList=(
    "Day-3-2-Portworx-Operation-Demo"
    )
 
-declare -a PathList=(
-   "day-1-1-eks-px.xml"
-   "day-1-2-gke-px.xml"
-   "day-1-3-get-kubeconfig.xml"
-   "day-1-4-kubectl-command.xml"
-   "day-1-5-portworx-install.xml"  
-   "day-1-6-px-cluster-status.xml"
-   "day-1-7-etcd-cluster.xml"
-   "day-1-8-metro-cluster.xml"
-   "day-1-9-multicloud-cluster.xml"
-   "day-2-1-px-storage-class.xml"
-   "day-2-2-px-volume.xml"
-   "day-2-3-px-petclinic.xml"
-   "day-2-4-cassandra-db.xml"
-   "day-3-1-2px-backup.xml"
-   "day-3-2-px-ops-demo.xml"
-   )
-
 for ((i=0;i<${#PipelineList[@]};i++)); do
-   java -jar jenkins-cli.jar -auth $1:$2 -s http://localhost:8080  create-job ${PipelineList[i]} < /tmp/scripts/jenkins/pipelines/${PathList[i]}
+   java -jar jenkins-cli.jar -auth $1:$2 -s http://localhost:8080  build ${PipelineList[i]}
 done
-
-
