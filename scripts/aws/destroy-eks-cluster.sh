@@ -13,6 +13,6 @@ NODE_TYPE=t3.large
 AWS_REGION=$3
 echo "Proceeding to crate EKS Cluster : $1 in Region $3"
 
-eksctl delete cluster -f eks-demo-cluster-east.yaml
+eksctl delete cluster -f ./eks-demo-cluster-east.yaml
 
 echo "EKS Cluster $1 Created in Region $2"
