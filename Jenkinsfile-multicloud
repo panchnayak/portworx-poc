@@ -29,8 +29,8 @@ pipeline {
             }
         }
         stage('EKS Cluster') {
+            when { expression { params.ACTION_REQUESTING == 'Deploy Multi Cloud Portworx Cluster'  }  }
             parallel {
-                when { expression { params.ACTION_REQUESTING == 'Deploy Multi Cloud Portworx Cluster'  }  }
                 stage('Create EKS Cluster-1') {
                     when { expression { params.ACTION_REQUESTING == 'Deploy Metro Cluster-x'  }  }
                         steps {
@@ -52,8 +52,8 @@ pipeline {
             }
         }
         stage('Portworx Cluster') {
+            when { expression { params.ACTION_REQUESTING == 'Deploy Multi Cloud Portworx Cluster'  }  }
             parallel {
-                when { expression { params.ACTION_REQUESTING == 'Deploy Multi Cloud Portworx Cluster'  }  }
                 stage('Deploy Portworx EKS Cluster-1') {
                     when { expression { params.ACTION_REQUESTING == 'Deploy Metro Cluster-x'  }  }
                     steps {
@@ -77,9 +77,11 @@ pipeline {
             }
         }
         stage('Generate and Apply a ClusterPair Spec') {
+            when { expression { params.ACTION_REQUESTING == 'Deploy Multi Cloud Portworx Cluster'  }  }
             parallel {
-                when { expression { params.ACTION_REQUESTING == 'Deploy Multi Cloud Portworx Cluster'  }  }
                 stage('Generate ClusterPairSpec EKS Cluster-2') {
+                    when { expression { params.ACTION_REQUESTING == 'Deploy Multi Cloud Portworx Cluster'  }  }
+                    when { expression { params.ACTION_REQUESTING == 'Deploy Multi Cloud Portworx Cluster'  }  }
                     when { expression { params.ACTION_REQUESTING == 'Deploy Metro Cluster' } }
                     steps {
                         withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
@@ -101,6 +103,7 @@ pipeline {
         }
 
         stage('Verify Cluster Pair Status') {
+            when { expression { params.ACTION_REQUESTING == 'Deploy Multi Cloud Portworx Cluster'  }  }
             when { expression { params.ACTION_REQUESTING == 'Deploy Metro Cluster' } }
             steps {
                 withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
