@@ -8,10 +8,8 @@ fi
 
 
 EKS_CLUSTER_NAME=$1
-NODE_GROUP_NAME=$2
-NODE_TYPE=t3.large
-AWS_REGION=$3
-echo "Proceeding to crate EKS Cluster : $1 in Region $3"
+AWS_REGION=$2
+echo "Proceeding to crate EKS Cluster : $1 in Region $2"
 
 eksctl delete cluster -f ./scripts/aws/eks-demo-cluster-east.yaml
 
