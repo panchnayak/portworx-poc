@@ -1,0 +1,29 @@
+pipeline {
+    agent  any
+    stages {
+        stage('Setup parameters') {
+            steps {
+                script {
+                    properties([
+                        parameters([
+                            choice(choices: ['Default: Do Nothing','Check Portwox Custer Status'],name: 'ACTION_REQUESTING'),
+                            string(defaultValue: 'pnayak-aws',name: 'AWS_CREDS',trim: true),
+                            string(defaultValue: 'us-east-2',name: 'FIRST_REGION_NAME',trim: true),
+                        ])
+                    ])
+                }
+            }
+        }
+      stage('Execute Kubectl Command') {
+            when { expression { params.ACTION_REQUESTING == 'Check Portwox Custer Status'  }  }
+            steps {
+                  withAWS(credentials: params.AWS_CREDENTIAL, region: params.REGION_NAME) {
+                    echo "Portworx Pods in portworx namespace"
+                    sh "kubectl pods -n portworx"
+                    echo "Portworx Storage Cluster Status"
+                    sh "kubectl exec -it -- /opt/pwx/bin/pxctl status -n portworx"
+                  }
+              }
+      }
+    }
+}
