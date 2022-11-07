@@ -1,6 +1,6 @@
 #!/bin/bash -x
 
-if [ $# -lt 3 ]
+if [ $# -lt 2 ]
   then
     echo "Error: No Cluster name supplied please supply the Cluster name as the first argument,and NodeGroup name as 2n argument and Region name in the third argument, Not going ahead"
     exit 0
