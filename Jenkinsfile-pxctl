@@ -21,8 +21,7 @@ pipeline {
                   withAWS(credentials: params.AWS_CREDS, region: params.REGION_NAME) {
                     echo "Portworx Pods in portworx namespace" +params.NAMESPACE_NAME
                     sh "kubectl get pods -n "+params.NAMESPACE_NAME
-                    sh "PX_POD=$(kubectl get pods -l name=portworx -n "+params.NAMESPACE_NAME+" -o jsonpath='{.items[0].metadata.name}')"
-                    echo "Name of the Portworx Storage Cluster is $PX_POD"
+                    sh "kubectl get pods -l name=portworx -n "+params.NAMESPACE_NAME+" -o jsonpath='{.items[0].metadata.name}'"
                     echo "Here is the Portworx Storage Cluster Status"
                     sh "kubectl exec -it `kubectl get pods -l name=portworx -n "+params.NAMESPACE_NAME+" -o jsonpath='{.items[0].metadata.name}'` -n "+params.NAMESPACE_NAME+" -- /opt/pwx/bin/pxctl status"
                   }
