@@ -6,7 +6,7 @@ pipeline {
                 script {
                     properties([
                         parameters([
-                            choice(choices: ['Default: Do Nothing','Deploy Petclinic'],name: 'ACTION_REQUESTING'),
+                            choice(choices: ['Default: Do Nothing','Deploy Petclinic App','Delete Petclinic App'],name: 'ACTION_REQUESTING'),
                             string(defaultValue: 'pnayak-aws',name: 'AWS_CREDS',trim: true),
                             string(defaultValue: 'us-east-2',name: 'FIRST_REGION_NAME',trim: true),
                         ])
@@ -14,15 +14,116 @@ pipeline {
                 }
             }
         }
-      stage('Execute Kubectl Command') {
-            when { expression { params.ACTION_REQUESTING == 'Deploy Petclinic'  }  }
-            steps {
-                  withAWS(credentials: params.AWS_CREDENTIAL, region: params.REGION_NAME) {
-                    echo "Deploying petclinc app on petclinic namespace"
-                    sh "kubectl apply -f ./usecases/petclinic-with-namespace.yaml"
-                    sh "kubectl get pods,svc -n petclinic"
-                  }
-              }
-      }
-    }
+        stage('Create Namespace') {
+            when { expression { params.ACTION_REQUESTING == 'Deploy Petclinic App'  }  }
+                steps {
+                    withAWS(credentials: params.AWS_CREDENTIAL, region: params.REGION_NAME) {
+                        echo "Deploying EKS Cluster "+params.CLUSTER_NAME+" in the region:"+ params.REGION_NAME
+                        sh "kubectl create ns petclinic"
+                    }
+                }
+        } 
+        stage('Create or Delete Storage Class') {
+            parallel {
+                stage('Create Storage Class') {
+                    when { expression { params.ACTION_REQUESTING == 'Deploy Petclinic App'  }  }
+                        steps {
+                            withAWS(credentials: params.AWS_CREDENTIAL, region: params.REGION_NAME) {
+                                echo "Deploying EKS Cluster "+params.CLUSTER_NAME+" in the region:"+ params.REGION_NAME
+                                sh "kubectl apply -f ./usecases/petclinic/px-repl3-sc.yaml"
+                            }
+                        }
+                }
+                stage('Delete Petclinic App') {
+                    when { expression { params.ACTION_REQUESTING == 'Deploy Petclinic App'  }  }
+                        steps {
+                            withAWS(credentials: params.AWS_CREDENTIAL, region: params.REGION_NAME) {
+                                echo "Deleting Petclinic App "+params.CLUSTER_NAME+" in the region:"+ params.REGION_NAME
+                                sh "kubectl delete -f ./usecases/petclinic/petclinic-svc.yaml"
+                                sh "kubectl delete -f ./usecases/petclinic/petclinic-deploy.yaml"
+                            }
+                        }
+                }             
+            }
+        }
+
+        stage('Create or Delete PVC') {
+            parallel {
+                stage('Create PVC') {
+                    when { expression { params.ACTION_REQUESTING == 'Deploy Petclinic App'  }  }
+                        steps {
+                            withAWS(credentials: params.AWS_CREDENTIAL, region: params.REGION_NAME) {
+                                echo "Deploying EKS Cluster "+params.CLUSTER_NAME+" in the region:"+ params.REGION_NAME
+                                sh "kubectl apply -f ./usecases/petclinic/petclinic-pvc.yaml"
+                            }
+                        }
+                }
+                stage('Delete MySQL DB') {
+                    when { expression { params.ACTION_REQUESTING == 'Deploy Petclinic App'  }  }
+                        steps {
+                            withAWS(credentials: params.AWS_CREDENTIAL, region: params.REGION_NAME) {
+                                echo "Deleting MySQL DB "+params.CLUSTER_NAME+" in the region:"+ params.REGION_NAME
+                                sh "kubectl delete -f ./usecases/petclinic/petclinic-db-mysql-svc.yaml"
+                                sh "kubectl delete -f ./usecases/petclinic/petclinic-db-mysql-deploy.yaml"
+                            }
+                        }
+                }        
+            }
+        }
+
+        stage('Create or Delete MySQL DB') {
+            parallel {
+                stage('Create PVC') {
+                    when { expression { params.ACTION_REQUESTING == 'Deploy Petclinic App'  }  }
+                        steps {
+                            withAWS(credentials: params.AWS_CREDENTIAL, region: params.REGION_NAME) {
+                                echo "Deploying MySQL DB "+params.CLUSTER_NAME+" in the region:"+ params.REGION_NAME
+                                sh "kubectl apply -f ./usecases/petclinic/petclinic-db-mysql-deploy.yaml"
+                                sh "kubectl apply -f ./usecases/petclinic/petclinic-db-mysql-svc.yaml"
+                            }
+                        }
+                }       
+                stage('Delete PVC') {
+                    when { expression { params.ACTION_REQUESTING == 'Delete Petclinic App'  }  }
+                        steps {
+                            withAWS(credentials: params.AWS_CREDENTIAL, region: params.REGION_NAME) {
+                                echo "Delete PVC "+params.CLUSTER_NAME+" in the region:"+ params.REGION_NAME
+                                sh "kubectl delete -f ./usecases/petclinic/petclinic-pvc.yaml"
+                            }
+                        }
+                }
+            }
+        }
+        stage('Create or Delete Petclinc App') {
+            parallel {
+                stage('Create PVC') {
+                    when { expression { params.ACTION_REQUESTING == 'Deploy Petclinic App'  }  }
+                        steps {
+                            withAWS(credentials: params.AWS_CREDENTIAL, region: params.REGION_NAME) {
+                                echo "Deploying MySQL DB "+params.CLUSTER_NAME+" in the region:"+ params.REGION_NAME
+                                sh "kubectl apply -f ./usecases/petclinic/petclinic-deploy.yaml"
+                                sh "kubectl apply -f ./usecases/petclinic/petclinic-svc.yaml"
+                            }
+                        }
+                }       
+                stage('Delete PVC') {
+                    when { expression { params.ACTION_REQUESTING == 'Delete Petclinic App'  }  }
+                        steps {
+                            withAWS(credentials: params.AWS_CREDENTIAL, region: params.REGION_NAME) {
+                                echo "Delete StorageClass "+params.CLUSTER_NAME+" in the region:"+ params.REGION_NAME
+                                sh "kubectl delete -f ./usecases/petclinic/px-repl3-sc.yaml"
+                            }
+                        }
+                }
+            }
+        }
+        stage('Delete Namespace') {
+            when { expression { params.ACTION_REQUESTING == 'Delete Petclinic App'  }  }
+                steps {
+                    withAWS(credentials: params.AWS_CREDENTIAL, region: params.REGION_NAME) {
+                        echo "Deploying EKS Cluster "+params.CLUSTER_NAME+" in the region:"+ params.REGION_NAME
+                        sh "kubectl delete ns petclinic"
+                    }
+                }
+        } 
 }
