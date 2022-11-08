@@ -24,7 +24,7 @@ pipeline {
                     }
                 }
         } 
-        stage('Create or Delete Storage Class') {
+        stage('1') {
             parallel {
                 stage('Create Storage Class') {
                     when { expression { params.ACTION_REQUESTING == 'Deploy Petclinic App'  }  }
@@ -48,7 +48,7 @@ pipeline {
             }
         }
 
-        stage('Create or Delete PVC') {
+        stage('2') {
             parallel {
                 stage('Create PVC') {
                     when { expression { params.ACTION_REQUESTING == 'Deploy Petclinic App'  }  }
@@ -72,7 +72,7 @@ pipeline {
             }
         }
 
-        stage('Create or Delete MySQL DB') {
+        stage('3') {
             parallel {
                 stage('Create PVC') {
                     when { expression { params.ACTION_REQUESTING == 'Deploy Petclinic App'  }  }
@@ -95,7 +95,7 @@ pipeline {
                 }
             }
         }
-        stage('Create or Delete Petclinc App') {
+        stage('4') {
             parallel {
                 stage('Create PVC') {
                     when { expression { params.ACTION_REQUESTING == 'Deploy Petclinic App'  }  }
