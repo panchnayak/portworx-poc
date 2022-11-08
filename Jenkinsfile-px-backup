@@ -6,7 +6,7 @@ pipeline {
           script {
             properties([
               parameters([
-                            choice(choices: ['Default: Do Nothing', 'Deploy Px-Backup', 'Destroy PX-Backupr'],name: 'ACTION_REQUESTING'),
+                            choice(choices: ['Default: Do Nothing', 'Deploy Px-Backup', 'Destroy PX-Backup'],name: 'ACTION_REQUESTING'),
                             string(defaultValue: 'pnayak-aws',name: 'AWS_CREDENTIAL',trim: true),
                             string(defaultValue: 'px-backup',name: 'NAMESPACE',trim: true),
                             string(defaultValue: 'portworx-sc',name: 'STORAGE_CLASS_NAME',trim: true),
@@ -19,7 +19,7 @@ pipeline {
       stage ("Backup Demo") {
         parallel {
               stage('Install PX-Backup on K8s Cluster') {
-                  when { expression { params.ACTION_REQUESTING == 'Deploy EKS Backup Cluster' }  }
+                  when { expression { params.ACTION_REQUESTING == 'Deploy Px-Backup' }  }
                   steps {
                       withAWS(credentials: params.AWS_CREDENTIAL, region: params.REGION_NAME) {
                           echo "Add the HELM repository pointing to the repository"
@@ -30,7 +30,7 @@ pipeline {
                   }
               } 
               stage('UnInstall PX-backup from Cluster') {
-                  when { expression { params.ACTION_REQUESTING == 'Destroy EKS Backup Cluster'  }  }
+                  when { expression { params.ACTION_REQUESTING == 'Destroy PX-Backup'  }  }
                   steps {
                       withAWS(credentials: params.AWS_CREDENTIAL, region: params.REGION_NAME) {
                         echo "Uninstalling PX-Backup in the Namespace Cluster to "+params.NAMESPACE
