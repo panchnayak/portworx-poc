@@ -7,9 +7,9 @@ pipeline {
                     properties([
                         parameters([
                             choice(choices: ['Default: Do Nothing','Check Portwox Custer Status'],name: 'ACTION_REQUESTING'),
-                            string(defaultValue: 'pnayak-aws',name: 'AWS_CREDS',trim: true),
+                            string(defaultValue: 'pnayak-aws',name: 'AWS_CREDENTIAL_NAME',trim: true),
                             string(defaultValue: 'us-east-2',name: 'REGION_NAME',trim: true),
-                            string(defaultValue: 'portworx',name: 'NAMESPACE_NAME',trim: true),
+                            string(defaultValue: 'portworx',name: 'K8S_NAMESPACE',trim: true),
                         ])
                     ])
                 }
@@ -18,12 +18,12 @@ pipeline {
       stage('Execute Kubectl Command') {
             when { expression { params.ACTION_REQUESTING == 'Check Portwox Custer Status'  }  }
             steps {
-                  withAWS(credentials: params.AWS_CREDS, region: params.REGION_NAME) {
-                    echo "Portworx Pods in portworx namespace" +params.NAMESPACE_NAME
-                    sh "kubectl get pods -n "+params.NAMESPACE_NAME
-                    sh "kubectl get pods -l name=portworx -n "+params.NAMESPACE_NAME+" -o jsonpath='{.items[0].metadata.name}'"
+                  withAWS(credentials: params.AWS_CREDENTIAL_NAME, region: params.REGION_NAME) {
+                    echo "Portworx Pods in portworx namespace" +params.K8S_NAMESPACE
+                    sh "kubectl get pods -n "+params.K8S_NAMESPACE
+                    sh "kubectl get pods -l name=portworx -n "+params.K8S_NAMESPACE+" -o jsonpath='{.items[0].metadata.name}'"
                     echo "Here is the Portworx Storage Cluster Status"
-                    sh "kubectl exec -it `kubectl get pods -l name=portworx -n "+params.NAMESPACE_NAME+" -o jsonpath='{.items[0].metadata.name}'` -n "+params.NAMESPACE_NAME+" -- /opt/pwx/bin/pxctl status"
+                    sh "kubectl exec -it `kubectl get pods -l name=portworx -n "+params.K8S_NAMESPACE+" -o jsonpath='{.items[0].metadata.name}'` -n "+params.NAMESPACE_NAME+" -- /opt/pwx/bin/pxctl status"
                   }
               }
       }
