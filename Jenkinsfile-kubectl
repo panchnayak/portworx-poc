@@ -9,8 +9,7 @@ pipeline {
                             choice(choices: ['Default: Do Nothing','Excute kubectl'],name: 'ACTION_REQUESTING'),
                             string(defaultValue: 'pnayak-aws',name: 'AWS_CREDS',trim: true),
                             string(defaultValue: 'us-east-2',name: 'FIRST_REGION_NAME',trim: true),
-                             string(defaultValue: 'portworx',name: 'NAMESPACE_NAME',trim: true),
-                            string(defaultValue: 'get pods',name: 'KUBECTL_COMMAND_ARGUMENTS',trim: true),
+                            string(defaultValue: 'kubectl get pods -n portworx',name: 'KUBECTL_COMMAND_ARGUMENTS',trim: true),
                         ])
                     ])
                 }
@@ -21,7 +20,7 @@ pipeline {
             steps {
               withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
                   echo "Executing kubectl or other command on EKS Cluster"
-                  sh "kubectl "+params.KUBECTL_COMMAND_ARGUMENTS+" -n "+params.NAMESPACE_NAME
+                  sh params.KUBECTL_COMMAND_ARGUMENTS
               }
             }
       }
