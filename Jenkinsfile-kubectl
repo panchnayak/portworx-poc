@@ -21,7 +21,7 @@ pipeline {
             steps {
               withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
                   echo "Executing kubectl or other command on EKS Cluster"
-                  sh "kubectl "+params.KUBECTL_COMMAND_ARGUMENTS"+ -n "+params.NAMESPACE_NAME
+                  sh "kubectl "+params.KUBECTL_COMMAND_ARGUMENTS+" -n "+params.NAMESPACE_NAME
               }
             }
       }
