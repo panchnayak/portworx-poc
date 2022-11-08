@@ -8,7 +8,8 @@ pipeline {
                         parameters([
                             choice(choices: ['Default: Do Nothing','Deploy Petclinic App','Delete Petclinic App'],name: 'ACTION_REQUESTING'),
                             string(defaultValue: 'pnayak-aws',name: 'AWS_CREDS',trim: true),
-                            string(defaultValue: 'us-east-2',name: 'FIRST_REGION_NAME',trim: true),
+                            string(defaultValue: 'us-east-2',name: 'REGION_NAME',trim: true),
+                            string(defaultValue: 'petclinic',name: 'NAMESPACE_NAME',trim: true),
                         ])
                     ])
                 }
@@ -17,9 +18,9 @@ pipeline {
         stage('Create Namespace') {
             when { expression { params.ACTION_REQUESTING == 'Deploy Petclinic App'  }  }
                 steps {
-                    withAWS(credentials: params.AWS_CREDENTIAL, region: params.REGION_NAME) {
-                        echo "Deploying EKS Cluster "+params.CLUSTER_NAME+" in the region:"+ params.REGION_NAME
-                        sh "kubectl create ns petclinic"
+                    withAWS(credentials: params.AWS_CREDS, region: params.REGION_NAME) {
+                        echo "Create Namespace "++params.NAMESPACE_NAME+" in the K8S Cluster"
+                        sh "kubectl create ns "+params.NAMESPACE_NAME
                     }
                 }
         } 
