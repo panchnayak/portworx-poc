@@ -19,7 +19,7 @@ pipeline {
             when { expression { params.ACTION_REQUESTING == 'Deploy Petclinic App'  }  }
                 steps {
                     withAWS(credentials: params.AWS_CREDS, region: params.REGION_NAME) {
-                        echo "Create Namespace "++params.NAMESPACE_NAME+" in the K8S Cluster"
+                        echo "Create Namespace "+params.NAMESPACE_NAME+" in the K8S Cluster"
                         sh "kubectl create ns "+params.NAMESPACE_NAME
                     }
                 }
