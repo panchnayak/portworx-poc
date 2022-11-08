@@ -107,7 +107,7 @@ pipeline {
                             }
                         }
                 }       
-                stage('Delete PVC') {
+                stage('Delete StorageClass') {
                     when { expression { params.ACTION_REQUESTING == 'Delete Petclinic App'  }  }
                         steps {
                             withAWS(credentials: params.AWS_CREDENTIAL, region: params.REGION_NAME) {
