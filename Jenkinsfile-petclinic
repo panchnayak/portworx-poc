@@ -74,7 +74,7 @@ pipeline {
 
         stage('3') {
             parallel {
-                stage('Create PVC') {
+                stage('Create MySQL DB') {
                     when { expression { params.ACTION_REQUESTING == 'Deploy Petclinic App'  }  }
                         steps {
                             withAWS(credentials: params.AWS_CREDENTIAL, region: params.REGION_NAME) {
@@ -97,7 +97,7 @@ pipeline {
         }
         stage('4') {
             parallel {
-                stage('Create PVC') {
+                stage('Deploy Petclinic App') {
                     when { expression { params.ACTION_REQUESTING == 'Deploy Petclinic App'  }  }
                         steps {
                             withAWS(credentials: params.AWS_CREDENTIAL, region: params.REGION_NAME) {
