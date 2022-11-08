@@ -6,7 +6,7 @@ pipeline {
           script {
             properties([
               parameters([
-                            choice(choices: ['Default: Do Nothing', 'Deploy EKS Backup Cluster', 'Destroy EKS Backup Cluster'],name: 'ACTION_REQUESTING'),
+                            choice(choices: ['Default: Do Nothing', 'Deploy Px-Backup', 'Destroy PX-Backupr'],name: 'ACTION_REQUESTING'),
                             string(defaultValue: 'pnayak-aws',name: 'AWS_CREDENTIAL',trim: true),
                             string(defaultValue: 'px-backup',name: 'NAMESPACE',trim: true),
                             string(defaultValue: 'portworx-sc',name: 'STORAGE_CLASS_NAME',trim: true),
