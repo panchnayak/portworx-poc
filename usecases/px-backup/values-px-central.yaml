@@ -1,7 +1,7 @@
 ---
   persistentStorage: 
     enabled: true
-    storageClassName: "portworx-sc"
+    storageClassName: "gp2"
     cassandra: 
       storage: "64Gi"
     grafana: 
@@ -140,7 +140,6 @@
       imageName: "mysql"
       tag: "5.7.38"
     ## Images required for enabling px-backup 
-    ## Images required for enabling px-backup 
     pxBackupImage: 
       registry: "docker.io"
       repo: "portworx"
@@ -152,13 +151,11 @@
       imageName: "mongodb"
       tag: "5.0.10-debian-11-r3"
     ## Images required for enabling px-license-server 
-    ## Images required for enabling px-license-server 
     licenseServerImage: 
       registry: "docker.io"
       repo: "portworx"
       imageName: "px-els"
       tag: "2.0.1"
-    ## Images required for enabling px-monitor 
     ## Images required for enabling px-monitor 
     cortexImage: 
       registry: "docker.io"
