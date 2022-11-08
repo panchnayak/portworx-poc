@@ -9,6 +9,8 @@ pipeline {
                             choice(choices: ['Default: Do Nothing','Check Portwox Custer Status'],name: 'ACTION_REQUESTING'),
                             string(defaultValue: 'pnayak-aws',name: 'AWS_CREDS',trim: true),
                             string(defaultValue: 'us-east-2',name: 'FIRST_REGION_NAME',trim: true),
+                            string(defaultValue: 'portworx',name: 'NAMESPACE_NAME',trim: true),
+                            string(defaultValue: 'px-cluster-panch',name: 'PORTWORX_CLUSTER_NAME',trim: true),
                         ])
                     ])
                 }
@@ -19,9 +21,9 @@ pipeline {
             steps {
                   withAWS(credentials: params.AWS_CREDENTIAL, region: params.REGION_NAME) {
                     echo "Portworx Pods in portworx namespace"
-                    sh "kubectl pods -n portworx"
+                    sh "kubectl get pods -n "+params.NAMESPACE_NAME
                     echo "Portworx Storage Cluster Status"
-                    sh "kubectl exec -it -- /opt/pwx/bin/pxctl status -n portworx"
+                    sh "kubectl exec -it -- /opt/pwx/bin/pxctl status -n "+params.NAMESPACE_NAME
                   }
               }
       }
