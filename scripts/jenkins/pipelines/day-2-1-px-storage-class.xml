@@ -20,7 +20,7 @@
       <submoduleCfg class="list"/>
       <extensions/>
     </scm>
-    <scriptPath>Jenkinsfile-storageclass</scriptPath>
+    <scriptPath>Jenkinsfile-sc</scriptPath>
   </definition>
   <triggers/>
 </flow-definition>

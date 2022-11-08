@@ -1,5 +1,5 @@
 pipeline {
-    agent  any
+    agent any
     stages {
         stage('Setup parameters') {
             steps {
@@ -126,4 +126,5 @@ pipeline {
                     }
                 }
         } 
+    }
 }
