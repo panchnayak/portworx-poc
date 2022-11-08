@@ -34,7 +34,7 @@ pipeline {
                   steps {
                       withAWS(credentials: params.AWS_CREDENTIAL, region: params.REGION_NAME) {
                         echo "Uninstalling PX-Backup in the Namespace Cluster to "+params.NAMESPACE
-                        sh "helm uninstall px-central portworx/px-central --namespace "+params.NAMESPACE
+                        sh "helm uninstall px-central --namespace "+params.NAMESPACE
                         sh "kubectl delete ns "+params.NAMESPACE
                       }
                   }
