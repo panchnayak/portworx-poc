@@ -23,7 +23,7 @@ pipeline {
                     sh "kubectl get pods -n "+params.K8S_NAMESPACE
                     sh "kubectl get pods -l name=portworx -n "+params.K8S_NAMESPACE+" -o jsonpath='{.items[0].metadata.name}'"
                     echo "Here is the Portworx Storage Cluster Status"
-                    sh "kubectl exec -it `kubectl get pods -l name=portworx -n "+params.K8S_NAMESPACE+" -o jsonpath='{.items[0].metadata.name}'` -n "+params.NAMESPACE_NAME+" -- /opt/pwx/bin/pxctl status"
+                    sh "kubectl exec -it `kubectl get pods -l name=portworx -n "+params.K8S_NAMESPACE+" -o jsonpath='{.items[0].metadata.name}'` -n "+params.K8S_NAMESPACE+" -- /opt/pwx/bin/pxctl status"
                   }
               }
       }
