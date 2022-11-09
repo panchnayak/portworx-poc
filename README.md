@@ -52,7 +52,11 @@ Edit the variable.tf file to change the dafault names and values for your enviro
 ```
 vi variable.tf
 
-edit the default names and values
+Change the Following from their default values
+
+1.VPC name
+2.key-pair name from "jenkins-keypair" to your given name
+3.Role name from "jenkins_role" to your given name
 
 terraform init
 teraform plan
