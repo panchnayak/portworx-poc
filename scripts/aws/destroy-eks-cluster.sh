@@ -11,7 +11,7 @@ EKS_CLUSTER_NAME=$1
 NODE_GROUP_NAME=$2
 NODE_TYPE=t3.large
 AWS_REGION=$3
-echo "Proceeding to crate EKS Cluster : $1 in Region $3"
+echo "Proceeding to delete EKS Cluster : $1 in Region $3"
 
 eksctl delete cluster -f - <<EOF
 apiVersion: eksctl.io/v1alpha5
@@ -49,4 +49,4 @@ managedNodeGroups:
         cloudWatch: true
 EOF
 
-echo "EKS Cluster $1 Created in Region $3"
+echo "EKS Cluster $1 deleted in Region $3"
