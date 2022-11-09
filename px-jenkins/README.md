@@ -65,7 +65,7 @@ Wait for the Instance to be completley running and then find the IP of the Insta
 Get the IP address of Jenkins Server
 
 ```
-terraformf output public_ip
+terraform output public_ip
 
 ```
 
