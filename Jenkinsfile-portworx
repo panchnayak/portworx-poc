@@ -9,7 +9,6 @@ pipeline {
                             choice(choices: ['Default: Do Nothing', 'Deploy Portworx Cluster', 'Destroy Portworx Cluster'],name: 'ACTION_REQUESTING'),
                             string(defaultValue: 'pnayak-aws',name: 'AWS_CREDENTIAL',trim: true),
                             string(defaultValue: 'pn-eks',name: 'CLUSTER_NAME',trim: true),
-                            string(defaultValue: 'pn-px-ng',name: 'NODEGROUP_NAME',trim: true),
                             string(defaultValue: 'us-east-2',name: 'REGION_NAME',trim: true),
                             string(defaultValue: 'portworx',name: 'PORTWORX_NAMESPACE',trim: true),
                             string(defaultValue: 'https://raw.githubusercontent.com/panchnayak/portworx-poc/main/scripts/portworx/eks-px-cluster-specs.yaml',name: 'PORTWORX_SPECS_URL',trim: true),
