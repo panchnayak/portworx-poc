@@ -11,7 +11,7 @@ declare -a PipelineList=(
    "Day-1-1-Deploy-or-Destroy-AWS-EKS-Cluster"
    "Day-1-2-Get-Kubeconfig-file-for-K8S-Cluster"
    "Day-1-3-Execute-kubectl-commands-for-K8s" 
-   "Day-1-4-Deploy-or-Destroy-Portworx-on-the-Kubernetes-Cluster"
+   "Day-1-4-Deploy-or-Destroy-Portworx-Storage-Cluster"
    "Day-1-5-Check-portworx-Cluster-Status"
    "Day-1-6-Deploy-ETCD-Single-Node-Cluster"
    "Day-2-1-Create-StorageClass"
