@@ -97,11 +97,54 @@ Jenkins needs your AWS credential to use it for creating Instances or EKS cluste
 
 ## Using the Pipeline on Jenkins
 
-1.First Pipeline is for ruuning eksctl command on your Kubernetes Cluster created by this Jenkins Server
-2.....
+Following pipelines gets created when terraform finished installing jenkins.
+
+"Day-1-1-Deploy-or-Destroy-AWS-EKS-Cluster"
+"Day-1-2-Get-Kubeconfig-file-for-K8S-Cluster"
+"Day-1-3-Execute-kubectl-commands-for-K8s" 
+"Day-1-4-Deploy-or-Destroy-Portworx-Storage-Cluster"
+"Day-1-5-Check-portworx-Cluster-Status"
+"Day-1-6-Deploy-ETCD-Single-Node-Cluster"
+"Day-2-1-Create-StorageClass"
+"Day-2-2-Create-Volumes-for-Apps"
+"Day-2-3-Create-Petclinic-Application"
+"Day-2-4-Deploy-or-Destroy-Cassandra-DB"
+"Day-3-1-Deploy-or-Destroy-Px-Backup" 
+"Day-3-2-Portworx-Operation-Demo"
+
+
+### Create AWS credential for jenkins to use in the pipelines
+
+Before using the pipleines uou must create an AWS credential with your AWS secrets.Which you can get from your aws instalation.
+
+cat ~/.aws/credentials
+[default]
+aws_access_key_id = XXXXXXXXXXXXXXX
+aws_secret_access_key = XYXYXYXYXYXYXYYXYXYXYXYXYXYXYXYXY
 
 Clieck on EKS Pipeline to create the EKS cluster on AWS
 
 Happy Demoing of Portworx Software.
+
+## Some useful commands
+
+### create AWS EKS cluster 
+eksctl create cluster -f cluster-config-file.yaml
+
+### get the kubeconfig file from an existing EKS cluster
+
+eksctl utils write-kubeconfig --cluster --region us-east-2
+
+### Install portworx operator
+
+kubectl apply -f 'https://install.portworx.com/2.12?comp=pxoperator&ns=portworx'
+
+### get portworx cluster status
+
+PX_POD=$(kubectl get pods -l name=portworx -o jsonpath='{.items[0].metadata.name}') 
+ 
+alias pxctl='kubectl exec $PX_POD -- /opt/pwx/bin/pxctl' 
+
+
 
 

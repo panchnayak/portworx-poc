@@ -7,9 +7,9 @@ pipeline {
                     properties([
                         parameters([
                             choice(choices: ['Default: Do Nothing','Excute kubectl'],name: 'ACTION_REQUESTING'),
-                            string(defaultValue: 'pnayak-aws',name: 'AWS_CREDS',trim: true),
-                            string(defaultValue: 'us-east-2',name: 'FIRST_REGION_NAME',trim: true),
-                            string(defaultValue: 'kubectl get pods -n portworx',name: 'KUBECTL_COMMAND_ARGUMENTS',trim: true),
+                            string(defaultValue: 'pnayak-aws',name: 'AWS_CREDENTIAL',trim: true),
+                            string(defaultValue: 'us-east-2',name: 'REGION_NAME',trim: true),
+                            string(defaultValue: 'kubectl get pods -n portworx',name: 'KUBECTL_COMMAND',trim: true),
                         ])
                     ])
                 }
@@ -18,9 +18,9 @@ pipeline {
       stage('Execute Kubectl Complete Command') {
             when { expression { params.ACTION_REQUESTING == 'Excute kubectl'  }  }
             steps {
-              withAWS(credentials: params.AWS_CREDS, region: params.FIRST_REGION_NAME) {
+              withAWS(credentials: params.AWS_CREDENTIAL, region: params.REGION_NAME) {
                   echo "Executing kubectl or other command on EKS Cluster"
-                  sh params.KUBECTL_COMMAND_ARGUMENTS
+                  sh params.KUBECTL_COMMAND
               }
             }
       }
