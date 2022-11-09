@@ -49,4 +49,4 @@ managedNodeGroups:
         cloudWatch: true
 EOF
 
-echo "EKS Cluster $1 Created in Region $2"
+echo "EKS Cluster $1 Created in Region $3"

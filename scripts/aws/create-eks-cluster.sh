@@ -9,7 +9,6 @@ fi
 
 EKS_CLUSTER_NAME=$1
 NODE_GROUP_NAME=$2
-NODE_TYPE=t3.large
 AWS_REGION=$3
 echo "Proceeding to crate EKS Cluster : $1 in Region $3"
 
@@ -47,7 +46,6 @@ managedNodeGroups:
         efs: true
         albIngress: true
         cloudWatch: true
-availabilityZones: [ 'us-east-1a', 'us-east-1b', 'us-east-1c' ]
 EOF
 
-echo "EKS Cluster $1 Created in Region $2"
+echo "EKS Cluster $1 Created in Region $3"
