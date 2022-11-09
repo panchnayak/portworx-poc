@@ -105,12 +105,12 @@ Following pipelines gets created when terraform finished installing jenkins.
 ### Create AWS credential for jenkins to use in the pipelines
 
 Before using the pipleines uou must create an AWS credential with your AWS secrets.Which you can get from your aws instalation.
-
+```
 cat ~/.aws/credentials
 [default]
 aws_access_key_id = XXXXXXXXXXXXXXX
 aws_secret_access_key = XYXYXYXYXYXYXYYXYXYXYXYXYXYXYXYXY
-
+```
 Clieck on EKS Pipeline to create the EKS cluster on AWS
 
 ## Using the Pipeline on Jenkins
