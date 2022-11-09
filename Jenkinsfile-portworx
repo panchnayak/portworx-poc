@@ -24,16 +24,16 @@ pipeline {
                         steps {
                             withAWS(credentials: params.AWS_CREDENTIAL, region: params.REGION_NAME) {
                                 echo "Deploy Portworx Operator on the EKS Cluster"
-                                sh "kubectl create ns "+ params.PORTWORX_NAMESPACE
+                                sh "kubectl create ns "+params.PORTWORX_NAMESPACE
                                 sh "kubectl apply -f 'https://install.portworx.com/2.12?comp=pxoperator&ns="+params.PORTWORX_NAMESPACE+"'"
                                 sh "kubectl get pods -n "+ params.PORTWORX_NAMESPACE
                                 echo "Applying the Portworx Specification provided in the GITHUB URLs for your Kubernetes Cluster"
                                 sh "sleep 10s"
-                                sh "kubectl apply -f "+ params.PORTWORX_SPECS_URL
+                                sh "kubectl apply -f "+params.PORTWORX_SPECS_URL
                                 sh "sleep 10s"
-                                sh "kubectl get pods -n "+ params.PORTWORX_NAMESPACE
+                                sh "kubectl get pods -n "+params.PORTWORX_NAMESPACE
                                 sh "sleep 10s"
-                                sh "kubectl get pods -n "+ params.PORTWORX_NAMESPACE
+                                sh "kubectl get pods -n "+params.PORTWORX_NAMESPACE
                             }
                         }
                 }
