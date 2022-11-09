@@ -32,7 +32,7 @@ pipeline {
                         steps {
                             withAWS(credentials: params.AWS_CREDENTIAL, region: params.REGION_NAME) {
                                 echo "Destroying EKS Cluster "+params.CLUSTER_NAME+" in the region:"+ params.REGION_NAME
-                                sh "./scripts/aws/destroy-eks-cluster.sh "+ params.CLUSTER_NAME+"  "+params.REGION_NAME
+                                sh "./scripts/aws/destroy-eks-cluster.sh "+ params.CLUSTER_NAME+"  "+params.NODEGROUP_NAME+"  "+params.REGION_NAME
                             }
                         }
                 }
