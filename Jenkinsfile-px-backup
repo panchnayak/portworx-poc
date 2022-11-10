@@ -8,9 +8,11 @@ pipeline {
               parameters([
                             choice(choices: ['Default: Do Nothing', 'Deploy Px-Backup', 'Destroy PX-Backup'],name: 'ACTION_REQUESTING'),
                             string(defaultValue: 'pnayak-aws',name: 'AWS_CREDENTIAL',trim: true),
+                            string(defaultValue: 'us-east-2',name: 'REGION_NAME',trim: true),
+                            string(defaultValue: 'pn-eks',name: 'K8S_CLUSTER_NAME',trim: true),
                             string(defaultValue: 'central',name: 'NAMESPACE',trim: true),
                             string(defaultValue: 'gp2',name: 'STORAGE_CLASS_NAME',trim: true),
-                            string(defaultValue: 'us-east-2',name: 'REGION_NAME',trim: true),
+                            
                         ])
             ])
           }
