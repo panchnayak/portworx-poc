@@ -25,7 +25,7 @@ pipeline {
                           echo "Add the HELM repository pointing to the repository"
                           sh "helm repo add portworx http://charts.portworx.io/ && helm repo update"
                           echo "Deploying PX-Backup in the Namespace Cluster to "+params.NAMESPACE+" with StorgeClass "+params.STORAGE_CLASS_NAME
-                          sh "helm install px-central portworx/px-central --namespace "+params.NAMESPACE+" --create-namespace --version 2.3.1 -f ./usecases/px-backup/values-px-central.yaml"
+                          sh "helm install px-central portworx/px-central --namespace "+params.NAMESPACE+" --create-namespace --version 2.3.1 --set persistentStorage.enabled=true,persistentStorage.storageClassName=\""+params.STORAGE_CLASS_NAME+"\",pxbackup.enabled=true"
                       }
                   }
               } 
