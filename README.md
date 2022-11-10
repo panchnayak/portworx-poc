@@ -132,22 +132,24 @@ Happy Demoing of Portworx Software.
 ## Some useful commands
 
 ### create AWS EKS cluster 
+```
 eksctl create cluster -f cluster-config-file.yaml
-
+```
 ### get the kubeconfig file from an existing EKS cluster
 
-eksctl utils write-kubeconfig --cluster --region us-east-2
-
+```
+eksctl utils write-kubeconfig --cluster "cluster-name" --region us-east-2
+```
 ### Install portworx operator
-
+```
 kubectl apply -f 'https://install.portworx.com/2.12?comp=pxoperator&ns=portworx'
-
+```
 ### get portworx cluster status
-
+```
 PX_POD=$(kubectl get pods -l name=portworx -o jsonpath='{.items[0].metadata.name}') 
  
 alias pxctl='kubectl exec $PX_POD -- /opt/pwx/bin/pxctl' 
-
+```
 
 
 
