@@ -20,7 +20,7 @@ pipeline {
             steps {
               withAWS(credentials: params.AWS_CREDENTIAL, region: params.REGION_NAME) {
                   echo "Executing kubectx or other command on EKS Cluster"
-                  sh params.KUBECTX_COMMAND
+                  sh "bash "+params.KUBECTX_COMMAND
               }
             }
       }

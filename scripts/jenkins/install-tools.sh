@@ -20,8 +20,14 @@ sudo bash ./aws/install
 #sudo systemctl enable docker --now
 curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
 sudo mv /tmp/eksctl /usr/local/bin
+### Install kubectl
 curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.21.2/2021-07-05/bin/linux/amd64/kubectl
 chmod +x kubectl && sudo mv kubectl /usr/local/bin/kubectl
+### Install kubectx
+sudo git clone https://github.com/ahmetb/kubectx /opt/kubectx
+sudo ln -s /opt/kubectx/kubectx /usr/local/bin/kubectx
+sudo ln -s /opt/kubectx/kubens /usr/local/bin/kubens
+### Install Helm
 curl -sSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 curl -Lo /tmp/pxc.tar.gz https://github.com/portworx/pxc/releases/download/v0.35.0/pxc-v0.35.0.linux.amd64.tar.gz
 cd /tmp && tar -zxvf /tmp/pxc.tar.gz
