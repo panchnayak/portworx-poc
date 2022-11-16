@@ -59,7 +59,7 @@ pipeline {
                             withAWS(credentials: params.AWS_CREDENTIAL, region: params.REGION_NAME) {
                                 echo "Deleting Shared PVC "
                                 sh "kubectl delete -f ./usecases/sharedv4/px-volume-sharedv4-pvc.yaml"
-                                
+                            }  
                         }
                 }        
             }
