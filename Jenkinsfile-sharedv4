@@ -18,6 +18,45 @@ pipeline {
                 }
             }
         }
+
+        stage('Create Shared V4 Storage Class') {
+                    when { expression { params.ACTION_REQUESTING == 'Deploy Shared V4 Demo'  }  }
+                    stage('Create Shared V4 Storage Class') {
+                        steps {
+                            withAWS(credentials: params.AWS_CREDENTIAL, region: params.REGION_NAME) {
+                                echo "Creating Storage Class in K8s Cluster"
+                                sh "kubectl apply -f ./usecases/sharedv4/px-sharedv4-sc.yaml"
+                            }
+                        }
+                    }
+                    stage('Create Shared PVC') {
+                        steps {
+                            withAWS(credentials: params.AWS_CREDENTIAL, region: params.REGION_NAME) {
+                                echo "Creating Shared PVC For Webservers "
+                                sh "kubectl apply -f ./usecases/sharedv4/px-volume-sharedv4-pvc.yaml"
+                            }
+                        }
+                    }
+                    stage('Create first Webserver') {
+                        steps {
+                            withAWS(credentials: params.AWS_CREDENTIAL, region: params.REGION_NAME) {
+                                    echo "Deploying first Webserver and mounting shared volume"
+                                    sh "kubectl apply -f ./usecases/sharedv4/px-volume-sharedv4-pod-1.yaml"
+                            }
+                        }
+                    }
+                    stage('Create Second Webserver') {
+                        steps {
+                                withAWS(credentials: params.AWS_CREDENTIAL, region: params.REGION_NAME) {
+                                    echo "Deploying Second Webserver and Mounting the same volume"
+                                    sh "kubectl apply -f ./usecases/sharedv4/px-volume-sharedv4-pod-2.yaml"
+                                    sh "kubectl get pod,svc"
+                                }
+                        }
+                    }
+        }
+        
+
         stage('1') {
             parallel {
                 stage('Create Shared V4 Storage Class') {
