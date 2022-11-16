@@ -87,6 +87,7 @@ pipeline {
                         }
                 }   
             }
+        }
 
         stage('Create Second Webserver') {
             when { expression { params.ACTION_REQUESTING == 'Deploy Shared V4 Demo'  }  }
