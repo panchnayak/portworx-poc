@@ -21,6 +21,7 @@ declare -a PipelineList=(
    "Day-3-1-Deploy-or-Destroy-Px-Backup" 
    "Day-3-2-Portworx-Operation-Demo"
    "Set-Kubernetes-Context"
+   "Demo-Shared-V4-Volume"
    )
 
 for ((i=0;i<${#PipelineList[@]};i++)); do
