@@ -81,7 +81,7 @@ pipeline {
                         steps {
                             withAWS(credentials: params.AWS_CREDENTIAL, region: params.REGION_NAME) {
                                 echo "Delete Storage Class "
-                                sh "kubectl delete -f ./usecases/sharedv4/px-repl3-sc.yaml"
+                                sh "kubectl delete -f ./usecases/sharedv4/px-sharedv4-sc.yaml"
                                 sh "kubectl get pod,svc"
                             }
                         }
