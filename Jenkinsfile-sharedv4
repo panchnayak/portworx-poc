@@ -1,0 +1,99 @@
+pipeline {
+    agent any
+    stages {
+        stage('Setup parameters') {
+            steps {
+                script {
+                    properties([
+                        parameters([
+                            choice(choices: ['Default: Do Nothing','Deploy Shared V4 Demo','Delete Shared V4 Demo Env'],name: 'ACTION_REQUESTING'),
+                            string(defaultValue: 'pnayak-aws',name: 'AWS_CREDENTIAL',trim: true),
+                            string(defaultValue: 'us-east-2',name: 'REGION_NAME',trim: true),
+                            string(defaultValue: 'px-sharedv4-sc',name: 'STORAGE_CLASS_NAME',trim: true),
+                            string(defaultValue: 'px-sharedv4-pvc',name: 'VOLUME_CLAIM_NAME',trim: true),
+                            string(defaultValue: 'test_volume',name: 'VOLUME_NAME',trim: true),
+                            string(defaultValue: '/test-portworx-volume',name: 'VOLUME_MOUNT_PATH',trim: true),
+                        ])
+                    ])
+                }
+            }
+        }
+        stage('1') {
+            parallel {
+                stage('Create Shared V4 Storage Class') {
+                    when { expression { params.ACTION_REQUESTING == 'Deploy Shared V4 Demo'  }  }
+                        steps {
+                            withAWS(credentials: params.AWS_CREDENTIAL, region: params.REGION_NAME) {
+                                echo "Creating Storage Class in K8s Cluster"
+                                sh "kubectl apply -f ./usecases/sharedv4/px-sharedv4-sc.yaml"
+                            }
+                        }
+                }
+                stage('Delete Webservers') {
+                    when { expression { params.ACTION_REQUESTING == 'Delete Shared V4 Demo Env'  }  }
+                        steps {
+                            withAWS(credentials: params.AWS_CREDENTIAL, region: params.REGION_NAME) {
+                                echo "Deleting Petclinic App "
+                                sh "kubectl delete -f ./usecases/sharedv4/px-volume-sharedv4-pod-1.yaml"
+                                sh "kubectl delete -f ./usecases/sharedv4/px-volume-sharedv4-pod-2.yaml"
+                            }
+                        }
+                }             
+            }
+        }
+
+        stage('2') {
+            parallel {
+                stage('Create Shared PVC') {
+                    when { expression { params.ACTION_REQUESTING == 'Deploy Shared V4 Demo'  }  }
+                        steps {
+                            withAWS(credentials: params.AWS_CREDENTIAL, region: params.REGION_NAME) {
+                                echo "Creating Shared PVC For Webservers "
+                                sh "kubectl apply -f ./usecases/sharedv4/px-volume-sharedv4-pvc.yaml"
+                            }
+                        }
+                }
+                stage('Delete Shared PVC') {
+                    when { expression { params.ACTION_REQUESTING == 'Delete Shared V4 Demo Env'  }  }
+                        steps {
+                            withAWS(credentials: params.AWS_CREDENTIAL, region: params.REGION_NAME) {
+                                echo "Deleting Shared PVC "
+                                sh "kubectl delete -f ./usecases/sharedv4/px-volume-sharedv4-pvc.yaml"
+                                
+                        }
+                }        
+            }
+        }
+
+        stage('Create first Webserver') {
+            when { expression { params.ACTION_REQUESTING == 'Deploy Shared V4 Demo'  }  }
+                steps {
+                    withAWS(credentials: params.AWS_CREDENTIAL, region: params.REGION_NAME) {
+                        echo "Deploying first Webserver and mounting shared volume"
+                        sh "kubectl apply -f ./usecases/sharedv4/px-volume-sharedv4-pod-1.yaml"
+                    }
+                }
+        }   
+        stage('Create Second Webserver') {
+            when { expression { params.ACTION_REQUESTING == 'Deploy Shared V4 Demo'  }  }
+                steps {
+                    withAWS(credentials: params.AWS_CREDENTIAL, region: params.REGION_NAME) {
+                        echo "Deploying Second Webserver and Mounting the same volume"
+                        sh "kubectl apply -f ./usecases/sharedv4/px-volume-sharedv4-pod-2.yaml"
+                        sh "kubectl get pod,svc"
+                    }
+                }
+        }          
+        
+        stage('Delete StorageClass') {
+            when { expression { params.ACTION_REQUESTING == 'Delete Shared V4 Demo Env'  }  }
+                steps {
+                    withAWS(credentials: params.AWS_CREDENTIAL, region: params.REGION_NAME) {
+                        echo "Delete StorageClass "
+                        sh "kubectl delete -f ./usecases/sharedv4/px-repl3-sc.yaml"
+                        sh "kubectl get pod,svc"
+                    }
+                }
+        }
+    }
+}

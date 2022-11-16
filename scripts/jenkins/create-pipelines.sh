@@ -21,6 +21,7 @@ declare -a PipelineList=(
    "Day-3-1-Deploy-or-Destroy-Px-Backup" 
    "Day-3-2-Portworx-Operation-Demo"
    "Set-Kubernetes-Context"
+   "Demo-Shared-V4-Volume"
    )
 
 declare -a PathList=(
@@ -37,6 +38,8 @@ declare -a PathList=(
    "day-3-1-px-backup.xml"
    "day-3-2-px-ops-demo.xml"
    "set-kube-context.xml"
+   "demo-sharedv4-volume.xml"
+   
    )
 
 for ((i=0;i<${#PipelineList[@]};i++)); do
