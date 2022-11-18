@@ -98,7 +98,7 @@ pipeline {
         stage('4') {
             parallel {
                 stage('Deploy Petclinic App') {
-                    when { expression { params.ACTION_REQUESTING == 'Deploy Petclinic App'  }  }
+                    when { expression { params.ACTION_REQUESTING == 'Create Petclinic App'  }  }
                         steps {
                             withAWS(credentials: params.AWS_CREDENTIAL, region: params.REGION_NAME) {
                                 echo "Deploying MySQL DB "
