@@ -76,7 +76,7 @@ Wait for the Instance to be completley running and then find the IP of the Insta
 Get the IP address of Jenkins Server
 
 ```
-tf output public_ip
+terraform output public_ip
 
 ```
 
@@ -102,18 +102,20 @@ Jenkins needs your AWS credential to use it for creating Instances or EKS cluste
 
 Following pipelines gets created when terraform finished installing jenkins.
 
-- "Day-1-1-Deploy-or-Destroy-AWS-EKS-Cluster"
-- "Day-1-2-Get-Kubeconfig-file-for-K8S-Cluster"
-- "Day-1-3-Execute-kubectl-commands-for-K8s" 
-- "Day-1-4-Deploy-or-Destroy-Portworx-Storage-Cluster"
-- "Day-1-5-Check-portworx-Cluster-Status"
-- "Day-1-6-Deploy-ETCD-Single-Node-Cluster"
-- "Day-2-1-Create-StorageClass"
-- "Day-2-2-Create-Volumes-for-Apps"
-- "Day-2-3-Create-Petclinic-Application"
-- "Day-2-4-Deploy-or-Destroy-Cassandra-DB"
-- "Day-3-1-Deploy-or-Destroy-Px-Backup" 
-- "Day-3-2-Portworx-Operation-Demo"
+-  "Day-1-1-Deploy-or-Destroy-AWS-EKS-Cluster"
+   "Day-1-2-Get-Kubeconfig-file-for-K8S-Cluster"
+   "Day-1-3-Execute-kubectl-commands-for-K8s" 
+   "Day-1-4-Deploy-or-Destroy-Portworx-Storage-Cluster"
+   "Day-1-5-Check-portworx-Cluster-Status"
+   "Day-1-6-Deploy-ETCD-Single-Node-Cluster"
+   "Day-2-1-Create-StorageClass"
+   "Day-2-2-Create-Volumes-for-Apps"
+   "Day-2-3-Create-Petclinic-Application"
+   "Day-2-4-Deploy-or-Destroy-Cassandra-DB"
+   "Day-3-1-Deploy-or-Destroy-Px-Backup" 
+   "Day-3-2-Portworx-Operation-Demo"
+   "Set-Kubernetes-Context"
+   "Demo-Shared-V4-Volume"
 
 
 ### Create AWS credential for jenkins to use in the pipelines
