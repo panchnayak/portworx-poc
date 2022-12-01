@@ -74,7 +74,13 @@ curl https://staging.pds.portworx.com/api/deployment-targets/fcc6885a-b585-4846-
 
 ### Get Existing Deployments
 
-curl https://staging.pds.portworx.com/api/projects/project-id/deployments -H "Authorization: Bearer bearer_token" -H "Accept: application/json" | jq
+```
+curl https://staging.pds.portworx.com/api/projects/project-id/deployments -H "Authorization: Bearer bearer_token" -H "Accept: application/json" | jq '.data[].cluster_resource_name'
+
+Example : 
+
+curl https://staging.pds.portworx.com/api/projects/fd53fa1a-eb68-4d39-98ae-e2cf12dd8ed2/deployments -H "Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5pbCIsImV4cCI6MTY3MDUwOTc5OSwiaWF0IjoxNjY5OTA1MDAwLCJpc3MiOiJwZHMtdXNlckFQSUtleSIsIm5hbWUiOiIyOGFkMDAxMi1iZmY2LTQzNjUtODk4Ny1lN2U4MWU1NDUwYTkiLCJyb2xlcyI6bnVsbCwic3ViIjoiNmY0ZThjYmUtYWJmYi00OGY2LTg1ODAtZmIzMzBlZTk4MGNlIn0.V-ZY3sJ8smA064j71tt9Npl9MR7jKOI9M-5OkFVZI9dyHoMR6FXK4btB-f9qrMRHOk8833clEDO9eNI1boEjPg" -H "Accept: application/json" | jq '.data[].cluster_resource_name'
+```
 
 ### Create a new Deployment
 
