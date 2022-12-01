@@ -19,7 +19,8 @@ https://prod.pds.portworx.com/swagger/index.html
 Login to the PDS console and Create a Bearer Token
 
 ![Create API Token](./images/create-pds-api-key.jpeg)
-![Create API Key](./videos/pds-api-key.mp4)
+
+https://user-images.githubusercontent.com/31803506/205083111-9ee11df5-0351-47ba-a489-f3554d6bf9b8.mp4
 
 ### Get Available Data Services
 
