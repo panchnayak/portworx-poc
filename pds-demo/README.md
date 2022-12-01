@@ -1,12 +1,14 @@
-### Label the namespaces to be visible to PDS
 
-Before a Target Cluster namespace can appear on PDS console for creation of Data Services you have to label it as follows
+## Wotking with PDS API
+
+Before working with API ensure that you have a namespace labeled for creating your PDS services,otherwise the namespace will not appear on PDS console for creation of Data Services.
+
+### Label the namespaces to be visible to PDS
 
 ```
 kubectl label namespaces $NAMESPACE pds.portworx.com/available=true --overwrite=true
 ```
 
-## Wotking with PDS API
 
 For authentication purpose, before one can work with PDS API, he/she has to create the API bearoer token which can be passed on to your API calls as follows.
 
