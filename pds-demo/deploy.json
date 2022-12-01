@@ -1,12 +1,12 @@
 {
-    "application_configuration_template_id": "d647362d-3d33-46d2-9b3a-85fab2d8d114",
-    "deployment_target_id": "fcc6885a-b585-4846-9601-256a6b2bb2f1",
+    "application_configuration_template_id": "d647362d-3d33-xxxx-9b3a-85fxxxx8d114",
+    "deployment_target_id": "fcc6885a-b585-xxxx-9601-2x6xxxxb2f1",
     "dns_zone": "sales-staging.pds-dns.io",
-    "image_id": "90288e7a-62ce-495f-b76a-2614a946907b",
+    "image_id": "90288e7a-62ce-495f-xxxx-2614xxxx907b",
     "name": "panch-mongodb-service",
-    "namespace_id": "213d3b11-aee5-41cc-bd1e-6ad9f90372a1",
+    "namespace_id": "213d3b11-xxxx-41cc-xxxxxe-6ad9fxxx72a1",
     "node_count": 2,
-    "resource_settings_template_id": "09c77e89-9169-4240-a89a-e04987c6af0e",
+    "resource_settings_template_id": "09c77e89-9169-xxxx-a89a-e0498xxxxf0e",
     "service_type": "LoadBalancer",
-    "storage_options_template_id": "29956f6d-5e70-4a18-a5cc-20dc83952d1c"
+    "storage_options_template_id": "299xxx6d-5e70-4a18-xxxxc-20dc83952d1c"
   }

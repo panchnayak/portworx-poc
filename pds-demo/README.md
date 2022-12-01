@@ -8,8 +8,6 @@ Before working with API ensure that you have a namespace labeled for creating yo
 ```
 kubectl label namespaces $NAMESPACE pds.portworx.com/available=true --overwrite=true
 ```
-
-
 For authentication purpose, before one can work with PDS API, he/she has to create the API bearoer token which can be passed on to your API calls as follows.
 
 To see the details of the API open the following URL on a Browser.
@@ -33,7 +31,6 @@ curl https://staging.pds.portworx.com/api/data-services -H "Authorization: Beare
 ```
 
 ![PDS Data Services](./images/pds-data-services.jpg)
-
 
 ### Get all the Accounts
 
@@ -62,7 +59,6 @@ Example:
 
 curl https://staging.pds.portworx.com/api/tenants/fb942f2c-d185-4c8a-97a5-bb7f348aa2a0/deployment-targets -H "Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5pbCIsImV4cCI6MTY3MDQyNzU1NCwiaWF0IjoxNjY5ODIyNzY4LCJpc3MiOiJwZHMtdXNlckFQSUtleSIsIm5hbWUiOiIyOGFkMDAxMi1iZmY2LTQzNjUtODk4Ny1lN2U4MWU1NDUwYTkiLCJyb2xlcyI6bnVsbCwic3ViIjoiZjU3NDA3ZDEtMWNlZC00NWI3LTk5NmYtOTMzNDU0NmYxOGY2In0.0C-4w1zI13eE0ak0gyNaPm1LStdxpC4FxwwQi3PgwOKB6mbDwj6Pve3OcQ5EIFxnDlPTpE081sxkzqcD8iuXvA" | jq
 ```
-
 
 ### Get Existing Deployments
 
@@ -119,21 +115,20 @@ curl https://staging.pds.portworx.com/api/deployment-targets/fcc6885a-b585-4846-
 {
   "data": [
     {
-      "id": "213d3b11-aee5-41cc-bd1e-6ad9f90372a1",
+      "id": "213d3b11-aee5-41cc-bd1e-6xxxxx72a1",
       "created_at": "2022-10-18T19:02:31.487175Z",
       "updated_at": "2022-10-18T19:02:31.487175Z",
       "name": "pds-demo",
       "status": "available",
-      "deployment_target_id": "fcc6885a-b585-4846-9601-256a6b2bb2f1",
-      "tenant_id": "fb942f2c-d185-4c8a-97a5-bb7f348aa2a0",
-      "account_id": "b0b7de54-0d86-4315-a655-d52c6423ae63"
+      "deployment_target_id": "fcc6xxxxa-b585-4846-9601-256xxxx2f1",
+      "tenant_id": "fb942f2c-xxxx-4c8a-97a5-bbxxxxxxaa2a0",
+      "account_id": "b0b7de54-xxxx-xxxx-a655-d52xxxx3e63"
     }
   ],
   "pagination": null
 }
 
 ```
-
 ![Get NameSpace](./images/get-namespace.jpeg)
 
 ### Get the Application Configuration template ID
@@ -141,7 +136,6 @@ curl https://staging.pds.portworx.com/api/deployment-targets/fcc6885a-b585-4846-
 curl https://staging.pds.portworx.com/api/tenants/fb942f2c-d185-4c8a-97a5-bb7f348aa2a0/application-configuration-templates -H "Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5pbCIsImV4cCI6MTY3MDUwOTc5OSwiaWF0IjoxNjY5OTA1MDAwLCJpc3MiOiJwZHMtdXNlckFQSUtleSIsIm5hbWUiOiIyOGFkMDAxMi1iZmY2LTQzNjUtODk4Ny1lN2U4MWU1NDUwYTkiLCJyb2xlcyI6bnVsbCwic3ViIjoiNmY0ZThjYmUtYWJmYi00OGY2LTg1ODAtZmIzMzBlZTk4MGNlIn0.V-ZY3sJ8smA064j71tt9Npl9MR7jKOI9M-5OkFVZI9dyHoMR6FXK4btB-f9qrMRHOk8833clEDO9eNI1boEjPg" -H "Accept: application/json" | jq
 
 ### Create a new MongoDB Deployment
-
 
 1.MongoDB Data Services ID is - 652c8012-31cb-4716-968c-981c56f46afe
 
@@ -151,16 +145,11 @@ curl https://staging.pds.portworx.com/api/tenants/fb942f2c-d185-4c8a-97a5-bb7f34
 
 2.The application-configuration-templates ID corresponds to Data servicers ID is - d647362d-3d33-46d2-9b3a-85fab2d8d114
 
-
 ```
 curl https://staging.pds.portworx.com/api/tenants/fb942f2c-d185-4c8a-97a5-bb7f348aa2a0/resource-settings-templates -H "Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5pbCIsImV4cCI6MTY3MDUwOTc5OSwiaWF0IjoxNjY5OTA1MDAwLCJpc3MiOiJwZHMtdXNlckFQSUtleSIsIm5hbWUiOiIyOGFkMDAxMi1iZmY2LTQzNjUtODk4Ny1lN2U4MWU1NDUwYTkiLCJyb2xlcyI6bnVsbCwic3ViIjoiNmY0ZThjYmUtYWJmYi00OGY2LTg1ODAtZmIzMzBlZTk4MGNlIn0.V-ZY3sJ8smA064j71tt9Npl9MR7jKOI9M-5OkFVZI9dyHoMR6FXK4btB-f9qrMRHOk8833clEDO9eNI1boEjPg" -H "Accept: application/json" | jq
 ```
 
-
-3.We need the resource_settings_template_id curresponds to the Data Service ID 
-
-
-: 09c77e89-9169-4240-a89a-e04987c6af0e
+3.We need the resource_settings_template_id curresponds to the Data Service ID : 09c77e89-9169-4240-a89a-e04987c6af0e
 
 
 4. We need the storage_options_template_id
