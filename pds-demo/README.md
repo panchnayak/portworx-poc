@@ -1,5 +1,5 @@
 
-## Wotking with PDS API
+## Working with PDS API
 
 Before working with API ensure that you have a namespace labeled for creating your PDS services,otherwise the namespace will not appear on PDS console for creation of Data Services.
 
