@@ -18,7 +18,7 @@ https://prod.pds.portworx.com/swagger/index.html
 
 Login to the PDS console and Create a Bearer Token
 
-https://user-images.githubusercontent.com/31803506/205083111-9exxxf5-xxxx-47ba-a489-f35xxxxbf9b8.mp4
+https://user-images.githubusercontent.com/31803506/205126480-1a9d436f-f546-4dd4-91c3-7d8ab4371dd0.mp4
 
 ### Get Available Data Services
 
