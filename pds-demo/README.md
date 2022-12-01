@@ -129,7 +129,7 @@ curl https://staging.pds.portworx.com/api/deployment-targets/fcc6xxx5a-b585-xxxx
 }
 
 ```
-![Get NameSpace](./images/get-namespace.jpeg)
+![Get NameSpace](./images/get-namespace-1.jpeg)
 
 ### Get the Application Configuration template ID
 
