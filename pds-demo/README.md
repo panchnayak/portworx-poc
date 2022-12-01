@@ -173,7 +173,7 @@ curl \
 
 This will create the required Data services.
 
-![Create MongoDB Service](./images/create-db-service.jpg)
+![Create MongoDB Service](./images/create-db-service-1.jpg)
 
 
 
