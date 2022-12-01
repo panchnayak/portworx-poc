@@ -60,17 +60,7 @@ Example:
 
 curl https://staging.pds.portworx.com/api/tenants/fb942f2c-d185-4c8a-97a5-bb7f348aa2a0/deployment-targets -H "Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5pbCIsImV4cCI6MTY3MDQyNzU1NCwiaWF0IjoxNjY5ODIyNzY4LCJpc3MiOiJwZHMtdXNlckFQSUtleSIsIm5hbWUiOiIyOGFkMDAxMi1iZmY2LTQzNjUtODk4Ny1lN2U4MWU1NDUwYTkiLCJyb2xlcyI6bnVsbCwic3ViIjoiZjU3NDA3ZDEtMWNlZC00NWI3LTk5NmYtOTMzNDU0NmYxOGY2In0.0C-4w1zI13eE0ak0gyNaPm1LStdxpC4FxwwQi3PgwOKB6mbDwj6Pve3OcQ5EIFxnDlPTpE081sxkzqcD8iuXvA" | jq
 ```
-### Get Namespace in the Target Cluster
 
-curl https://staging.pds.portworx.com/api/deployment-targets/fcc6885a-b585-4846-9601-256a6b2bb2f1/namespaces -H "Authorization: Bearer bearer_token" -H "Accept: application/json" | jq
-
-```
-Example : 
-
-curl https://staging.pds.portworx.com/api/deployment-targets/fcc6885a-b585-4846-9601-256a6b2bb2f1/namespaces -H "Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5pbCIsImV4cCI6MTY3MDUwOTc5OSwiaWF0IjoxNjY5OTA1MDAwLCJpc3MiOiJwZHMtdXNlckFQSUtleSIsIm5hbWUiOiIyOGFkMDAxMi1iZmY2LTQzNjUtODk4Ny1lN2U4MWU1NDUwYTkiLCJyb2xlcyI6bnVsbCwic3ViIjoiNmY0ZThjYmUtYWJmYi00OGY2LTg1ODAtZmIzMzBlZTk4MGNlIn0.V-ZY3sJ8smA064j71tt9Npl9MR7jKOI9M-5OkFVZI9dyHoMR6FXK4btB-f9qrMRHOk8833clEDO9eNI1boEjPg" | jq
-```
-
-![Get NameSpace](./images/get-namespace.jpeg)
 
 ### Get Existing Deployments
 
@@ -81,13 +71,118 @@ Example :
 
 curl https://staging.pds.portworx.com/api/projects/fd53fa1a-eb68-4d39-98ae-e2cf12dd8ed2/deployments -H "Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5pbCIsImV4cCI6MTY3MDUwOTc5OSwiaWF0IjoxNjY5OTA1MDAwLCJpc3MiOiJwZHMtdXNlckFQSUtleSIsIm5hbWUiOiIyOGFkMDAxMi1iZmY2LTQzNjUtODk4Ny1lN2U4MWU1NDUwYTkiLCJyb2xlcyI6bnVsbCwic3ViIjoiNmY0ZThjYmUtYWJmYi00OGY2LTg1ODAtZmIzMzBlZTk4MGNlIn0.V-ZY3sJ8smA064j71tt9Npl9MR7jKOI9M-5OkFVZI9dyHoMR6FXK4btB-f9qrMRHOk8833clEDO9eNI1boEjPg" -H "Accept: application/json" | jq '.data[].cluster_resource_name'
 ```
+### Get the Tenant ID
+```
+curl https://staging.pds.portworx.com/api/tenants/fb942f2c-d185-4c8a-97a5-bb7f348aa2a0/deployment-targets -H "Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5pbCIsImV4cCI6MTY3MDUwOTc5OSwiaWF0IjoxNjY5OTA1MDAwLCJpc3MiOiJwZHMtdXNlckFQSUtleSIsIm5hbWUiOiIyOGFkMDAxMi1iZmY2LTQzNjUtODk4Ny1lN2U4MWU1NDUwYTkiLCJyb2xlcyI6bnVsbCwic3ViIjoiNmY0ZThjYmUtYWJmYi00OGY2LTg1ODAtZmIzMzBlZTk4MGNlIn0.V-ZY3sJ8smA064j71tt9Npl9MR7jKOI9M-5OkFVZI9dyHoMR6FXK4btB-f9qrMRHOk8833clEDO9eNI1boEjPg" -H "Accept: application/json" | jq
 
-### Create a new Deployment
+...........
+{
+      "id": "fcc6885a-b585-4846-9601-256a6b2bb2f1",
+      "created_at": "2022-10-18T19:00:21.089571Z",
+      "updated_at": "2022-12-01T16:02:48.870862Z",
+      "name": "panch-fsa-rancher",
+      "status": "healthy",
+      "last_health_check": "2022-12-01T16:02:48.869814Z",
+      "last_operator_heartbeat": null,
+      "metadata": {
+        "pds_chart_version": "1.8.1",
+        "kube_api_version": "v1.22.13+rke2r1",
+        "kube_platform": "generic",
+        "px_service_namespace": "portworx",
+        "px_csi_enabled": "unknown",
+        "px_version": "",
+        "px_status": "STATUS_NONE",
+        "pds_operator_version": "",
+        "pds_features": ""
+      },
+      "tenant_id": "fb942f2c-d185-4c8a-97a5-bb7f348aa2a0",
+      "cluster_id": "fc3f2ac7-3a5d-4255-8afa-8e2cb9d93a3f",
+      "account_id": "b0b7de54-0d86-4315-a655-d52c6423ae63"
+............
+```
 
-This is going to be a "POST" API request
+Note the deployment target
 
-curl https://staging.pds.portworx.com/api/projects/project-id/deployments -H "Authorization: Bearer bearer_token" -H "Accept: application/json" | jq
+### Get Namespace ID in the Target Cluster
 
+curl https://staging.pds.portworx.com/api/deployment-targets/fcc6885a-b585-4846-9601-256a6b2bb2f1/namespaces -H "Authorization: Bearer bearer_token" -H "Accept: application/json" | jq
+
+```
+Example : 
+
+curl https://staging.pds.portworx.com/api/deployment-targets/fcc6885a-b585-4846-9601-256a6b2bb2f1/namespaces -H "Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5pbCIsImV4cCI6MTY3MDUwOTc5OSwiaWF0IjoxNjY5OTA1MDAwLCJpc3MiOiJwZHMtdXNlckFQSUtleSIsIm5hbWUiOiIyOGFkMDAxMi1iZmY2LTQzNjUtODk4Ny1lN2U4MWU1NDUwYTkiLCJyb2xlcyI6bnVsbCwic3ViIjoiNmY0ZThjYmUtYWJmYi00OGY2LTg1ODAtZmIzMzBlZTk4MGNlIn0.V-ZY3sJ8smA064j71tt9Npl9MR7jKOI9M-5OkFVZI9dyHoMR6FXK4btB-f9qrMRHOk8833clEDO9eNI1boEjPg" -H "Accept: application/json" | jq
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100   364  100   364    0     0    705      0 --:--:-- --:--:-- --:--:--   704
+{
+  "data": [
+    {
+      "id": "213d3b11-aee5-41cc-bd1e-6ad9f90372a1",
+      "created_at": "2022-10-18T19:02:31.487175Z",
+      "updated_at": "2022-10-18T19:02:31.487175Z",
+      "name": "pds-demo",
+      "status": "available",
+      "deployment_target_id": "fcc6885a-b585-4846-9601-256a6b2bb2f1",
+      "tenant_id": "fb942f2c-d185-4c8a-97a5-bb7f348aa2a0",
+      "account_id": "b0b7de54-0d86-4315-a655-d52c6423ae63"
+    }
+  ],
+  "pagination": null
+}
+
+```
+
+![Get NameSpace](./images/get-namespace.jpeg)
+
+### Get the Application Configuration template ID
+
+curl https://staging.pds.portworx.com/api/tenants/fb942f2c-d185-4c8a-97a5-bb7f348aa2a0/application-configuration-templates -H "Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5pbCIsImV4cCI6MTY3MDUwOTc5OSwiaWF0IjoxNjY5OTA1MDAwLCJpc3MiOiJwZHMtdXNlckFQSUtleSIsIm5hbWUiOiIyOGFkMDAxMi1iZmY2LTQzNjUtODk4Ny1lN2U4MWU1NDUwYTkiLCJyb2xlcyI6bnVsbCwic3ViIjoiNmY0ZThjYmUtYWJmYi00OGY2LTg1ODAtZmIzMzBlZTk4MGNlIn0.V-ZY3sJ8smA064j71tt9Npl9MR7jKOI9M-5OkFVZI9dyHoMR6FXK4btB-f9qrMRHOk8833clEDO9eNI1boEjPg" -H "Accept: application/json" | jq
+
+### Create a new MongoDB Deployment
+
+
+1.MongoDB Data Services ID is - 652c8012-31cb-4716-968c-981c56f46afe
+
+```
+curl https://staging.pds.portworx.com/api/tenants/fb942f2c-d185-4c8a-97a5-bb7f348aa2a0/application-configuration-templates -H "Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5pbCIsImV4cCI6MTY3MDUwOTc5OSwiaWF0IjoxNjY5OTA1MDAwLCJpc3MiOiJwZHMtdXNlckFQSUtleSIsIm5hbWUiOiIyOGFkMDAxMi1iZmY2LTQzNjUtODk4Ny1lN2U4MWU1NDUwYTkiLCJyb2xlcyI6bnVsbCwic3ViIjoiNmY0ZThjYmUtYWJmYi00OGY2LTg1ODAtZmIzMzBlZTk4MGNlIn0.V-ZY3sJ8smA064j71tt9Npl9MR7jKOI9M-5OkFVZI9dyHoMR6FXK4btB-f9qrMRHOk8833clEDO9eNI1boEjPg" -H "Accept: application/json" | jq
+```
+
+2.The application-configuration-templates ID corresponds to Data servicers ID is - d647362d-3d33-46d2-9b3a-85fab2d8d114
+
+
+```
+curl https://staging.pds.portworx.com/api/tenants/fb942f2c-d185-4c8a-97a5-bb7f348aa2a0/resource-settings-templates -H "Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5pbCIsImV4cCI6MTY3MDUwOTc5OSwiaWF0IjoxNjY5OTA1MDAwLCJpc3MiOiJwZHMtdXNlckFQSUtleSIsIm5hbWUiOiIyOGFkMDAxMi1iZmY2LTQzNjUtODk4Ny1lN2U4MWU1NDUwYTkiLCJyb2xlcyI6bnVsbCwic3ViIjoiNmY0ZThjYmUtYWJmYi00OGY2LTg1ODAtZmIzMzBlZTk4MGNlIn0.V-ZY3sJ8smA064j71tt9Npl9MR7jKOI9M-5OkFVZI9dyHoMR6FXK4btB-f9qrMRHOk8833clEDO9eNI1boEjPg" -H "Accept: application/json" | jq
+```
+
+
+3.We need the resource_settings_template_id curresponds to the Data Service ID 
+
+
+: 09c77e89-9169-4240-a89a-e04987c6af0e
+
+
+4. We need the storage_options_template_id
+
+```
+curl https://staging.pds.portworx.com/api/tenants/fb942f2c-d185-4c8a-97a5-bb7f348aa2a0/storage-options-templates -H "Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5pbCIsImV4cCI6MTY3MDUwOTc5OSwiaWF0IjoxNjY5OTA1MDAwLCJpc3MiOiJwZHMtdXNlckFQSUtleSIsIm5hbWUiOiIyOGFkMDAxMi1iZmY2LTQzNjUtODk4Ny1lN2U4MWU1NDUwYTkiLCJyb2xlcyI6bnVsbCwic3ViIjoiNmY0ZThjYmUtYWJmYi00OGY2LTg1ODAtZmIzMzBlZTk4MGNlIn0.V-ZY3sJ8smA064j71tt9Npl9MR7jKOI9M-5OkFVZI9dyHoMR6FXK4btB-f9qrMRHOk8833clEDO9eNI1boEjPg" -H "Accept: application/json" | jq
+```
+
+For best effort spread is - 29956f6d-5e70-4a18-a5cc-20dc83952d1c
+
+with all the above values edit the deploy.json file and the run the curl command. This is going to be a "POST" API request
+
+```
+curl \
+    -X POST \
+    -H "Content-Type: application/json" \
+    -d @./deploy.json \
+    -H "Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5pbCIsImV4cCI6MTY3MDUwOTc5OSwiaWF0IjoxNjY5OTA1MDAwLCJpc3MiOiJwZHMtdXNlckFQSUtleSIsIm5hbWUiOiIyOGFkMDAxMi1iZmY2LTQzNjUtODk4Ny1lN2U4MWU1NDUwYTkiLCJyb2xlcyI6bnVsbCwic3ViIjoiNmY0ZThjYmUtYWJmYi00OGY2LTg1ODAtZmIzMzBlZTk4MGNlIn0.V-ZY3sJ8smA064j71tt9Npl9MR7jKOI9M-5OkFVZI9dyHoMR6FXK4btB-f9qrMRHOk8833clEDO9eNI1boEjPg" \
+    https://staging.pds.portworx.com/api/projects/fd53fa1a-eb68-4d39-98ae-e2cf12dd8ed2/deployments | jq
+```
+
+This will create the required Data services.
+
+![Create MongoDB Service](./images/create-db-service.jpg)
 
 
 
